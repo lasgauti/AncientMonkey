@@ -58,17 +58,17 @@ public class AncientMonkey : BloonsTD6Mod
     public static AncientMonkey mod;
     public float newWeaponCost = 250;
     public float baseNewWeaponCost = 250;
-    public float rareChance = 90;
+    public float rareChance = 85;
     public float epicChance = 100;
     public float legendaryChance = 100;
     public float exoticChance = 100;
-    public float strongerWeaponCost = 500;
-    public float baseStrongerWeaponCost = 500;
-    public float strongerWeaponMult = 1.1f;
+    public float strongerWeaponCost = 1100;
+    public float baseStrongerWeaponCost = 1100;
     public float newAbilityCost = 750;
     public float baseNewAbilityCost = 750;
     public bool upgradeOpen = false;
     public bool selectingWeaponOpen = false;
+    public bool mib = false;
     public override void OnApplicationStart()
     {
         ModHelper.Msg<AncientMonkey>("AncientMonkey loaded!");
@@ -84,13 +84,13 @@ public class AncientMonkey : BloonsTD6Mod
         legendaryChance = 100;
         exoticChance = 100;
         baseNewWeaponCost = 250;
-        strongerWeaponCost = 1250;
-        baseStrongerWeaponCost = 1250;
-        strongerWeaponMult = 1.1f;
+        strongerWeaponCost = 1100;
+        baseStrongerWeaponCost = 1100;
         newAbilityCost = 2000;
         baseNewAbilityCost = 2000;
         upgradeOpen = false;
         selectingWeaponOpen = false;
+        mib = false;
     }
     public override void OnTowerSold(Tower tower, float amount)
     {
@@ -102,13 +102,13 @@ public class AncientMonkey : BloonsTD6Mod
             epicChance = 100;
             legendaryChance = 100;
             exoticChance = 100;
-            strongerWeaponCost = 1250;
-            baseStrongerWeaponCost = 1250;
-            strongerWeaponMult = 1.1f;
+            strongerWeaponCost = 1100;
+            baseStrongerWeaponCost = 1100;
             newAbilityCost = 2000;
             baseNewAbilityCost = 2000;
             upgradeOpen = false;
             selectingWeaponOpen = false;
+            mib = false;
         }
     }
     public override void OnTowerCreated(Tower tower, Entity target, Model modelToUse)
@@ -121,13 +121,13 @@ public class AncientMonkey : BloonsTD6Mod
             epicChance = 100;
             legendaryChance = 100;
             exoticChance = 100;
-            strongerWeaponCost = 1250;
-            baseStrongerWeaponCost = 1250;
-            strongerWeaponMult = 1.1f;
+            strongerWeaponCost = 1100;
+            baseStrongerWeaponCost = 1100;
             newAbilityCost = 2000;
             baseNewAbilityCost = 2000;
             upgradeOpen = false;
             selectingWeaponOpen = false;
+            mib = false;
         }
     }
     public override void OnNewGameModel(GameModel result)
@@ -851,17 +851,28 @@ public class AncientMonkey : BloonsTD6Mod
                 towerModel.GetAttackModel().AddWeapon(tornado);
                 tower.UpdateRootModel(towerModel);
             }
-            mod.rareChance -= 2.2f;
-            mod.epicChance -= 1.25f;
-            if (mod.epicChance <= 85)
+            mod.rareChance -= 5f;
+            mod.epicChance -= 1.45f;
+            if (mod.epicChance <= 88)
             {
                 mod.legendaryChance -= 0.85f;
             }
-            if (mod.legendaryChance <= 90)
+            if (mod.legendaryChance <= 91)
             {
-                mod.exoticChance -= 0.40f;
+                mod.exoticChance -= 0.50f;
             }
-          
+            if (mod.mib == true)
+            {
+                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                towerModel.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
+                foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
+                {
+                    if (weaponModel.projectile.HasBehavior<DamageModel>())
+                    {
+                        weaponModel.projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
+                    }
+                }
+            }
             mod.selectingWeaponOpen = false;
           
             if (mod.upgradeOpen == true)
@@ -1009,7 +1020,7 @@ public class AncientMonkey : BloonsTD6Mod
                 var num2 = rnd.Next(0, 13);
                 var wpnSelected2 = mod.ExoticWpn[num2];
                 var imgSelected2 = mod.ExoticImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelGold);
+                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
                 ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Exotic", 100);
                 ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
                 ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
@@ -1026,27 +1037,27 @@ public class AncientMonkey : BloonsTD6Mod
                 game.AddCash(-mod.strongerWeaponCost);
                 RectTransform rect = game.uiRect;
                 mod.strongerWeaponCost += mod.baseStrongerWeaponCost;
-                mod.baseStrongerWeaponCost *= 1.1f;
+                mod.baseStrongerWeaponCost *= 1.06f;
                 var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
                 {
                     if (weaponModel.projectile.HasBehavior<DamageModel>())
                     {
-                        weaponModel.rate *= 0.975f;
-                        weaponModel.projectile.pierce += 0.5f;
-                        weaponModel.projectile.GetDamageModel().damage += 0.5f;
+                        weaponModel.rate *= 0.965f;
+                        weaponModel.projectile.pierce += 1f;
+                        weaponModel.projectile.GetDamageModel().damage += 1f;
                     }
                     if (weaponModel.projectile.HasBehavior<TravelStraitModel>())
                     {
-                        weaponModel.projectile.GetBehavior<TravelStraitModel>().lifespan += 0.065f;
+                        weaponModel.projectile.GetBehavior<TravelStraitModel>().lifespan += 0.055f;
                     }
                   
                 }
                 foreach (var attackModel in towerModel.GetDescendants<AttackModel>().ToArray())
                 {
-                    attackModel.range *= 1.1f;
+                    attackModel.range += 7f;
                 }
-                towerModel.range *= 1.1f;
+                towerModel.range += 7;
                                            
                                                  
                 tower.UpdateRootModel(towerModel);
@@ -1063,7 +1074,6 @@ public class AncientMonkey : BloonsTD6Mod
                 game.AddCash(-mod.newAbilityCost);
                 RectTransform rect = game.uiRect;
                 mod.newAbilityCost += mod.baseNewAbilityCost;
-                mod.baseNewAbilityCost *= 1.1f;
                 MenuUi.NewAbilityPanel(rect, tower);
                 MenuUi.instance.CloseMenu();
             }
@@ -1094,6 +1104,7 @@ public class AncientMonkey : BloonsTD6Mod
             RectTransform rect = game.uiRect;
             if (Ability == "MIB")
             {
+                mod.mib = true;
                 var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
                 foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
@@ -1102,10 +1113,6 @@ public class AncientMonkey : BloonsTD6Mod
                     {
                         weaponModel.projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                     }
-                }
-                foreach (var attackModel in towerModel.GetDescendants<AttackModel>().ToArray())
-                {
-                    ModHelper.Msg<AncientMonkey>(attackModel.name);
                 }
                 tower.UpdateRootModel(towerModel);
             }
