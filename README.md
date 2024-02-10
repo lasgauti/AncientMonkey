@@ -24,11 +24,11 @@ New Ancient Monkey Update!
 
 Udate 1.1.1:
 Small Update
--8 New Common Weapon
--5 New Rare Weapon
--7 New Epic Weapon
--3 New Legendary Weapon
--Nerfed Monkey Boost From Stronger Weapon
--Coming Soon?!?!
+-8 New Common Weapon                                 
+-5 New Rare Weapon                                 
+-7 New Epic Weapon                                 
+-3 New Legendary Weapon                                 
+-Nerfed Monkey Boost From Stronger Weapon                                 
+-Coming Soon?!?!                                 
 
 [![Requires BTD6 Mod Helper](https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/banner.png)](https://github.com/gurrenm3/BTD-Mod-Helper#readme)
