@@ -22,8 +22,8 @@ New Ancient Monkey Update!
 -The Ancient Monkey now sell price should work when youu buy an upgrade                                 
 -Bug Fixes and More   
 
-Udate 1.1.1:
-Small Update
+Udate 1.1.1:                                 
+Small Update                                  
 -8 New Common Weapon                                 
 -5 New Rare Weapon                                 
 -7 New Epic Weapon                                 
