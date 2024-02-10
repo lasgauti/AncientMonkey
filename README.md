@@ -20,6 +20,15 @@ New Ancient Monkey Update!
 -Reworked the Stronger Weapon Upgrade                                 
 3 card to chose from Common to Exotic                                 
 -The Ancient Monkey now sell price should work when youu buy an upgrade                                 
--Bug Fixes and More                                 
+-Bug Fixes and More   
+
+Udate 1.1.1:
+Small Update
+-8 New Common Weapon
+-5 New Rare Weapon
+-7 New Epic Weapon
+-3 New Legendary Weapon
+-Nerfed Monkey Boost From Stronger Weapon
+-Coming Soon?!?!
 
 [![Requires BTD6 Mod Helper](https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/banner.png)](https://github.com/gurrenm3/BTD-Mod-Helper#readme)
