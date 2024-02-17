@@ -104,6 +104,18 @@ using System.Data.SqlTypes;
 using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 using Il2CppSystem.IO;
+namespace blankdisplay
+{
+    public class BlankDisplay : ModDisplay
+    {
+        public override string BaseDisplay => Generic2dDisplay;
+
+        public override void ModifyDisplayNode(UnityDisplayNode node)
+        {
+            Set2DTexture(node, "NoneDisplay");
+        }
+    }
+}
 namespace AncientMonkey
 {
     public class AncientMonkeyTower : ModTower
@@ -135,5 +147,4 @@ namespace AncientMonkey
             weapon.rate = 2.5f;
         }
     }
-   
 }
