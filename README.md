@@ -4,31 +4,32 @@
 </a>
 
 <h1 align="center">AncientMonkey</h1>
+                                                                                  
+Info about the anicent monkey:                                                                                  
+                                                                                  
+Not Upgraded:                                                                                  
+-Left Option will always be common.                                                                                  
+-Middle Option is max epic.                                                                                  
+-Right Option is max extotic.                                                                                  
+                                                                                  
+Upgraded:                                                                                  
+-Left Option will always be rare                                                                                  
+-Middle Left Option is max legendary                                                                                  
+-Middle Right Option is max godly                                                                                  
+-Right Option is max godly                                                                                  
+                                                                                  
+Current Weapons:                                                                                  
+-15 Common Weapons                                                                                  
+-17 Rare Weapons                                                                                  
+-20 Epic Weapons                                                                                  
+-16 Legendary Weapons                                                                                  
+-13 Exotic Weapons                                                                                  
+-4 Godly Weapons                                                                                  
+-13 Abilities                                                                                  
 
-Add the Ancient Monkey to Bloons TD6
+Others:                                                                                  
+-Luck will increase every time you buy a new weapon/stronger weapon                                                                                  
+-Dartling Gunners are not broken, they only rotate toward the enemy when he shoot another projectile like a dart                                                                                  
 
-Update 1.0.1:                                              
-Massive buff to the Ancient Monkey.                                               
--More Chance to get epic, legendary and exotic.                                       
--Overall Upgardes cheaper.                                              
--Stronger Weapon grant more bonus.                                  
--Mib Ability Fixed: Now give mib to new weapon.                            
--More Ability/Weapon Coming Soon!     
-
-Update 1.1.0:                                                  
-New Ancient Monkey Update!                                  
--Reworked the Stronger Weapon Upgrade                                 
-3 card to chose from Common to Exotic                                 
--The Ancient Monkey now sell price should work when youu buy an upgrade                                 
--Bug Fixes and More   
-
-Udate 1.1.1:                                 
-Small Update                                  
--8 New Common Weapon                                 
--5 New Rare Weapon                                 
--7 New Epic Weapon                                 
--3 New Legendary Weapon                                 
--Nerfed Monkey Boost From Stronger Weapon                                 
--Coming Soon?!?!                                 
 
 [![Requires BTD6 Mod Helper](https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/banner.png)](https://github.com/gurrenm3/BTD-Mod-Helper#readme)
