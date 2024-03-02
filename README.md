@@ -31,6 +31,6 @@ Others:
 -Luck will increase every time you buy a new weapon/stronger weapon                                                                                  
 -Dartling Gunners are not broken, they only rotate toward the enemy when he shoot another projectile like a dart                                                                                  
 
-Create Custom Weapon/Ability: https://github.com/lasgauti/AncientMonkey.wiki
+Create Custom Weapon/Ability: [https://github.com/lasgauti/AncientMonkey.wiki](https://github.com/lasgauti/AncientMonkey/wiki)
 
 [![Requires BTD6 Mod Helper](https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/banner.png)](https://github.com/gurrenm3/BTD-Mod-Helper#readme)
