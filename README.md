@@ -29,7 +29,8 @@ Current Weapons:
 
 Others:                                                                                  
 -Luck will increase every time you buy a new weapon/stronger weapon                                                                                  
--Dartling Gunners are not broken, they only rotate toward the enemy when he shoot another projectile like a dart                                                                                  
+-Dartling Gunners are not broken, they only rotate toward the enemy when he shoot another projectile like a dart      
+-Attack Speed Boost is a buff when is under 1.00.
 
 Create Custom Weapon/Ability: [https://github.com/lasgauti/AncientMonkey.wiki](https://github.com/lasgauti/AncientMonkey/wiki)
 
