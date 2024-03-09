@@ -104,6 +104,8 @@ using System.Data.SqlTypes;
 using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 using Il2CppSystem.IO;
+using AncientMonkey;
+
 namespace blankdisplay
 {
     public class BlankDisplay : ModDisplay
@@ -147,4 +149,5 @@ namespace AncientMonkey
             weapon.rate = 2.5f;
         }
     }
+
 }
