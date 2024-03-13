@@ -3,20 +3,7 @@
     <img align="right" alt="Download" height="75" src="https://raw.githubusercontent.com/gurrenm3/BTD-Mod-Helper/master/BloonsTD6%20Mod%20Helper/Resources/DownloadBtn.png">
 </a>
 
-<h1 align="center">AncientMonkey</h1>
-                                                                                  
-Info about the anicent monkey:                                                                                  
-                                                                                  
-Not Upgraded:                                                                                  
--Left Option will always be common.                                                                                  
--Middle Option is max epic.                                                                                  
--Right Option is max extotic.                                                                                  
-                                                                                  
-Upgraded:                                                                                  
--Left Option will always be rare                                                                                  
--Middle Left Option is max legendary                                                                                  
--Middle Right Option is max godly                                                                                  
--Right Option is max godly                                                                                  
+<h1 align="center">AncientMonkey</h1>                                                           
                                                                                   
 Current Weapons:                                                                                  
 -15 Common Weapons                                                                                  
