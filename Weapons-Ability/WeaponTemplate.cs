@@ -17,7 +17,8 @@ namespace AncientMonkey
         public abstract string WeaponName { get; }
         public abstract string Icon { get; }
         public abstract void EditTower(Tower tower);
-        public enum Rarity {
+        public enum Rarity
+        {
             Common,
             Rare,
             Epic,

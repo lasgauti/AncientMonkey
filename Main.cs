@@ -79,6 +79,7 @@ using BTD_Mod_Helper.Api.ModOptions;
 using UnityEngine.UIElements;
 using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
 using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities;
+using Il2CppAssets.Scripts.Unity.Gamepad;
 
 [assembly: MelonInfo(typeof(AncientMonkey.AncientMonkey), ModHelperData.Name, ModHelperData.Version, ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -93,6 +94,29 @@ public class AncientMonkey : BloonsTD6Mod
         icon = VanillaSprites.SandboxBtn,
         description = "Enable Sandbox Mode"
     };
+    public static readonly ModSettingInt NewWeaponStartingSlotCount = new(3)
+    {
+        min = 1,
+        max = 5,
+        slider = true,
+        description = "Starting New Weapon Slot Count."
+    };
+    public static readonly ModSettingInt StrongerWeaponStartingSlotCount = new(3)
+    {
+        min = 1,
+        max = 5,
+        slider = true,
+        description = "Starting Stronger Weapon Card Slot Count."
+    };
+    public static readonly ModSettingInt NewnAbilityStartingSlotCount = new(1)
+    {
+        min = 1,
+        max = 5,
+        slider = true,
+        description = "Starting New Ability Slot Count."
+    };
+
+
     public static AncientMonkey mod;
     public float newWeaponCost = 250;
     public float baseNewWeaponCost = 250;
@@ -113,12 +137,32 @@ public class AncientMonkey : BloonsTD6Mod
     public bool upgradeOpen = false;
     public bool selectingWeaponOpen = false;
     public bool mib = false;
+    public bool panelOpen = false;
     public float level = 0;
     public float rangeBoostSandbox = 1;
     public float attackSpeedBoostSandbox = 1;
     public float moneyBoostSandbox = 1;
     public int damageBoostSandbox = 0;
     public int pierceBoostSandbox = 0;
+    public int newWeaponSlot = NewWeaponStartingSlotCount;
+    public int strongWeaponSlot = StrongerWeaponStartingSlotCount;
+    public int abilitySlot = NewnAbilityStartingSlotCount;
+    public int extraWeaponSlotLevel = 0;
+    public int extraWeaponSlotLevelMax = 1;
+    public int extraWeaponSlotCost = 80000;
+    public int strongExtraWeaponSlotLevel = 0;
+    public int strongExtraWeaponSlotLevelMax = 1;
+    public int strongExtraWeaponSlotCost = 100000;
+    public int ExtraAbilitySlotLevel = 0;
+    public int ExtraAbilitySlotLevelMax = 1;
+    public int ExtraAbilitySlotCost = 160000;
+    public int ExtraLuckLevel = 0;
+    public int ExtraLuckMax = 20;
+    public float ExtraLuckCost = 250;
+    public WeaponTemplate.Rarity minNewWeaponRarity = WeaponTemplate.Rarity.Common;
+    public WeaponTemplate.Rarity maxNewWeaponRarity = WeaponTemplate.Rarity.Exotic;
+    public WeaponTemplate.Rarity minStrongWeaponRarity = WeaponTemplate.Rarity.Common;
+    public WeaponTemplate.Rarity maxStrongWeaponRarity = WeaponTemplate.Rarity.Exotic;
 
     public override void OnApplicationStart()
     {
@@ -141,6 +185,7 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 Epic.EpicWpn.Add(weapon.WeaponName);
                 Epic.EpicImg.Add(weapon.Icon);
+                
             }
             if (weapon.WeaponRarity == WeaponTemplate.Rarity.Legendary)
             {
@@ -164,7 +209,8 @@ public class AncientMonkey : BloonsTD6Mod
             AbilityClass.AbilityImg.Add(ability.Icon);
         }
     }
-    public override void OnGameModelLoaded(GameModel model)
+    
+    public void Reset()
     {
         newWeaponCost = 250;
         rareChance = 90;
@@ -182,31 +228,34 @@ public class AncientMonkey : BloonsTD6Mod
         baseNewAbilityCost = 1750;
         upgradeOpen = false;
         selectingWeaponOpen = false;
-        mib = false;       
+        mib = false;
+        panelOpen = false;
         level = 0;
+        newWeaponSlot = NewWeaponStartingSlotCount;
+        strongWeaponSlot = StrongerWeaponStartingSlotCount;
+        abilitySlot = NewnAbilityStartingSlotCount;
+        extraWeaponSlotLevel = 0;
+        extraWeaponSlotCost = 80000;
+        strongExtraWeaponSlotLevel = 0;
+        strongExtraWeaponSlotCost = 100000;
+        ExtraAbilitySlotLevel = 0;
+        ExtraAbilitySlotCost = 160000;
+        ExtraLuckCost = 250;
+        ExtraLuckLevel = 0;
+        minNewWeaponRarity = WeaponTemplate.Rarity.Common;
+        maxNewWeaponRarity = WeaponTemplate.Rarity.Exotic;
+        minStrongWeaponRarity = WeaponTemplate.Rarity.Common;
+        maxStrongWeaponRarity = WeaponTemplate.Rarity.Exotic;
+    }
+    public override void OnGameModelLoaded(GameModel model)
+    {
+        Reset();
     }
     public override void OnTowerSold(Tower tower, float amount)
     {
         if (tower.towerModel.name.Contains("AncientMonkey"))
         {
-            newWeaponCost = 250;
-            rareChance = 90;
-            epicChance = 100;
-            rareStrongChance = 90;
-            epicStrongChance = 100;
-            legendaryStrongChance = 100;
-            legendaryChance = 100;
-            exoticChance = 100;
-            exoticStrongChance = 100;
-            baseNewWeaponCost = 250;
-            strongerWeaponCost = 500;
-            baseStrongerWeaponCost = 500;
-            newAbilityCost = 6500;
-            baseNewAbilityCost = 1750;
-            upgradeOpen = false;
-            selectingWeaponOpen = false;
-            mib = false;
-            level = 0;
+            Reset();
         }
     }
     public override void OnRestart()
@@ -217,24 +266,7 @@ public class AncientMonkey : BloonsTD6Mod
     {
         if (tower.towerModel.name.Contains("AncientMonkey"))
         {
-            newWeaponCost = 250;
-            rareChance = 90;
-            epicChance = 100;
-            rareStrongChance = 90;
-            epicStrongChance = 100;
-            legendaryStrongChance = 100;
-            legendaryChance = 100;
-            exoticChance = 100;
-            exoticStrongChance = 100;
-            baseNewWeaponCost = 250;
-            strongerWeaponCost = 500;
-            baseStrongerWeaponCost = 500;
-            newAbilityCost = 6500;
-            baseNewAbilityCost = 1750;
-            upgradeOpen = false;
-            selectingWeaponOpen = false;
-            mib = false;
-            level = 0;
+            Reset();
         }
     }
     public override void OnNewGameModel(GameModel result)
@@ -264,7 +296,7 @@ public class AncientMonkey : BloonsTD6Mod
             InGame game = InGame.instance;
             RectTransform rect = game.uiRect;
             upgradeOpen = false;
-            if(MenuUi.instance)
+            if (MenuUi.instance)
             {
                 MenuUi.instance.CloseMenu();
             }
@@ -307,7 +339,7 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public void WeaponSelected(string Weapon, Tower tower)
         {
-          
+            mod.panelOpen = false;
             InGame game = InGame.instance;
             RectTransform rect = game.uiRect;
             if(!SandboxMode)
@@ -321,22 +353,26 @@ public class AncientMonkey : BloonsTD6Mod
                     weapon.EditTower(tower);
                 }
             }
-            mod.rareChance -= 5f;
-            mod.epicChance -= 1.45f;
+            mod.rareChance -= 5f + mod.ExtraLuckLevel * 0.45f;
+            mod.epicChance -= 1.45f + mod.ExtraLuckLevel * 0.1f;
             if (mod.epicChance <= 88)
             {
-                mod.legendaryChance -= 0.85f;
+                mod.legendaryChance -= 0.85f + mod.ExtraLuckLevel * 0.06f;
             }
             if (mod.legendaryChance <= 91)
             {
-                mod.exoticChance -= 0.50f;
+                mod.exoticChance -= 0.50f + mod.ExtraLuckLevel * 0.04f;
             }
             if (mod.level == 1)
             {
                 if (mod.exoticChance <= 94)
                 {
-                    mod.godlyChance -= 0.3f;
+                    mod.godlyChance -= 0.3f + mod.ExtraLuckLevel * 0.025f;
                 }
+            }
+            if (mod.upgradeOpen == true && !SandboxMode)
+            {
+                CreateUpgradeMenu(rect, tower);
             }
             mod.selectingWeaponOpen = false;
             if (mod.mib)
@@ -360,10 +396,7 @@ public class AncientMonkey : BloonsTD6Mod
                 }
                 tower.UpdateRootModel(towerModel);
             }
-            if (mod.upgradeOpen == true && !SandboxMode)
-            {
-                CreateUpgradeMenu(rect, tower);
-            }
+          
         }
         public static ModHelperPanel CreateWeapon(WeaponTemplate weapon, Tower tower )
         {
@@ -425,845 +458,198 @@ public class AncientMonkey : BloonsTD6Mod
                     }
                 }
             }
-           
         }
        
         public static void NewWeaponPanel(RectTransform rect, Tower tower)
         {
+            mod.panelOpen = true;
             instance.CloseMenu();
             if(SandboxMode)
             {
                 SandBoxWeaponPanel(rect, tower);
                 return;
             }
-          
-            ModHelperPanel panel =  rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
-            if (mod.level == 1)
-            {
-                panel.SetInfo(new Info("Panel_", 2200, 1500, 3333, 1850, new UnityEngine.Vector2()));
-            }
+            float weaponPanelWidth = 833.33f;
+            float weaponPanelX = 412.5f;
+            float weaponPanelY = 900;
+            float wpnContentX = 25 - (mod.newWeaponSlot -1) * 425;
+            float panelWidth = mod.newWeaponSlot * weaponPanelWidth;
+            ModHelperPanel panel =  rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, panelWidth, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
             ModHelperText selectWpn = panel.AddText(new Info("selectWpn", 0, 800, 2500, 180), "Select New Weapon", 100);
             Il2CppSystem.Random rnd = new Il2CppSystem.Random();
-
-            if (mod.level == 1)
+            for (int i = 0; i < mod.newWeaponSlot; i++)
             {
-                ModHelperPanel wpn1Panel = panel.AddPanel(new Info("wpn1Panel", 375, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                var num1 = rnd.Next(0, Rare.RareWpn.Count);
-                var wpnSelected = Rare.RareWpn[num1];
-                var imgSelected = Rare.RareImg[num1];
-                ModHelperText rarityText1 = panel.AddText(new Info("rarityText1", -1300, 600, 800, 180), "Rare", 100);
-                ModHelperText weaponText1 = panel.AddText(new Info("weaponText1", -1300, 500, 800, 180), wpnSelected, 75);
-                ModHelperImage image1 = panel.AddImage(new Info("image1", -1300, 0, 400, 400), imgSelected);
-                ModHelperButton selectWpnBtn1 = panel.AddButton(new Info("selectWpnBtn1", -1300, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected, tower)));
-                ModHelperText selectWpn1 = selectWpnBtn1.AddText(new Info("selectWpn1", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
+                var WpnRarityNum = rnd.Next(1, 100);
+                var WpnRarity = "Common";
+                var RarityNumber = 1;
+                var MinNum = 1;
+                var MaxNum = 1;
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Common)
                 {
-                    if (weapon.WeaponName == wpnSelected)
+                    MinNum = 1;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Rare)
+                {
+                    MinNum = 2;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Epic)
+                {
+                    MinNum = 3;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Legendary)
+                {
+                    MinNum = 4;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Exotic)
+                {
+                    MinNum = 5;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Godly)
+                {
+                    MinNum = 6;
+                }
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Common)
+                {
+                    MaxNum = 1;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Rare)
+                {
+                    MaxNum = 2;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Epic)
+                {
+                    MaxNum = 3;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Legendary)
+                {
+                    MaxNum = 4;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Exotic)
+                {
+                    MaxNum = 5;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Godly)
+                {
+                    MaxNum = 6;
+                }
+                if (WpnRarityNum >= mod.rareChance)
+                {
+                    RarityNumber = 2;
+                }
+                if (WpnRarityNum >= mod.epicChance)
+                {
+                    RarityNumber = 3;
+                }
+                if (WpnRarityNum >= mod.legendaryChance)
+                {
+                    RarityNumber = 4;
+                }
+                if (WpnRarityNum >= mod.exoticChance)
+                {
+                    RarityNumber = 5;
+                }
+                if (WpnRarityNum >= mod.godlyChance)
+                {
+                    RarityNumber = 6;
+                }
+                if(RarityNumber < MinNum)
+                {
+                    RarityNumber = MinNum;
+                }
+                if (RarityNumber > MaxNum)
+                {
+                    RarityNumber = MaxNum;
+                }
+                if (RarityNumber == 2)
+                {
+                     WpnRarity = "Rare";
+                }
+                if (RarityNumber == 3)
+                {
+                    WpnRarity = "Epic";
+                }
+                if (RarityNumber == 4)
+                {
+                    WpnRarity = "Legendary";
+                }
+                if (RarityNumber == 5)
+                {
+                    WpnRarity = "Exotic";
+                }
+                if (RarityNumber == 6)
+                {
+                    WpnRarity = "Godly";
+                }
+             
+                var sprite = VanillaSprites.GreyInsertPanel;
+                var numWpn = rnd.Next(0, Common.CommonWpn.Count);
+                var weapon = Common.CommonWpn[numWpn];
+                var img = Common.CommonImg[numWpn];
+                if (WpnRarity == "Rare")
+                {
+                    numWpn = rnd.Next(0, Rare.RareWpn.Count);
+                    sprite = VanillaSprites.BlueInsertPanel;
+                    weapon = Rare.RareWpn[numWpn];
+                    img = Rare.RareImg[numWpn];
+                }
+                if (WpnRarity == "Epic")
+                {
+                    numWpn = rnd.Next(0, Epic.EpicWpn.Count);
+                    sprite = VanillaSprites.MainBgPanelParagon;
+                    weapon = Epic.EpicWpn[numWpn];
+                    img = Epic.EpicImg[numWpn];
+                }
+                if (WpnRarity == "Legendary")
+                {
+                    numWpn = rnd.Next(0, Legendary.LegendaryWpn.Count);
+                    sprite = VanillaSprites.MainBGPanelYellow;
+                    weapon = Legendary.LegendaryWpn[numWpn];
+                    img = Legendary.LegendaryImg[numWpn];
+                }
+                if (WpnRarity == "Exotic")
+                {
+                    numWpn = rnd.Next(0, Exotic.ExoticWpn.Count);
+                    sprite = VanillaSprites.MainBgPanelWhiteSmall;
+                    weapon = Exotic.ExoticWpn[numWpn];
+                    img = Exotic.ExoticImg[numWpn];
+                }
+                if (WpnRarity == "Godly")
+                {
+                    numWpn = rnd.Next(0, Godly.GodlyWpn.Count);
+                    sprite = VanillaSprites.MainBGPanelSilver;
+                    weapon = Godly.GodlyWpn[numWpn];
+                    img = Godly.GodlyImg[numWpn];
+                }
+                ModHelperPanel wpnPanel = panel.AddPanel(new Info("wpnPanel", weaponPanelX, weaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
+                ModHelperText rarityText = panel.AddText(new Info("rarityText", wpnContentX, 600, 800, 180), WpnRarity, 100);
+                ModHelperText weaponText = panel.AddText(new Info("weaponText", wpnContentX, 500, 800, 180), weapon, 75);
+                ModHelperImage image = panel.AddImage(new Info("image", wpnContentX, 0, 400, 400), img);
+                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", wpnContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(weapon, tower)));
+                ModHelperText selectWpnTxt = selectWpnBtn.AddText(new Info("selectWpnTxt", 0, 0, 700, 160), "Select", 70);
+                foreach (var weaponContent in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
+                {
+                    if (weaponContent.WeaponName == weapon)
                     {
-                        if (weapon.IsCamo && !weapon.IsLead)
+                        if (weaponContent.IsCamo && !weaponContent.IsLead)
                         {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -1025, 650, 100, 100), VanillaSprites.CamoBloonIcon);
+                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", wpnContentX + 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
                         }
-                        if (weapon.IsLead && !weapon.IsCamo)
+                        if (weaponContent.IsLead && !weaponContent.IsCamo)
                         {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -1025, 650, 100, 100), VanillaSprites.LeadBloonIcon);
+                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", wpnContentX + 275, 650, 100, 100), VanillaSprites.LeadBloonIcon);
                         }
-                        if (weapon.IsLead && weapon.IsCamo)
+                        if (weaponContent.IsLead && weaponContent.IsCamo)
                         {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -1025, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -1025, 560, 100, 100), VanillaSprites.LeadBloonIcon);
+                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", wpnContentX + 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
+                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", wpnContentX + 275, 560, 100, 100), VanillaSprites.LeadBloonIcon);
                         }
                     }
                 }
-            }
-            else
-            {
-                ModHelperPanel wpn1Panel = panel.AddPanel(new Info("wpn1Panel", 375, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                var num1 = rnd.Next(0, Common.CommonWpn.Count);
-                var wpnSelected = Common.CommonWpn[num1];
-                var imgSelected = Common.CommonImg[num1];
-                ModHelperText rarityText1 = panel.AddText(new Info("rarityText1", -875, 600, 800, 180), "Common", 100);
-                ModHelperText weaponText1 = panel.AddText(new Info("weaponText1", -875, 500, 800, 180), wpnSelected, 75);
-                ModHelperImage image1 = panel.AddImage(new Info("image1", -875, 0, 400, 400), imgSelected);
-                ModHelperButton selectWpnBtn1 = panel.AddButton(new Info("selectWpnBtn1", -875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected, tower)));
-                ModHelperText selectWpn1 = selectWpnBtn1.AddText(new Info("selectWpn1", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                {
-                    if(weapon.WeaponName == wpnSelected)
-                    {
-                        if(weapon.IsCamo && !weapon.IsLead)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                        }
-                        if (weapon.IsLead && !weapon.IsCamo)
-                        {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                        if (weapon.IsLead && weapon.IsCamo)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                    }
-                }
-            }
-          
-            var rarityNum = rnd.Next(1, 100);
-            var rarity = "Common";
-            if (mod.level == 1)
-            {
-                rarity = "Rare";
-                if (rarityNum >= mod.epicChance)
-                {
-                    rarity = "Epic";
-                }
-                if (rarityNum >= mod.legendaryChance)
-                {
-                    rarity = "Legendary";
-                }
-            }
-            else
-            {
-                if (rarityNum >= mod.rareChance)
-                {
-                    rarity = "Rare";
-                }
-                if (rarityNum >= mod.epicChance)
-                {
-                    rarity = "Epic";
-                }
-            }
-            if (rarity == "Common")
-            {
-                var num2 = rnd.Next(0, Common.CommonWpn.Count);
-                var wpnSelected2 = Common.CommonWpn[num2];
-                var imgSelected2 = Common.CommonImg[num2];
-                ModHelperPanel wpncm2Panel = panel.AddPanel(new Info("wpn2Pane2", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Common", 100);
-                ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 0, 500, 800, 180), wpnSelected2, 75);
-                ModHelperImage image2 = panel.AddImage(new Info("image2", 0, 0, 400, 400), imgSelected2);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                {
-                    if (weapon.WeaponName == wpnSelected2)
-                    {
-                        if (weapon.IsCamo && !weapon.IsLead)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                        }
-                        if (weapon.IsLead && !weapon.IsCamo)
-                        {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                        if (weapon.IsLead && weapon.IsCamo)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                    }
-                }
-            }
-            if (rarity == "Rare")
-            {
-                var num2 = rnd.Next(0, Rare.RareWpn.Count);
-                var wpnSelected2 = Rare.RareWpn[num2];
-                var imgSelected2 = Rare.RareImg[num2];
-                ModHelperPanel wpnra2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Rare", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", -425, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", -425, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Rare", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 0, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 0, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-            }
-            if (rarity == "Epic")
-            {
-              
-                var num2 = rnd.Next(0, Epic.EpicWpn.Count);
-                var wpnSelected2 = Epic.EpicWpn[num2];
-                var imgSelected2 = Epic.EpicImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Epic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", -425, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", -425, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Epic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 0, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 0, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 275, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 275, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-            }
-            if (rarity == "Legendary")
-            {
-
-                var num2 = rnd.Next(0, Legendary.LegendaryWpn.Count);
-                var wpnSelected2 = Legendary.LegendaryWpn[num2];
-                var imgSelected2 = Legendary.LegendaryImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Legendary", 100);
-                ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", -425, 500, 800, 180), wpnSelected2, 75);
-                ModHelperImage image2 = panel.AddImage(new Info("image2", -425, 0, 400, 400), imgSelected2);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                {
-                    if (weapon.WeaponName == wpnSelected2)
-                    {
-                        if (weapon.IsCamo && !weapon.IsLead)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                        }
-                        if (weapon.IsLead && !weapon.IsCamo)
-                        {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                        if (weapon.IsLead && weapon.IsCamo)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", -150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", -150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                    }
-                }
-            }
-            var rarityNum2 = rnd.Next(1, 100);
-            var rarity2 = "Common";
-            if (mod.level == 1)
-            {
-                rarity2 = "Rare";
-                if (rarityNum2 >= mod.epicChance)
-                {
-                    rarity2 = "Epic";
-                }
-                if (rarityNum2 >= mod.legendaryChance)
-                {
-                    rarity2 = "Legendary";
-                }
-                if (rarityNum2 >= mod.legendaryChance)
-                {
-                    rarity2 = "Legendary";
-                }
-                if (rarityNum2 >= mod.exoticChance)
-                {
-                    rarity2 = "Exotic";
-                }
-                if(rarityNum2 >= mod.godlyChance)
-                {
-                    rarity2 = "Godly";
-                }
-            }
-            else
-            {
-                if (rarityNum2 >= mod.rareChance)
-                {
-                    rarity2 = "Rare";
-                }
-                if (rarityNum2 >= mod.epicChance)
-                {
-                    rarity2 = "Epic";
-                }
-                if (rarityNum2 >= mod.legendaryChance)
-                {
-                    rarity2 = "Legendary";
-                }
-                if (rarityNum2 >= mod.exoticChance)
-                {
-                    rarity2 = "Exotic";
-                }
-            }
-           
-
-            if (rarity2 == "Common")
-            {
-                var num2 = rnd.Next(0, Common.CommonWpn.Count);
-                var wpnSelected2 = Common.CommonWpn[num2];
-                var imgSelected2 = Common.CommonImg[num2];
-                ModHelperPanel wpncm2Panel = panel.AddPanel(new Info("wpn2Pane2", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Common", 100);
-                ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
-                ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                {
-                    if (weapon.WeaponName == wpnSelected2)
-                    {
-                        if (weapon.IsCamo && !weapon.IsLead)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                        }
-                        if (weapon.IsLead && !weapon.IsCamo)
-                        {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                        if (weapon.IsLead && weapon.IsCamo)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                    }
-                }
-            }
-            if (rarity2 == "Rare")
-            {
-                var num2 = rnd.Next(0, Rare.RareWpn.Count);
-                var wpnSelected2 = Rare.RareWpn[num2];
-                var imgSelected2 = Rare.RareImg[num2];
-                ModHelperPanel wpnra2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Rare", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 450, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 450, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Rare", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-            }
-            if (rarity2 == "Epic")
-            {
-
-                var num2 = rnd.Next(0, Epic.EpicWpn.Count);
-                var wpnSelected2 = Epic.EpicWpn[num2];
-                var imgSelected2 = Epic.EpicImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Epic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 450, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 450, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Epic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
+                weaponPanelX += weaponPanelWidth;
+                wpnContentX += weaponPanelWidth;
                
-
-            }
-            if (rarity2 == "Legendary")
-            {
-
-                var num2 = rnd.Next(0, Legendary.LegendaryWpn.Count);
-                var wpnSelected2 = Legendary.LegendaryWpn[num2];
-                var imgSelected2 = Legendary.LegendaryImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Legendary", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 450, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 450, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Legendary", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-               
-            }
-            if (rarity2 == "Exotic")
-            {
-
-                var num2 = rnd.Next(0, Exotic.ExoticWpn.Count);
-                var wpnSelected2 = Exotic.ExoticWpn[num2];
-                var imgSelected2 = Exotic.ExoticImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
-                if (mod.level == 1)
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Exotic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 450, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 450, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Exotic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 875, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 875, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1150, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1150, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-              
-            }
-            if (rarity2 == "Godly")
-            {
-
-                var num2 = rnd.Next(0, Godly.GodlyWpn.Count);
-                var wpnSelected2 = Godly.GodlyWpn[num2];
-                var imgSelected2 = Godly.GodlyImg[num2];
-                ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelSilver);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Godly", 100);
-                ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 450, 500, 800, 180), wpnSelected2, 75);
-                ModHelperImage image2 = panel.AddImage(new Info("image2", 450, 0, 400, 400), imgSelected2);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                {
-                    if (weapon.WeaponName == wpnSelected2)
-                    {
-                        if (weapon.IsCamo && !weapon.IsLead)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                        }
-                        if (weapon.IsLead && !weapon.IsCamo)
-                        {
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                        if (weapon.IsLead && weapon.IsCamo)
-                        {
-                            ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 725, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 725, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                        }
-                    }
-                }
-            }
-            if (mod.level == 1)
-            {
-                var rarityNum3 = rnd.Next(1, 100);
-                var rarity3 = "Rare";
-                if (rarityNum3 >= mod.epicChance)
-                {
-                    rarity3 = "Epic";
-                }
-                if (rarityNum3 >= mod.legendaryChance)
-                {
-                    rarity3 = "Legendary";
-                }
-                if (rarityNum3 >= mod.legendaryChance)
-                {
-                    rarity3 = "Legendary";
-                }
-                if (rarityNum3 >= mod.exoticChance)
-                {
-                    rarity3 = "Exotic";
-                }
-                if (rarityNum3 >= mod.godlyChance)
-                {
-                    rarity3 = "Godly";
-                }
-                if (rarity3 == "Rare")
-                {
-                    var num2 = rnd.Next(0, Rare.RareWpn.Count);
-                    var wpnSelected2 = Rare.RareWpn[num2];
-                    var imgSelected2 = Rare.RareImg[num2];
-                    ModHelperPanel wpnra2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Rare", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 1325, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 1325, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                if (rarity3 == "Epic")
-                {
-
-                    var num2 = rnd.Next(0, Epic.EpicWpn.Count);
-                    var wpnSelected2 = Epic.EpicWpn[num2];
-                    var imgSelected2 = Epic.EpicImg[num2];
-                    ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Epic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 1325, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 1325, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                if (rarity3 == "Legendary")
-                {
-                    var num3 = rnd.Next(0, Legendary.LegendaryWpn.Count);
-                    var wpnSelected3 = Legendary.LegendaryWpn[num3];
-                    var imgSelected3 = Legendary.LegendaryImg[num3];
-                    ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Legendary", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 1325, 500, 800, 180), wpnSelected3, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 1325, 0, 400, 400), imgSelected3);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected3, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected3)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                if (rarity3 == "Exotic")
-                {
-
-                    var num2 = rnd.Next(0, Exotic.ExoticWpn.Count);
-                    var wpnSelected2 = Exotic.ExoticWpn[num2];
-                    var imgSelected2 = Exotic.ExoticImg[num2];
-                    ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Exotic", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 1325, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 1325, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
-                if (rarity3 == "Godly")
-                {
-                    var num2 = rnd.Next(0,Godly.GodlyWpn.Count);
-                    var wpnSelected2 = Godly.GodlyWpn[num2];
-                    var imgSelected2 = Godly.GodlyImg[num2];
-                    ModHelperPanel wpnEp2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelSilver);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Godly", 100);
-                    ModHelperText weaponText2 = panel.AddText(new Info("weaponText2", 1325, 500, 800, 180), wpnSelected2, 75);
-                    ModHelperImage image2 = panel.AddImage(new Info("image2", 1325, 0, 400, 400), imgSelected2);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(wpnSelected2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                    foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-                    {
-                        if (weapon.WeaponName == wpnSelected2)
-                        {
-                            if (weapon.IsCamo && !weapon.IsLead)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                            }
-                            if (weapon.IsLead && !weapon.IsCamo)
-                            {
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 650, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                            if (weapon.IsLead && weapon.IsCamo)
-                            {
-                                ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 1600, 650, 100, 100), VanillaSprites.CamoBloonIcon);
-                                ModHelperImage leadImg = panel.AddImage(new Info("leadImg", 1600, 560, 100, 100), VanillaSprites.LeadBloonIcon);
-                            }
-                        }
-                    }
-                }
             }
         }
         public static void SandBoxStrongWeaponPanel(RectTransform rect, Tower tower)
@@ -1326,1518 +712,194 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void StrongWeaponPanel(RectTransform rect, Tower tower)
         {
-          
+            mod.panelOpen = true;
             if (SandboxMode)
             {
                 SandBoxStrongWeaponPanel(rect, tower);
                 return;
             }
-            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
-            if (mod.level == 1)
-            {
-                panel.SetInfo(new Info("Panel_", 2200, 1500, 3333, 1850, new UnityEngine.Vector2()));
-            }
-            MenuUi upgradeUi = panel.AddComponent<MenuUi>();
-            ModHelperText selectWpn = panel.AddText(new Info("selectWpn", 0, 800, 2500, 180), "Select New Weapon", 100);
+            float strongWeaponPanelWidth = 833.33f;
+            float strongWeaponPanelX = 412.5f;
+            float strongWeaponPanelY = 900;
+            float strongWpnContentX = 25 - (mod.strongWeaponSlot - 1) * 425;
+            float panelWidth = mod.strongWeaponSlot * strongWeaponPanelWidth;
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, panelWidth, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+            ModHelperText selectStrongWpn = panel.AddText(new Info("selectStrongWpn", 0, 800, 2500, 180), "Select Stronger Weapon Card", 100);
             Il2CppSystem.Random rnd = new Il2CppSystem.Random();
-            if(mod.level == 1)
-            {
-                var num2 = rnd.Next(0, 10);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 2;
-                    RangeBoost2 = 1.2f;
-                    AttackSpeedBoost2 = 0.94f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 4;
-                    RangeBoost2 = 1.3f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 3;
-                    PierceBoost2 = 2;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 5;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.85f;
-                    RangeBoost2 = 1.12f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 3;
-                    RangeBoost2 = 1.4f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.15f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.2f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.1f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 2;
-                    AttackSpeedBoost2 = 0.95f;
-                    RangeBoost2 = 1.1f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 4;
-                    PierceBoost2 = 1;
-                }
-                ModHelperPanel wpn1Panel = panel.AddPanel(new Info("wpn1Panel", 375, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                ModHelperText rarityText1 = panel.AddText(new Info("rarityText1", -1300, 600, 800, 180), "Rare", 100);
-                ModHelperText cardText1 = panel.AddText(new Info("cardText1", -1300, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText1 = panel.AddText(new Info("dmgBoostText1", -1300, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                ModHelperText prcBoostText1 = panel.AddText(new Info("prcBoostText1", -1300, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                ModHelperText rngBoostText1 = panel.AddText(new Info("rngBoostText1", -1300, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                ModHelperText atkspdBoostText1 = panel.AddText(new Info("atkspdBoostText1", -1300, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                ModHelperText mnyBoostText1 = panel.AddText(new Info("mnyBoostText1", -1300, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                ModHelperButton selectWpnBtn1 = panel.AddButton(new Info("selectWpnBtn1", -1300, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                ModHelperText selectWpn1 = selectWpnBtn1.AddText(new Info("selectWpn1", 0, 0, 700, 160), "Select", 70);
-            }
-            else 
-            {
-                var num1 = rnd.Next(0, 8);
-                int DmgBoost = 0;
-                int PierceBoost = 0;
-                float RangeBoost = 1f;
-                float AttackSpeedBoost = 1f;
-                float MoneyBoost = 1f;
-                if (num1 == 0)
-                {
-                    PierceBoost = 1;
-                    RangeBoost = 1.1f;
-                    AttackSpeedBoost = 0.96f;
-                }
-                if (num1 == 1)
-                {
-                    DmgBoost = 2;
-                    RangeBoost = 1.2f;
-                }
-                if (num1 == 2)
-                {
-                    DmgBoost = 1;
-                    PierceBoost = 1;
-                }
-                if (num1 == 3)
-                {
-                    PierceBoost = 3;
-                }
-                if (num1 == 4)
-                {
-                    AttackSpeedBoost = 0.9f;
-                    RangeBoost = 1.05f;
-                }
-                if (num1 == 5)
-                {
-                    PierceBoost = 1;
-                    RangeBoost = 1.35f;
-                }
-                if (num1 == 6)
-                {
-                    MoneyBoost = 1.1f;
-                    DmgBoost = 1;
-                    PierceBoost = 1;
-                }
-                if (num1 == 7)
-                {
-                    MoneyBoost = 1.15f;
-                }
-                ModHelperPanel wpn1Panel = panel.AddPanel(new Info("wpn1Panel", 375, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText rarityText1 = panel.AddText(new Info("rarityText1", -875, 600, 800, 180), "Common", 100);
-                ModHelperText cardText1 = panel.AddText(new Info("cardText1", -875, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText1 = panel.AddText(new Info("dmgBoostText1", -875, 200, 800, 180), "Damage Boost :" + DmgBoost, 50);
-                ModHelperText prcBoostText1 = panel.AddText(new Info("prcBoostText1", -875, 100, 800, 180), "Pierce Boost :" + PierceBoost, 50);
-                ModHelperText rngBoostText1 = panel.AddText(new Info("rngBoostText1", -875, 0, 800, 180), "Range Boost : X" + RangeBoost, 50);
-                ModHelperText atkspdBoostText1 = panel.AddText(new Info("atkspdBoostText1", -875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost, 50);
-                ModHelperText mnyBoostText1 = panel.AddText(new Info("mnyBoostText1", -875, -200, 800, 180), "Money Boost : X" + MoneyBoost, 50);
-                ModHelperButton selectWpnBtn1 = panel.AddButton(new Info("selectWpnBtn1", -875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost, PierceBoost, AttackSpeedBoost, RangeBoost, MoneyBoost, tower)));
-                ModHelperText selectWpn1 = selectWpnBtn1.AddText(new Info("selectWpn1", 0, 0, 700, 160), "Select", 70);
-            }
-            var rarity = "Common";
-            if (mod.level == 1)
-            {
-                var rarityNum = rnd.Next(1, 100);
-                rarity = "Rare";
-                if (rarityNum >= mod.epicStrongChance)
-                {
-                    rarity = "Epic";
-                }
-                if (rarityNum >= mod.legendaryChance)
-                {
-                    rarity = "Legendary";
-                }
-            }
-            else
-            {
-                var rarityNum = rnd.Next(1, 100);
-                if (rarityNum >= mod.rareStrongChance)
-                {
-                    rarity = "Rare";
-                }
-                if (rarityNum >= mod.epicStrongChance)
-                {
-                    rarity = "Epic";
-                }
-            }
-          
 
-            if (rarity == "Common")
+            MenuUi upgradeUi = panel.AddComponent<MenuUi>();
+            for (int i = 0; i < mod.strongWeaponSlot; i++)
             {
-                var num2 = rnd.Next(0, 15);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 1;
-                    RangeBoost2 = 1.1f;
-                    AttackSpeedBoost2 = 0.96f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 2;
-                    RangeBoost2 = 1.2f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 1;
-                    PierceBoost2 = 1;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.9f;
-                    RangeBoost2 = 1.05f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 1;
-                    RangeBoost2 = 1.35f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.1f;
-                    DmgBoost2 = 1;
-                    PierceBoost2 = 1;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.15f;
-                }
-                ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Common", 100);
-                ModHelperText cardText2 = panel.AddText(new Info("cardText2", 0, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 0, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 0, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 05, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 0, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 0, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-            }
-            if (rarity == "Rare")
-            {
-                var num2 = rnd.Next(0, 10);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 2;
-                    RangeBoost2 = 1.2f;
-                    AttackSpeedBoost2 = 0.94f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 4;
-                    RangeBoost2 = 1.3f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 3;
-                    PierceBoost2 = 2;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 5;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.85f;
-                    RangeBoost2 = 1.12f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 3;
-                    RangeBoost2 = 1.4f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.15f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.2f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.1f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 2;
-                    AttackSpeedBoost2 = 0.95f;
-                    RangeBoost2 = 1.1f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 4;
-                    PierceBoost2 = 1;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Rare", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", -425, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", -425, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", -425, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", -425, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", -425, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", -425, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Rare", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 0, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 0, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 0, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 05, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 0, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 0, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-            }
-            if (rarity == "Epic")
-            {
-                var num2 = rnd.Next(0, 11);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 4;
-                    RangeBoost2 = 1.3f;
-                    AttackSpeedBoost2 = 0.90f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 7;
-                    RangeBoost2 = 1.45f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 8;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.82f;
-                    RangeBoost2 = 1.18f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 5;
-                    RangeBoost2 = 1.52f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 4;
-                    PierceBoost2 = 5;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.3f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.15f;
-                    DmgBoost2 = 3;
-                    PierceBoost2 = 4;
-                    AttackSpeedBoost2 = 0.91f;
-                    RangeBoost2 = 1.25f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 7;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 4;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Epic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", -425, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", -425, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", -425, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", -425, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", -425, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", -425, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Epic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 0, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 0, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 0, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 05, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 0, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 0, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-               
-            }
-            if (rarity == "Legendary")
-            {
-                var num2 = rnd.Next(0, 12);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 7;
-                    RangeBoost2 = 1.45f;
-                    AttackSpeedBoost2 = 0.85f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 12;
-                    RangeBoost2 = 1.55f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 8;
-                    PierceBoost2 = 7;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 12;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.77f;
-                    RangeBoost2 = 1.25f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 9;
-                    RangeBoost2 = 1.60f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.25f;
-                    DmgBoost2 = 7;
-                    PierceBoost2 = 8;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.4f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.25f;
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 7;
-                    AttackSpeedBoost2 = 0.85f;
-                    RangeBoost2 = 1.35f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 11;
-                    PierceBoost2 = 6;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 8;
-                    PierceBoost2 = 6;
-                }
-                if (num2 == 11)
-                {
-                    AttackSpeedBoost2 = 0.7f;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", -425, 600, 800, 180), "Legendary", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", -425, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", -425, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", -425, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", -425, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", -425, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", -425, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", -425, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 1250, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 0, 600, 800, 180), "Legendary", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 0, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 0, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 0, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 0, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 0, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 0, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-            }
-            var rarityNum2 = rnd.Next(1, 100);
-            var rarity2 = "Common";
-            if (mod.level == 1)
-            {
-                rarity2 = "Rare";
-                if (rarityNum2 >= mod.epicStrongChance)
-                {
-                    rarity2 = "Epic";
-                }
-                if (rarityNum2 >= mod.legendaryStrongChance)
-                {
-                    rarity2 = "Legendary";
-                }
-                if (rarityNum2 >= mod.exoticStrongChance)
-                {
-                    rarity2 = "Exotic";
-                }
-                if (rarityNum2 >= mod.godlyStrongerChance)
-                {
-                    rarity2 = "Godly";
-                }
-            }
-            else
-            {
-                if (rarityNum2 >= mod.rareStrongChance)
-                {
-                    rarity2 = "Rare";
-                }
-                if (rarityNum2 >= mod.epicStrongChance)
-                {
-                    rarity2 = "Epic";
-                }
-                if (rarityNum2 >= mod.legendaryStrongChance)
-                {
-                    rarity2 = "Legendary";
-                }
-                if (rarityNum2 >= mod.exoticStrongChance)
-                {
-                    rarity2 = "Exotic";
-                }
-            }
-            if (rarity2 == "Common")
-            {
-                var num2 = rnd.Next(0, 15);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 1;
-                    RangeBoost2 = 1.1f;
-                    AttackSpeedBoost2 = 0.96f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 2;
-                    RangeBoost2 = 1.2f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 1;
-                    PierceBoost2 = 1;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.9f;
-                    RangeBoost2 = 1.05f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 1;
-                    RangeBoost2 = 1.35f;
-                }
-                if (num2 == 6)
-                { 
-                    MoneyBoost2 = 1.1f;
-                    DmgBoost2 = 1;
-                    PierceBoost2 = 1;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.15f;
-                }
-                ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Common", 100);
-                ModHelperText cardText2 = panel.AddText(new Info("cardText2", 875, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 875, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 875, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 875, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 875, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-            }
-            if (rarity2 == "Rare")
-            {
-                var num2 = rnd.Next(0, 10);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 2;
-                    RangeBoost2 = 1.2f;
-                    AttackSpeedBoost2 = 0.94f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 4;
-                    RangeBoost2 = 1.3f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 3;
-                    PierceBoost2 = 2;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 5;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.85f;
-                    RangeBoost2 = 1.12f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 3;
-                    RangeBoost2 = 1.4f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.15f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.2f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.1f;
-                    DmgBoost2 = 2;
-                    PierceBoost2 = 2;
-                    AttackSpeedBoost2 = 0.95f;
-                    RangeBoost2 = 1.1f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 4;
-                    PierceBoost2 = 1;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Rare", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 450, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 450, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 450, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 450, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 450, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 450, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Rare", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 875, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 875, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 875, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 875, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 875, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-            }
-            if (rarity2 == "Epic")
-            {
-                var num2 = rnd.Next(0, 11);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 4;
-                    RangeBoost2 = 1.3f;
-                    AttackSpeedBoost2 = 0.90f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 7;
-                    RangeBoost2 = 1.45f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 8;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.82f;
-                    RangeBoost2 = 1.18f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 5;
-                    RangeBoost2 = 1.52f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 4;
-                    PierceBoost2 = 5;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.3f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.15f;
-                    DmgBoost2 = 3;
-                    PierceBoost2 = 4;
-                    AttackSpeedBoost2 = 0.91f;
-                    RangeBoost2 = 1.25f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 7;
-                    PierceBoost2 = 3;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 4;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Epic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 450, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 450, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 450, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 450, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 450, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 450, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Epic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 875, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 875, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 875, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 875, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 875, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-             
+                var StrongWpnRarityNum = rnd.Next(1, 100);
+                var StrongWpnRarity = "Common";
+                var RarityNumber = 1;
+                var MinNum = 1;
+                var MaxNum = 1;
+                var damageBoost = rnd.Next(0, 2);
+                var pierceBoost = rnd.Next(0, 2);
+                float rangeBoost = rnd.Next(0, 7);
+                float attackSpeedBoost = rnd.Next(95, 101);
+                float moneyBoost = rnd.Next(0, 7);
+                var sprite = VanillaSprites.GreyInsertPanel;
 
-            }
-            if (rarity2 == "Legendary")
-            {
-                var num2 = rnd.Next(0, 12);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 7;
-                    RangeBoost2 = 1.45f;
-                    AttackSpeedBoost2 = 0.85f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 12;
-                    RangeBoost2 = 1.55f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 8;
-                    PierceBoost2 = 7;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 12;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.77f;
-                    RangeBoost2 = 1.25f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 9;
-                    RangeBoost2 = 1.60f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.25f;
-                    DmgBoost2 = 7;
-                    PierceBoost2 = 8;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.4f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.25f;
-                    DmgBoost2 = 5;
-                    PierceBoost2 = 7;
-                    AttackSpeedBoost2 = 0.85f;
-                    RangeBoost2 = 1.35f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 11;
-                    PierceBoost2 = 6;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.2f;
-                    DmgBoost2 = 8;
-                    PierceBoost2 = 6;
-                }
-                if (num2 == 11)
-                {
-                    AttackSpeedBoost2 = 0.7f;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Legendary", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 450, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 450, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 450, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 450, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 450, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 450, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Legendary", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 875, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 875, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 875, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 875, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 875, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-               
-            }
-            if (rarity2 == "Exotic")
-            {
-                var num2 = rnd.Next(0, 12);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 11;
-                    RangeBoost2 = 1.6f;
-                    AttackSpeedBoost2 = 0.79f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 17;
-                    RangeBoost2 = 1.7f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 13;
-                    PierceBoost2 = 12;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 20;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.7f;
-                    RangeBoost2 = 1.35f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 14;
-                    RangeBoost2 = 1.75f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.30f;
-                    DmgBoost2 = 12;
-                    PierceBoost2 = 14;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.5f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.28f;
-                    DmgBoost2 = 9;
-                    PierceBoost2 = 11;
-                    AttackSpeedBoost2 = 0.78f;
-                    RangeBoost2 = 1.48f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 16;
-                    PierceBoost2 = 10;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.35f;
-                    DmgBoost2 = 13;
-                    PierceBoost2 = 11;
-                }
-                if (num2 == 11)
-                {
-                    AttackSpeedBoost2 = 0.6f;
-                    PierceBoost2 = 5;
-                }
-                if (mod.level == 1)
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Exotic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 450, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 450, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 450, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 450, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 450, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 450, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-                else
-                {
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 875, 600, 800, 180), "Exotic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 875, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 875, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 875, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 875, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 875, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 875, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 875, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                }
-             
-            }
-            if (rarity2 == "Godly")
-            {
-                var num2 = rnd.Next(0, 13);
-                int DmgBoost2 = 0;
-                int PierceBoost2 = 0;
-                float RangeBoost2 = 1f;
-                float AttackSpeedBoost2 = 1f;
-                float MoneyBoost2 = 1f;
-                if (num2 == 0)
-                {
-                    PierceBoost2 = 19;
-                    RangeBoost2 = 1.82f;
-                    AttackSpeedBoost2 = 0.69f;
-                }
-                if (num2 == 1)
-                {
-                    DmgBoost2 = 35;
-                    RangeBoost2 = 2f;
-                }
-                if (num2 == 2)
-                {
-                    DmgBoost2 = 20;
-                    PierceBoost2 = 25;
-                }
-                if (num2 == 3)
-                {
-                    PierceBoost2 = 56;
-                }
-                if (num2 == 4)
-                {
-                    AttackSpeedBoost2 = 0.55f;
-                    RangeBoost2 = 1.55f;
-                }
-                if (num2 == 5)
-                {
-                    PierceBoost2 = 30;
-                    RangeBoost2 = 1.92f;
-                }
-                if (num2 == 6)
-                {
-                    MoneyBoost2 = 1.37f;
-                    DmgBoost2 = 26;
-                    PierceBoost2 = 28;
-                }
-                if (num2 == 7)
-                {
-                    MoneyBoost2 = 1.65f;
-                }
-                if (num2 == 8)
-                {
-                    MoneyBoost2 = 1.35f;
-                    DmgBoost2 = 16;
-                    PierceBoost2 = 22;
-                    AttackSpeedBoost2 = 0.67f;
-                    RangeBoost2 = 1.69f;
-                }
-                if (num2 == 9)
-                {
-                    DmgBoost2 = 35;
-                    PierceBoost2 = 40;
-                }
-                if (num2 == 10)
-                {
-                    MoneyBoost2 = 1.48f;
-                    DmgBoost2 = 28;
-                    PierceBoost2 = 36;
-                }
-                if (num2 == 11)
-                {
-                    AttackSpeedBoost2 = 0.55f;
-                    PierceBoost2 = 15;
-                }
-                if (num2 == 12)
-                {
-                    DmgBoost2 = 100;
-                }
-                ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 2125, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelSilver);
-                ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 450, 600, 800, 180), "Godly", 100);
-                ModHelperText cardText2 = panel.AddText(new Info("cardText2", 450, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 450, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 450, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 450, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 450, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 450, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 450, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-            }
-            if (mod.level == 1)
-            {
-                var rarityNum3 = rnd.Next(1, 100);
-                var rarity3 = "Rare";
 
-                if (rarityNum3 >= mod.epicStrongChance)
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Common)
                 {
-                    rarity3 = "Epic";
+                    MinNum = 1;
                 }
-                if (rarityNum3 >= mod.legendaryStrongChance)
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Rare)
                 {
-                    rarity3 = "Legendary";
+                    MinNum = 2;
                 }
-                if (rarityNum3 >= mod.exoticStrongChance)
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Epic)
                 {
-                    rarity3 = "Exotic";
+                    MinNum = 3;
                 }
-                if (rarityNum3 >= mod.godlyStrongerChance)
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Legendary)
                 {
-                    rarity3 = "Godly";
+                    MinNum = 4;
                 }
-              
-                if (rarity3 == "Rare")
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Exotic)
                 {
-                    var num2 = rnd.Next(0, 10);
-                    int DmgBoost2 = 0;
-                    int PierceBoost2 = 0;
-                    float RangeBoost2 = 1f;
-                    float AttackSpeedBoost2 = 1f;
-                    float MoneyBoost2 = 1f;
-                    if (num2 == 0)
-                    {
-                        PierceBoost2 = 2;
-                        RangeBoost2 = 1.2f;
-                        AttackSpeedBoost2 = 0.94f;
-                    }
-                    if (num2 == 1)
-                    {
-                        DmgBoost2 = 4;
-                        RangeBoost2 = 1.3f;
-                    }
-                    if (num2 == 2)
-                    {
-                        DmgBoost2 = 3;
-                        PierceBoost2 = 2;
-                    }
-                    if (num2 == 3)
-                    {
-                        PierceBoost2 = 5;
-                    }
-                    if (num2 == 4)
-                    {
-                        AttackSpeedBoost2 = 0.85f;
-                        RangeBoost2 = 1.12f;
-                    }
-                    if (num2 == 5)
-                    {
-                        PierceBoost2 = 3;
-                        RangeBoost2 = 1.4f;
-                    }
-                    if (num2 == 6)
-                    {
-                        MoneyBoost2 = 1.15f;
-                        DmgBoost2 = 2;
-                        PierceBoost2 = 3;
-                    }
-                    if (num2 == 7)
-                    {
-                        MoneyBoost2 = 1.2f;
-                    }
-                    if (num2 == 8)
-                    {
-                        MoneyBoost2 = 1.1f;
-                        DmgBoost2 = 2;
-                        PierceBoost2 = 2;
-                        AttackSpeedBoost2 = 0.95f;
-                        RangeBoost2 = 1.1f;
-                    }
-                    if (num2 == 9)
-                    {
-                        DmgBoost2 = 4;
-                        PierceBoost2 = 1;
-                    }
-
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.BlueInsertPanel);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Rare", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 1325, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 1325, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 1325, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 1325, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 1325, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 1325, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
+                    MinNum = 5;
                 }
-                if (rarity3 == "Epic")
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Godly)
                 {
-                    var num2 = rnd.Next(0, 11);
-                    int DmgBoost2 = 0;
-                    int PierceBoost2 = 0;
-                    float RangeBoost2 = 1f;
-                    float AttackSpeedBoost2 = 1f;
-                    float MoneyBoost2 = 1f;
-                    if (num2 == 0)
-                    {
-                        PierceBoost2 = 4;
-                        RangeBoost2 = 1.3f;
-                        AttackSpeedBoost2 = 0.90f;
-                    }
-                    if (num2 == 1)
-                    {
-                        DmgBoost2 = 7;
-                        RangeBoost2 = 1.45f;
-                    }
-                    if (num2 == 2)
-                    {
-                        DmgBoost2 = 5;
-                        PierceBoost2 = 3;
-                    }
-                    if (num2 == 3)
-                    {
-                        PierceBoost2 = 8;
-                    }
-                    if (num2 == 4)
-                    {
-                        AttackSpeedBoost2 = 0.82f;
-                        RangeBoost2 = 1.18f;
-                    }
-                    if (num2 == 5)
-                    {
-                        PierceBoost2 = 5;
-                        RangeBoost2 = 1.52f;
-                    }
-                    if (num2 == 6)
-                    {
-                        MoneyBoost2 = 1.2f;
-                        DmgBoost2 = 4;
-                        PierceBoost2 = 5;
-                    }
-                    if (num2 == 7)
-                    {
-                        MoneyBoost2 = 1.3f;
-                    }
-                    if (num2 == 8)
-                    {
-                        MoneyBoost2 = 1.15f;
-                        DmgBoost2 = 3;
-                        PierceBoost2 = 4;
-                        AttackSpeedBoost2 = 0.91f;
-                        RangeBoost2 = 1.25f;
-                    }
-                    if (num2 == 9)
-                    {
-                        DmgBoost2 = 7;
-                        PierceBoost2 = 3;
-                    }
-                    if (num2 == 10)
-                    {
-                        MoneyBoost2 = 1.2f;
-                        DmgBoost2 = 5;
-                        PierceBoost2 = 4;
-                    }
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelParagon);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Epic", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 1325, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 1325, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 1325, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 1325, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 1325, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 1325, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
+                    MinNum = 6;
                 }
-                if (rarity3 == "Legendary")
+                if (mod.minNewWeaponRarity == WeaponTemplate.Rarity.Common)
                 {
-                    var num2 = rnd.Next(0, 12);
-                    int DmgBoost2 = 0;
-                    int PierceBoost2 = 0;
-                    float RangeBoost2 = 1f;
-                    float AttackSpeedBoost2 = 1f;
-                    float MoneyBoost2 = 1f;
-                    if (num2 == 0)
-                    {
-                        PierceBoost2 = 7;
-                        RangeBoost2 = 1.45f;
-                        AttackSpeedBoost2 = 0.85f;
-                    }
-                    if (num2 == 1)
-                    {
-                        DmgBoost2 = 12;
-                        RangeBoost2 = 1.55f;
-                    }
-                    if (num2 == 2)
-                    {
-                        DmgBoost2 = 8;
-                        PierceBoost2 = 7;
-                    }
-                    if (num2 == 3)
-                    {
-                        PierceBoost2 = 12;
-                    }
-                    if (num2 == 4)
-                    {
-                        AttackSpeedBoost2 = 0.77f;
-                        RangeBoost2 = 1.25f;
-                    }
-                    if (num2 == 5)
-                    {
-                        PierceBoost2 = 9;
-                        RangeBoost2 = 1.60f;
-                    }
-                    if (num2 == 6)
-                    {
-                        MoneyBoost2 = 1.25f;
-                        DmgBoost2 = 7;
-                        PierceBoost2 = 8;
-                    }
-                    if (num2 == 7)
-                    {
-                        MoneyBoost2 = 1.4f;
-                    }
-                    if (num2 == 8)
-                    {
-                        MoneyBoost2 = 1.25f;
-                        DmgBoost2 = 5;
-                        PierceBoost2 = 7;
-                        AttackSpeedBoost2 = 0.85f;
-                        RangeBoost2 = 1.35f;
-                    }
-                    if (num2 == 9)
-                    {
-                        DmgBoost2 = 11;
-                        PierceBoost2 = 6;
-                    }
-                    if (num2 == 10)
-                    {
-                        MoneyBoost2 = 1.2f;
-                        DmgBoost2 = 8;
-                        PierceBoost2 = 6;
-                    }
-                    if (num2 == 11)
-                    {
-                        AttackSpeedBoost2 = 0.7f;
-                    }
-                   
-                        ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelYellow);
-                        ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Legendary", 100);
-                        ModHelperText cardText2 = panel.AddText(new Info("cardText2", 1325, 500, 800, 180), "Stronger Weapon Card", 50);
-                        ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 1325, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                        ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 1325, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                        ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 1325, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                        ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 1325, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                        ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 1325, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                        ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                        ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
+                    MaxNum = 1;
                 }
-                if (rarity3 == "Exotic")
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Rare)
                 {
-                    var num2 = rnd.Next(0, 12);
-                    int DmgBoost2 = 0;
-                    int PierceBoost2 = 0;
-                    float RangeBoost2 = 1f;
-                    float AttackSpeedBoost2 = 1f;
-                    float MoneyBoost2 = 1f;
-                    if (num2 == 0)
-                    {
-                        PierceBoost2 = 11;
-                        RangeBoost2 = 1.6f;
-                        AttackSpeedBoost2 = 0.79f;
-                    }
-                    if (num2 == 1)
-                    {
-                        DmgBoost2 = 17;
-                        RangeBoost2 = 1.7f;
-                    }
-                    if (num2 == 2)
-                    {
-                        DmgBoost2 = 13;
-                        PierceBoost2 = 12;
-                    }
-                    if (num2 == 3)
-                    {
-                        PierceBoost2 = 20;
-                    }
-                    if (num2 == 4)
-                    {
-                        AttackSpeedBoost2 = 0.7f;
-                        RangeBoost2 = 1.35f;
-                    }
-                    if (num2 == 5)
-                    {
-                        PierceBoost2 = 14;
-                        RangeBoost2 = 1.75f;
-                    }
-                    if (num2 == 6)
-                    {
-                        MoneyBoost2 = 1.30f;
-                        DmgBoost2 = 12;
-                        PierceBoost2 = 14;
-                    }
-                    if (num2 == 7)
-                    {
-                        MoneyBoost2 = 1.5f;
-                    }
-                    if (num2 == 8)
-                    {
-                        MoneyBoost2 = 1.28f;
-                        DmgBoost2 = 9;
-                        PierceBoost2 = 11;
-                        AttackSpeedBoost2 = 0.78f;
-                        RangeBoost2 = 1.48f;
-                    }
-                    if (num2 == 9)
-                    {
-                        DmgBoost2 = 16;
-                        PierceBoost2 = 10;
-                    }
-                    if (num2 == 10)
-                    {
-                        MoneyBoost2 = 1.35f;
-                        DmgBoost2 = 13;
-                        PierceBoost2 = 11;
-                    }
-                    if (num2 == 11)
-                    {
-                        AttackSpeedBoost2 = 0.6f;
-                        PierceBoost2 = 5;
-                    }
-                 
-                        ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBgPanelWhiteSmall);
-                        ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Exotic", 100);
-                        ModHelperText cardText2 = panel.AddText(new Info("cardText2", 1325, 500, 800, 180), "Stronger Weapon Card", 50);
-                        ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 1325, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                        ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 1325, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                        ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 1325, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                        ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 1325, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                        ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 1325, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                        ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                        ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
-                   
-
+                    MaxNum = 2;
                 }
-                if (rarity3 == "Godly")
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Epic)
                 {
-                    var num2 = rnd.Next(0, 13);
-                    int DmgBoost2 = 0;
-                    int PierceBoost2 = 0;
-                    float RangeBoost2 = 1f;
-                    float AttackSpeedBoost2 = 1f;
-                    float MoneyBoost2 = 1f;
-                    if (num2 == 0)
-                    {
-                        PierceBoost2 = 19;
-                        RangeBoost2 = 1.82f;
-                        AttackSpeedBoost2 = 0.69f;
-                    }
-                    if (num2 == 1)
-                    {
-                        DmgBoost2 = 35;
-                        RangeBoost2 = 2f;
-                    }
-                    if (num2 == 2)
-                    {
-                        DmgBoost2 = 20;
-                        PierceBoost2 = 25;
-                    }
-                    if (num2 == 3)
-                    {
-                        PierceBoost2 = 56;
-                    }
-                    if (num2 == 4)
-                    {
-                        AttackSpeedBoost2 = 0.55f;
-                        RangeBoost2 = 1.55f;
-                    }
-                    if (num2 == 5)
-                    {
-                        PierceBoost2 = 30;
-                        RangeBoost2 = 1.92f;
-                    }
-                    if (num2 == 6)
-                    {
-                        MoneyBoost2 = 1.37f;
-                        DmgBoost2 = 26;
-                        PierceBoost2 = 28;
-                    }
-                    if (num2 == 7)
-                    {
-                        MoneyBoost2 = 1.65f;
-                    }
-                    if (num2 == 8)
-                    {
-                        MoneyBoost2 = 1.35f;
-                        DmgBoost2 = 16;
-                        PierceBoost2 = 22;
-                        AttackSpeedBoost2 = 0.67f;
-                        RangeBoost2 = 1.69f;
-                    }
-                    if (num2 == 9)
-                    {
-                        DmgBoost2 = 35;
-                        PierceBoost2 = 40;
-                    }
-                    if (num2 == 10)
-                    {
-                        MoneyBoost2 = 1.48f;
-                        DmgBoost2 = 28;
-                        PierceBoost2 = 36;
-                    }
-                    if (num2 == 11)
-                    {
-                        AttackSpeedBoost2 = 0.55f;
-                        PierceBoost2 = 15;
-                    }
-                    if (num2 == 12)
-                    {
-                        DmgBoost2 = 100;
-                    }
-                    ModHelperPanel wpn2Panel = panel.AddPanel(new Info("wpn2Panel", 3000, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelSilver);
-                    ModHelperText rarityText2 = panel.AddText(new Info("rarityText2", 1325, 600, 800, 180), "Godly", 100);
-                    ModHelperText cardText2 = panel.AddText(new Info("cardText2", 1325, 500, 800, 180), "Stronger Weapon Card", 50);
-                    ModHelperText dmgBoostText2 = panel.AddText(new Info("dmgBoostText2", 1325, 200, 800, 180), "Damage Boost :" + DmgBoost2, 50);
-                    ModHelperText prcBoostText2 = panel.AddText(new Info("prcBoostText2", 1325, 100, 800, 180), "Pierce Boost :" + PierceBoost2, 50);
-                    ModHelperText rngBoostText2 = panel.AddText(new Info("rngBoostText2", 1325, 0, 800, 180), "Range Boost : X" + RangeBoost2, 50);
-                    ModHelperText atkspdBoostText2 = panel.AddText(new Info("atkspdBoostText2", 1325, -100, 800, 180), "Attack Speed Boost : X" + AttackSpeedBoost2, 50);
-                    ModHelperText mnyBoostText2 = panel.AddText(new Info("mnyBoostText2", 1325, -200, 800, 180), "Money Boost : X" + MoneyBoost2, 50);
-                    ModHelperButton selectWpnBtn2 = panel.AddButton(new Info("selectWpnBtn2", 1325, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(DmgBoost2, PierceBoost2, AttackSpeedBoost2, RangeBoost2, MoneyBoost2, tower)));
-                    ModHelperText selectWpn2 = selectWpnBtn2.AddText(new Info("selectWpn2", 0, 0, 700, 160), "Select", 70);
+                    MaxNum = 3;
                 }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Legendary)
+                {
+                    MaxNum = 4;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Exotic)
+                {
+                    MaxNum = 5;
+                }
+                if (mod.maxNewWeaponRarity == WeaponTemplate.Rarity.Godly)
+                {
+                    MaxNum = 6;
+                }
+                if (StrongWpnRarityNum >= mod.rareStrongChance)
+                {
+                    RarityNumber = 2;
+                }
+                if (StrongWpnRarityNum >= mod.epicStrongChance)
+                {
+                    RarityNumber = 3;
+                }
+                if (StrongWpnRarityNum >= mod.legendaryStrongChance)
+                {
+                    RarityNumber = 4;
+                }
+                if (StrongWpnRarityNum >= mod.exoticStrongChance)
+                {
+                    RarityNumber = 5;
+                }
+                if (StrongWpnRarityNum >= mod.godlyStrongerChance)
+                {
+                    RarityNumber = 6;
+                }
+                if (RarityNumber < MinNum)
+                {
+                    RarityNumber = MinNum;
+                }
+                if (RarityNumber > MaxNum)
+                {
+                    RarityNumber = MaxNum;
+                }
+                if (RarityNumber == 2)
+                {
+                    StrongWpnRarity = "Rare";
+                }
+                if (RarityNumber == 3)
+                {
+                    StrongWpnRarity = "Epic";
+                }
+                if (RarityNumber == 4)
+                {
+                    StrongWpnRarity = "Legendary";
+                }
+                if (RarityNumber == 5)
+                {
+                    StrongWpnRarity = "Exotic";
+                }
+                if (RarityNumber == 6)
+                {
+                    StrongWpnRarity = "Godly";
+                }
+                if (StrongWpnRarity == "Rare")
+                {
+                    damageBoost = rnd.Next(0, 3);
+                    pierceBoost = rnd.Next(0, 3);
+                    rangeBoost = rnd.Next(0, 10);
+                    attackSpeedBoost = rnd.Next(91, 101);
+                    moneyBoost = rnd.Next(0, 10);
+                    sprite = VanillaSprites.BlueInsertPanel;
+                }
+                if (StrongWpnRarity == "Epic")
+                {
+                    damageBoost = rnd.Next(1, 5);
+                    pierceBoost = rnd.Next(1, 5);
+                    rangeBoost = rnd.Next(0, 13);
+                    attackSpeedBoost = rnd.Next(88, 101);
+                    moneyBoost = rnd.Next(0, 13);
+                    sprite = VanillaSprites.MainBgPanelParagon;
+                }
+                if (StrongWpnRarity == "Legendary")
+                {
+                    damageBoost = rnd.Next(2, 7);
+                    pierceBoost = rnd.Next(2, 7);
+                    rangeBoost = rnd.Next(0, 15);
+                    attackSpeedBoost = rnd.Next(85, 1001);
+                    moneyBoost = rnd.Next(0, 15);
+                    sprite = VanillaSprites.MainBGPanelYellow;
+                }
+                if (StrongWpnRarity == "Exotic")
+                {
+                    damageBoost = rnd.Next(3, 9);
+                    pierceBoost = rnd.Next(3, 9);
+                    rangeBoost = rnd.Next(0, 18);
+                    attackSpeedBoost = rnd.Next(83, 101);
+                    moneyBoost = rnd.Next(0, 18);
+                    sprite = VanillaSprites.MainBgPanelWhiteSmall;
+                }
+                if (StrongWpnRarity == "Godly")
+                {
+                    damageBoost = rnd.Next(5, 15);
+                    pierceBoost = rnd.Next(5, 15);
+                    rangeBoost = rnd.Next(0, 23);
+                    attackSpeedBoost = rnd.Next(75, 101);
+                    moneyBoost = rnd.Next(0, 23);
+                    sprite = VanillaSprites.MainBGPanelSilver;
+                }
+                attackSpeedBoost = attackSpeedBoost / 100;
+                rangeBoost = 1 + rangeBoost / 100;
+                moneyBoost = 1 + moneyBoost / 100;
+                ModHelperPanel strongWpnPanel = panel.AddPanel(new Info("strongWpnPanel", strongWeaponPanelX, strongWeaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
+                
+                ModHelperText rarityText = panel.AddText(new Info("rarityText", strongWpnContentX, 600, 800, 180), StrongWpnRarity, 100);
+                ModHelperText cardText = panel.AddText(new Info("cardText", strongWpnContentX, 500, 800, 180), "Stronger Weapon Card", 50);
+                ModHelperText dmgBoostText = panel.AddText(new Info("dmgBoostText", strongWpnContentX, 200, 800, 180), "Damage Boost :" + damageBoost, 50);
+                ModHelperText prcBoostText = panel.AddText(new Info("prcBoostText", strongWpnContentX, 100, 800, 180), "Pierce Boost :" + pierceBoost, 50);
+                ModHelperText rngBoostText = panel.AddText(new Info("rngBoostText", strongWpnContentX, 0, 800, 180), "Range Boost : X" + rangeBoost, 50);
+                ModHelperText atkspdBoostText = panel.AddText(new Info("atkspdBoostText", strongWpnContentX, -100, 800, 180), "Attack Speed Boost : X" + attackSpeedBoost, 50);
+                ModHelperText mnyBoostText = panel.AddText(new Info("mnyBoostText", strongWpnContentX, -200, 800, 180), "Money Boost : X" + moneyBoost, 50);
+                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", strongWpnContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(damageBoost, pierceBoost, attackSpeedBoost, rangeBoost, moneyBoost, tower)));
+                ModHelperText selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "Select", 70);
+                strongWeaponPanelX += strongWeaponPanelWidth;
+                strongWpnContentX += strongWeaponPanelWidth;
             }
         }
         public void StrongWeapon(Tower tower)
@@ -2868,12 +930,15 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public void StrongWpnSelected(int Dmg, int Pierce, float AtkSpd, float Range, float Money, Tower tower)
         {
-          
+            mod.panelOpen = false;
             InGame game = InGame.instance;
             Destroy(gameObject);
             RectTransform rect = game.uiRect;
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-
+            if (mod.upgradeOpen == true)
+            {
+                CreateUpgradeMenu(rect, tower);
+            }
             towerModel.range *= Range;
             if (towerModel.HasBehavior<TowerCreateTowerModel>())
             {
@@ -2961,25 +1026,22 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 attackModel.range *= Range;
             }
-            mod.rareStrongChance -= 6.7f;
-            mod.epicStrongChance -= 2f;
+            mod.rareStrongChance -= 6.7f + mod.ExtraLuckLevel * 0.55f;
+            mod.epicStrongChance -= 2f + mod.ExtraLuckLevel * 0.15f;
             if (mod.epicStrongChance <= 88)
             {
-                mod.legendaryStrongChance -= 1.15f;
+                mod.legendaryStrongChance -= 1.15f + mod.ExtraLuckLevel * 0.09f;
             }
             if (mod.legendaryStrongChance <= 91)
             {
-                mod.exoticStrongChance -= 0.75f;
+                mod.exoticStrongChance -= 0.75f + mod.ExtraLuckLevel * 0.05f;
             }
             if (mod.exoticChance <= 93)
             {
-                mod.godlyChance -= 0.4f;
+                mod.godlyStrongerChance -= 0.55f + mod.ExtraLuckLevel * 0.03f;
             }
             tower.UpdateRootModel(towerModel);
-            if (mod.upgradeOpen == true)
-            {
-                CreateUpgradeMenu(rect, tower);
-            }
+           
 
         }
         public void NewAbility(Tower tower)
@@ -3032,67 +1094,51 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void NewAbilityPanel(RectTransform rect, Tower tower)
         {
-          
+            mod.panelOpen = true;
             if (SandboxMode)
             {
                 SandBoxAbilityPanel(rect, tower);
                 return;
             }
-            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2000, 1500, 1000, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
-            if (mod.level == 1)
-            {
-                panel.SetInfo(new Info("Panel_", 2000, 1500, 2000, 1850, new UnityEngine.Vector2()));
-            }
+            float abilityPanelWidth = 833.33f;
+            float abilityPanelX = 412.5f;
+            float abilityPanelY = 900;
+            float abilityContentX = 25 + (mod.abilitySlot - 1) * -425;
+            float panelWidth = mod.abilitySlot * abilityPanelWidth;
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, panelWidth, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+            ModHelperText selectAb = panel.AddText(new Info("selectAb", 0, 800, 2500, 180), "Select New Ability", 100);
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
-            ModHelperText selectAbility = panel.AddText(new Info("selectAbility", 0, 800, 2500, 180), "Select New Ability", 100);
             Il2CppSystem.Random rnd = new Il2CppSystem.Random();
-            var num1 = rnd.Next(0, AbilityClass.AbilityName.Count);
-            var abSelected = AbilityClass.AbilityName[num1];
-            var imgSelected = AbilityClass.AbilityImg[num1];
-
-            if (mod.level == 1)
+            for (int i = 0; i < mod.abilitySlot; i++)
             {
-                ModHelperPanel abilityPanel = panel.AddPanel(new Info("abilityPanel", 500, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText abilityText = panel.AddText(new Info("abilityText", -500, 600, 800, 180), "Ability", 100);
-                ModHelperText abilityText2 = panel.AddText(new Info("abilityText2", -500, 500, 800, 180), abSelected, 75);
-                ModHelperImage image = panel.AddImage(new Info("image", -500, 0, 400, 400), imgSelected);
-                ModHelperButton selectAbilityBtn = panel.AddButton(new Info("selectAbilityBtn", -500, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.AbilitySelected(abSelected, tower, "Common")));
+                var num = rnd.Next(0, AbilityClass.AbilityName.Count);
+                var abSelected = AbilityClass.AbilityName[num];
+                var imgSelected = AbilityClass.AbilityImg[num];
+                ModHelperPanel abilityPanel = panel.AddPanel(new Info("abilityPanel", abilityPanelX, abilityPanelY, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
+                ModHelperText abilityText = panel.AddText(new Info("abilityText", abilityContentX, 600, 800, 180), "Ability", 100);
+                ModHelperText abilityText2 = panel.AddText(new Info("abilityText2", abilityContentX, 500, 800, 180), abSelected, 75);
+                ModHelperButton selectAbilityBtn = panel.AddButton(new Info("selectAbilityBtn", abilityContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.AbilitySelected(abSelected, tower, "Common")));
                 ModHelperText selectAbility1 = selectAbilityBtn.AddText(new Info("selectAbility1", 0, 0, 700, 160), "Select", 70);
+                ModHelperImage image = panel.AddImage(new Info("image", abilityContentX, 0, 400, 400), imgSelected);
+                abilityPanelX += abilityPanelWidth;
+                abilityContentX += abilityPanelWidth;
             }
-            else
-            {
-                ModHelperPanel abilityPanel = panel.AddPanel(new Info("abilityPanel", 500, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText abilityText = panel.AddText(new Info("abilityText", 0, 600, 800, 180), "Ability", 100);
-                ModHelperText abilityText2 = panel.AddText(new Info("abilityText2", 0, 500, 800, 180), abSelected, 75);
-                ModHelperImage image = panel.AddImage(new Info("image", 0, 0, 400, 400), imgSelected);
-                ModHelperButton selectAbilityBtn = panel.AddButton(new Info("selectAbilityBtn", 0, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.AbilitySelected(abSelected, tower, "Common")));
-                ModHelperText selectAbility1 = selectAbilityBtn.AddText(new Info("selectAbility1", 0, 0, 700, 160), "Select", 70);
-            }
-           
-            if (mod.level == 1)
-            {
-                var num2 = rnd.Next(0, AbilityClass.AbilityName.Count);
-                var abSelected2 = AbilityClass.AbilityName[num2];
-                var imgSelected2 = AbilityClass.AbilityImg[num2];
-
-                ModHelperPanel abilityPanel2 = panel.AddPanel(new Info("abilityPanel", 1500, 900, 650, 1450, new UnityEngine.Vector2()), VanillaSprites.GreyInsertPanel);
-                ModHelperText abilityText3 = panel.AddText(new Info("abilityText3", 500, 600, 800, 180), "Ability", 100);
-                ModHelperText abilityText4 = panel.AddText(new Info("abilityText4", 500, 500, 800, 180), abSelected2, 75);
-                ModHelperImage image2 = panel.AddImage(new Info("image2", 500, 0, 400, 400), imgSelected2);
-                ModHelperButton selectAbilityBtn2 = panel.AddButton(new Info("selectAbilityBtn2", 500, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.AbilitySelected(abSelected2, tower, "Common")));
-                ModHelperText selectAbility2 = selectAbilityBtn2.AddText(new Info("selectAbility2", 0, 0, 700, 160), "Select", 70);
-            }
-          
+        
         }
         public void AbilitySelected(string Ability, Tower tower, string rarity)
         {
-          
+            mod.panelOpen = false;
             InGame game = InGame.instance;
             if(!SandboxMode)
             {
                 Destroy(gameObject);
             }
             RectTransform rect = game.uiRect;
+            if (mod.upgradeOpen == true && !SandboxMode)
+            {
+                CreateUpgradeMenu(rect, tower);
+            }
+            
             if (Ability == "MIB")
             {
                 mod.mib = true;
@@ -3122,10 +1168,7 @@ public class AncientMonkey : BloonsTD6Mod
                     ability.EditTower(tower);
                 }
             }
-            if (mod.upgradeOpen == true && !SandboxMode)
-            {
-                CreateUpgradeMenu(rect, tower);
-            }
+          
         }
         public void Upgrade1Panel(Tower tower)
         {
@@ -3145,21 +1188,126 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText text8 = panel.AddText(new Info("text8", 0, -200, 2500, 180), "-New Ability Cost Decreased", 75);
             ModHelperText text9 = panel.AddText(new Info("text9", 0, -300, 2500, 180), "-Keep Everything", 75);
             ModHelperButton upgrade1 = panel.AddButton(new Info("upgrade1", 350, -800, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.Upgrade1(tower)));
-            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($75K)", 70);
+            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($125K)", 70);
             ModHelperButton cancel = panel.AddButton(new Info("cancel", -350, -800, 500, 160), VanillaSprites.RedBtnLong, new System.Action(() => upgradeUi.Cancel(tower)));
+            ModHelperText cancelText = cancel.AddText(new Info("cancelText", 0, 0, 700, 160), "Cancel", 70);
+        }
+        public void ExtraPanel(Tower tower)
+        {
+            mod.panelOpen = true;
+          
+            InGame game = InGame.instance;
+            RectTransform rect = game.uiRect;
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+            MenuUi upgradeUi = panel.AddComponent<MenuUi>();
+            ModHelperText upgradeText = panel.AddText(new Info("upgradeText", 0, 800, 2500, 180), "Extra Upgrades Panel", 100);
+
+            var pipY = 400;
+            var pipX = -650;
+            for (int i = 0; i < mod.extraWeaponSlotLevel; i++)
+            {
+                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
+                pipX += 87;
+            }
+            for (int i = 0; i < mod.extraWeaponSlotLevelMax - mod.extraWeaponSlotLevel; i++)
+            {
+                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
+                pipX += 87;
+            }
+            if(mod.extraWeaponSlotLevel == mod.extraWeaponSlotLevelMax)
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 400, 525, 145), VanillaSprites.GreenBtnLong, null);
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 50);
+            } 
+            else
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 400, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.extraWeaponSlotCost) { game.AddCash(mod.extraWeaponSlotCost *= -1); mod.extraWeaponSlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.newWeaponSlot++; } }));
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra New Weapon Slot : $" + mod.extraWeaponSlotCost, 45);
+            }
+
+            pipY = 250;
+            pipX = -650;
+            for (int i = 0; i < mod.strongExtraWeaponSlotLevel; i++)
+            {
+                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
+                pipX += 87;
+            }
+            for (int i = 0; i < mod.extraWeaponSlotLevelMax - mod.strongExtraWeaponSlotLevel; i++)
+            {
+                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
+                pipX += 87;
+            }
+            if (mod.strongExtraWeaponSlotLevel == mod.extraWeaponSlotLevelMax)
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 250, 525, 145), VanillaSprites.GreenBtnLong, null);
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 60);
+            }
+            else
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 250, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.strongExtraWeaponSlotCost) { game.AddCash(mod.strongExtraWeaponSlotCost *= -1); mod.strongExtraWeaponSlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.strongWeaponSlot++; } }));
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra Stronger Weapon Slot : $" + mod.strongExtraWeaponSlotCost, 45);
+            }
+
+            pipY = 100;
+            pipX = -650;
+            for (int i = 0; i < mod.ExtraAbilitySlotLevel; i++)
+            {
+                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
+                pipX += 87;
+            }
+            for (int i = 0; i < mod.ExtraAbilitySlotLevelMax - mod.ExtraAbilitySlotLevel; i++)
+            {
+                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
+                pipX += 87;
+            }
+            if (mod.ExtraAbilitySlotLevel == mod.ExtraAbilitySlotLevelMax)
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 100, 525, 145), VanillaSprites.GreenBtnLong, null);
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 60);
+            }
+            else
+            {
+                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 100, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.ExtraAbilitySlotCost) { game.AddCash(mod.ExtraAbilitySlotCost *= -1); mod.ExtraAbilitySlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.abilitySlot++; } }));
+                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra New Ability Slot : $" + mod.ExtraAbilitySlotCost, 50);
+            }
+
+            pipY = -50;
+            pipX = -650;
+            for (int i = 0; i < mod.ExtraLuckLevel; i++)
+            {
+                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
+                pipX += 87;
+            }
+            for (int i = 0; i < mod.ExtraLuckMax - mod.ExtraLuckLevel; i++)
+            {
+                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
+                pipX += 87;
+            }
+            if (mod.ExtraLuckLevel == mod.ExtraLuckMax)
+            {
+                ModHelperButton upgradeExtraLevel = panel.AddButton(new Info("upgradeExtraLevel", -980, -50, 525, 145), VanillaSprites.GreenBtnLong, null);
+                ModHelperText upgradeExtraLevelText = upgradeExtraLevel.AddText(new Info("upgradeExtraLevelText", 0, 0, 550, 150), "Max", 60);
+            }
+            else
+            {
+                ModHelperButton upgradeExtraLevel = panel.AddButton(new Info("upgradeExtraLevel", -980, -50, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.ExtraLuckCost) { game.AddCash(mod.ExtraLuckCost * -1); mod.ExtraLuckLevel += 1; mod.ExtraLuckCost *= 1.45f; ; panel.DeleteObject(); ExtraPanel(tower); } }));
+                ModHelperText upgradeExtraLevelText = upgradeExtraLevel.AddText(new Info("upgradeExtraLevelText", 0, 0, 550, 150), "Extra Luck : $" + Mathf.Round(mod.ExtraLuckCost), 50);
+            }
+
+            ModHelperButton cancel = panel.AddButton(new Info("cancel", 0, -800, 500, 160), VanillaSprites.RedBtnLong, new System.Action(() => upgradeUi.Cancel(tower)));
             ModHelperText cancelText = cancel.AddText(new Info("cancelText", 0, 0, 700, 160), "Cancel", 70);
         }
         public void Upgrade1(Tower tower)
         {
             InGame game = InGame.instance;
-            if (game.GetCash() >= 75000)
+            if (game.GetCash() >= 125000)
             {
-                game.AddCash(-75000);
+                game.AddCash(-125000);
                 
                 RectTransform rect = game.uiRect;
             
-                mod.newWeaponCost = 300;
-                mod.baseNewWeaponCost = 300;
+                mod.newWeaponCost = 450;
+                mod.baseNewWeaponCost = 350;
                 mod.rareChance = 0;
                 mod.epicChance = 75;
                 mod.legendaryChance = 98;
@@ -3170,11 +1318,20 @@ public class AncientMonkey : BloonsTD6Mod
                 mod.legendaryStrongChance = 95;
                 mod.exoticStrongChance = 100;
                 mod.godlyStrongerChance = 100;
-                mod.strongerWeaponCost = 625;
-                mod.baseStrongerWeaponCost = 625;
-                mod.newAbilityCost = 5000;
+                mod.strongerWeaponCost = 950;
+                mod.baseStrongerWeaponCost = 750;
+                mod.newAbilityCost = 4500;
+
                 mod.baseNewAbilityCost = 1000;
                 mod.level += 1;
+                mod.newWeaponSlot += 1;
+                mod.strongWeaponSlot += 1;
+                mod.abilitySlot += 1;
+                mod.minNewWeaponRarity = WeaponTemplate.Rarity.Rare;
+                mod.maxNewWeaponRarity = WeaponTemplate.Rarity.Godly;
+                mod.minStrongWeaponRarity = WeaponTemplate.Rarity.Rare;
+                mod.maxStrongWeaponRarity = WeaponTemplate.Rarity.Godly;
+                mod.panelOpen = false;
                 if (mod.upgradeOpen == true)
                 {
                     CreateUpgradeMenu(rect, tower);
@@ -3188,6 +1345,7 @@ public class AncientMonkey : BloonsTD6Mod
             InGame game = InGame.instance;
             RectTransform rect = game.uiRect;
             Destroy(gameObject);
+            mod.panelOpen = false;
             if (mod.upgradeOpen == true)
             {
                 CreateUpgradeMenu(rect, tower);
@@ -3195,54 +1353,62 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void CreateUpgradeMenu(RectTransform rect, Tower tower)
         {
-            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 200, 2500, 450, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+            if(mod.panelOpen == true)
+            {
+                return;
+            }
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 200, 3333, 450, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
             instance = upgradeUi;
             if(SandboxMode)
             {
-                ModHelperText newWpnCost = panel.AddText(new Info("newWpnCost", 0, 140, 1000, 180), "New Weapon: Free", 70);
+                ModHelperText newWpnCost = panel.AddText(new Info("newWpnCost", -416, 140, 1000, 180), "New Weapon: Free", 70);
             }
             else
             {
-                ModHelperText newWpnCost = panel.AddText(new Info("newWpnCost", 0, 140, 1000, 180), "New Weapon: $" + Mathf.Round(mod.newWeaponCost), 70);
+                ModHelperText newWpnCost = panel.AddText(new Info("newWpnCost", -416, 140, 1000, 180), "New Weapon: $" + Mathf.Round(mod.newWeaponCost), 70);
             }
             if (mod.selectingWeaponOpen == false)
             {
-                ModHelperButton newWpnBtn = panel.AddButton(new Info("newWpnBtn", 0, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewWeapon(tower)));
+                ModHelperButton newWpnBtn = panel.AddButton(new Info("newWpnBtn", -416, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewWeapon(tower)));
                 ModHelperText newWpnBuy = newWpnBtn.AddText(new Info("newWpnBuy", 0, 0, 700, 160), "Buy", 70);
             }
-            ModHelperText newWpnDesc = panel.AddText(new Info("newWpnDesc", 0, -100, 860, 180), "Give an extra weapon", 42);
+            ModHelperText newWpnDesc = panel.AddText(new Info("newWpnDesc", -416, -100, 860, 180), "Give an extra weapon", 42);
 
             if (SandboxMode)
             {
-                ModHelperText strongWpnCost = panel.AddText(new Info("strongWpnCost", -800, 140, 1000, 180), "Stronger Weapon: Free", 70);
+                ModHelperText strongWpnCost = panel.AddText(new Info("strongWpnCost", -1216, 140, 1000, 180), "Stronger Weapon: Free", 70);
             }
             else
             {
-                ModHelperText strongWpnCost = panel.AddText(new Info("strongWpnCost", -800, 140, 1000, 180), "Stronger Weapon: $" + Mathf.Round(mod.strongerWeaponCost), 70);
+                ModHelperText strongWpnCost = panel.AddText(new Info("strongWpnCost", -1216, 140, 1000, 180), "Stronger Weapon: $" + Mathf.Round(mod.strongerWeaponCost), 70);
             }
        
             if (mod.selectingWeaponOpen == false)
             {
-                ModHelperButton strongWpnBtn = panel.AddButton(new Info("strongWpnBtn", -800, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWeapon(tower)));
+                ModHelperButton strongWpnBtn = panel.AddButton(new Info("strongWpnBtn", -1216, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWeapon(tower)));
                 ModHelperText strongWpnBuy = strongWpnBtn.AddText(new Info("strongWpnBuy", 0, 0, 700, 160), "Buy", 70);
             }
 
-            ModHelperText strongWpnDesc = panel.AddText(new Info("strongWpnDesc", -800, -100, 860, 180), "Make your current weapon stronger", 42);
+            ModHelperText strongWpnDesc = panel.AddText(new Info("strongWpnDesc", -1216, -100, 860, 180), "Make your current weapon stronger", 42);
             if (SandboxMode)
             {
-                ModHelperText abilityCost = panel.AddText(new Info("abilityCost", 800, 140, 1000, 180), "New Ability: Free", 70);
+                ModHelperText abilityCost = panel.AddText(new Info("abilityCost", 384, 140, 1000, 180), "New Ability: Free", 70);
             } else
             {
-                ModHelperText abilityCost = panel.AddText(new Info("abilityCost", 800, 140, 1000, 180), "New Ability: $" + Mathf.Round(mod.newAbilityCost), 70);
+                ModHelperText abilityCost = panel.AddText(new Info("abilityCost", 384, 140, 1000, 180), "New Ability: $" + Mathf.Round(mod.newAbilityCost), 70);
             }
-         
+
+            ModHelperText extraText = panel.AddText(new Info("extraText", 1217, 140, 1000, 180), "Extra Panel", 70);
+            ModHelperButton extraBtn = panel.AddButton(new Info("extraBtn", 1217, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.ExtraPanel(tower); MenuUi.instance.CloseMenu(); }));
+            ModHelperText extraOpen = extraBtn.AddText(new Info("extraOpen", 0, 0, 700, 160), "Open", 70);
+
             if (mod.selectingWeaponOpen == false)
             {
-                ModHelperButton abilityBtn = panel.AddButton(new Info("abilityBtn", 800, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewAbility(tower)));
+                ModHelperButton abilityBtn = panel.AddButton(new Info("abilityBtn", 384, 20, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewAbility(tower)));
                 ModHelperText abilityBuy = abilityBtn.AddText(new Info("abilityBuy", 0, 0, 700, 160), "Buy", 70);
             }
-            ModHelperText abilityDesc = panel.AddText(new Info("abilityDesc", 800, -100, 860, 180), "Give an ability", 42);
+            ModHelperText abilityDesc = panel.AddText(new Info("abilityDesc", 384, -100, 860, 180), "Give an ability", 42);
 
             if(mod.level == 0)
             {

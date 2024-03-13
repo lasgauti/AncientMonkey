@@ -513,7 +513,7 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Favored Trades";
             public override void EditTower(Tower tower)
             {
-                var wpn = Game.instance.model.GetTowerFromId("MonkeyBuccaneer-004").GetBehavior<BonusCashPerRoundModel>().Duplicate();
+                var wpn = Game.instance.model.GetTowerFromId("MonkeyBuccaneer-004").GetBehavior<PerRoundCashBonusTowerModel>().Duplicate();
                 var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
                 tower.UpdateRootModel(towerModel);
