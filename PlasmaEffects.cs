@@ -12,7 +12,7 @@ namespace PlasmaEffects
 {
     public class LightningDisplay : ModDisplay
     {
-        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-050").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.GUID;
+        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-050").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.AssetGUID;
         public Dictionary<string, Color> psColor = new()
         {
             { "Glow", new Color(0.7f, 0.1f, 1f, 0.409f) },
@@ -37,7 +37,7 @@ namespace PlasmaEffects
 
     public class WpnPlasmaDisplay : ModDisplay
     {
-        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-040").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.GUID;
+        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-040").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.AssetGUID;
         public Dictionary<string, Color> psColor = new()
         {
             //{ "Glow", new Color(0.7f, 0.1f, 1f, 0.409f) },
@@ -62,7 +62,7 @@ namespace PlasmaEffects
 
     public class WpnNovaDisplay : ModDisplay
     {
-        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-050").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.GUID;
+        public override string BaseDisplay => Game.instance.model.GetTowerFromId(TowerType.SuperMonkey + "-050").GetDescendant<CreateEffectOnAbilityModel>().effectModel.assetId.AssetGUID;
         public Dictionary<string, Color> psColor = new()
         {
             //{ "Glow", new Color(0.7f, 0.1f, 1f, 0.409f) },

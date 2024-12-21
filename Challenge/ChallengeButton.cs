@@ -70,7 +70,7 @@ namespace AncientMonkey.Challenge
         }
     }
     [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.OpenMenu))]
-    internal static class MenuManager_OpenMenu
+    internal static class MenuManager_OpenMenu2
     {
         [HarmonyPostfix]
         private static void Postfix(MenuManager __instance, string menuName)
@@ -83,7 +83,7 @@ namespace AncientMonkey.Challenge
     }
 
     [HarmonyPatch(typeof(DifficultySelectScreen), nameof(DifficultySelectScreen.Open))]
-    internal static class DifficultySelectScreen_Open
+    internal static class DifficultySelectScreen_Open2
     {
         [HarmonyPostfix]
         private static void Postfix()
@@ -93,7 +93,7 @@ namespace AncientMonkey.Challenge
     }
 
     [HarmonyPatch(typeof(DifficultySelectScreen), nameof(DifficultySelectScreen.OpenModeSelectUi))]
-    internal static class DifficultySelectScreen_OpenModeSelectUi
+    internal static class DifficultySelectScreen_OpenModeSelectUi2
     {
         [HarmonyPostfix]
         private static void Postfix()
@@ -103,7 +103,7 @@ namespace AncientMonkey.Challenge
     }
 
     [HarmonyPatch(typeof(ContinueGamePanel), nameof(ContinueGamePanel.ContinueClicked))]
-    internal static class ContinueGamePanel_ContinueClicked
+    internal static class ContinueGamePanel_ContinueClicked2
     {
         [HarmonyPostfix]
         private static void Postfix()
@@ -113,7 +113,7 @@ namespace AncientMonkey.Challenge
     }
 
     [HarmonyPatch(typeof(MapSelectScreen), nameof(MapSelectScreen.Open))]
-    internal static class MapSelectScreen_Open
+    internal static class MapSelectScreen_Open2
     {
         [HarmonyPostfix]
         private static void Postfix()
@@ -123,7 +123,7 @@ namespace AncientMonkey.Challenge
     }
 
     [HarmonyPatch(typeof(MapSelectScreen), nameof(MapSelectScreen.Close))]
-    internal static class MapSelectScreen_Close
+    internal static class MapSelectScreen_Close2
     {
         [HarmonyPostfix]
         private static void Postfix()
