@@ -1,25 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
 using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Unity;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
@@ -30,8 +16,6 @@ using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Filters;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using static MelonLoader.MelonLogger;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 
 namespace AncientMonkey.Weapons
 {
@@ -267,6 +251,8 @@ namespace AncientMonkey.Weapons
             TowerModel dartling = Game.instance.model.GetTowerFromId(TowerType.DartlingGunner + "-200");
             AddBehaviorToBloonModel electricShock = dartling.GetDescendant<AddBehaviorToBloonModel>().Duplicate();
             wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.AddBehavior(electricShock);
+            wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.pierce -= 10;
+            wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.collisionPasses = new[] { 0, 1 };
             ///
 
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
@@ -707,6 +693,33 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+
+    public class FieryThorns : WeaponTemplate
+    {
+        public override int SandboxIndex => 2;
+        public override Rarity WeaponRarity => Rarity.Rare;
+        public override string Icon => VanillaSprites.HardThornsUpgradeIcon;
+        public override string WeaponName => "Fiery Thorns";
+        public override bool IsLead => true;
+        public override bool Is4thPath => true;
+        //public override Sprite CustomIcon => GetSprite("HeartofSeaIcon");
+        public override string Description => "Druid 4th path(s) by Greenphx9/Darinsky";
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var wpn = Game.instance.model.GetTowerFromId("Druid-100").GetAttackModel().Duplicate();
+            wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
+            wpn.weapons[0].projectile.GetDamageModel().damage++;
+            ///
+            wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTower(TowerType.MortarMonkey, 0, 0, 2).GetDescendant<AddBehaviorToBloonModel>().Duplicate());
+            wpn.weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().filters = null;
+            wpn.range = tower.towerModel.range;
+            ///
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+
     public class BananaStock : WeaponTemplate
     {
         public override int SandboxIndex => 2;
@@ -762,12 +775,16 @@ namespace AncientMonkey.Weapons
             var wpn = Game.instance.model.GetTowerFromId("Alchemist-002").GetAttackModel().Duplicate();
             wpn.weapons[0].projectile = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().weapons[0].projectile.Duplicate();
 
+            //TLDR; Alch Potions that spawns Pineapples that explode, applying Bloon Dissolver acid.
+
             foreach (var a in Game.instance.model.GetTowerFromId("MonkeyAce-020").GetDescendants<AttackAirUnitModel>().ToList())
             {
                 if (a.name.Contains("_PineappleBombs_"))
                 {
                     wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = a.weapons[0].projectile;
-                    wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist").GetDescendant<AddBehaviorToBloonModel>().Duplicate());
+                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile.RemoveBehavior<FallToGroundModel>();
+                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = Game.instance.model.GetTowerFromId("GlueGunner-320").GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile;
+                    //wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist-120").GetDescendant<AddBehaviorToBloonModel>().Duplicate());
                 }
             }
             wpn.range = tower.towerModel.range;

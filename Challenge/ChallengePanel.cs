@@ -17,6 +17,7 @@ using Il2CppNinjaKiwi.Common;
 using Il2CppAssets.Scripts.Unity.Effects;
 using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace AncientMonkey.Challenge
 {
     public class ChallengePanel : ModGameMenu<ExtraSettingsScreen>
@@ -80,3 +81,4 @@ namespace AncientMonkey.Challenge
         }
     }
 }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

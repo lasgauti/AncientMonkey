@@ -16,8 +16,10 @@ namespace AncientMonkey.Challenge
 {
     public static class ChallengeButton
     {
+        #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private static ModHelperPanel panel;
         private static ModHelperButton image;
+        #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
         private static void OpenEditorPanel()
         {
@@ -35,7 +37,7 @@ namespace AncientMonkey.Challenge
             animator.runtimeAnimatorController = Animations.GlobalButtonAnimation;
             animator.speed = .75f;
 
-            image = panel.AddButton(new Info("ChallengeButton", -4390, 500, 420, 420, new Vector2(1, 0), new Vector2(0.5f, 0)), VanillaSprites.ChallengesIcon, new Action(OpenEditorPanel));
+            image = panel.AddButton(new Info("ChallengeButton", -3590, 500, 420, 420, new Vector2(1, 0), new Vector2(0.5f, 0)), VanillaSprites.ChallengesIcon, new Action(OpenEditorPanel));
             image.AddText(new Info("Text", 0, -125, 425, 200), "Ancients Challenges", 70f);
         }
         private static void HideButton()

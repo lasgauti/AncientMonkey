@@ -23,6 +23,7 @@ using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using AncientMonkey.Projectiles;
 using PlasmaEffects;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles;
+using Il2CppAssets.Scripts.Models.Towers.Weapons;
 
 namespace AncientMonkey.Weapons
 {
@@ -207,7 +208,8 @@ namespace AncientMonkey.Weapons
         {
             var wpn = Game.instance.model.GetTowerFromId("Quincy").GetAttackModel().Duplicate();
             wpn.GetDescendant<ProjectileModel>().ignoreBlockers = true;
-            wpn.GetDescendant<ProjectileModel>().ignoreNonTargetable = true;
+            wpn.GetDescendant<ProjectileModel>().ignoreNonTargetable = false;
+            wpn.GetDescendant<ProjectileModel>().SetDisplay(new Il2CppNinjaKiwi.Common.ResourceUtils.PrefabReference("d1183e58ef5e4a54cb76dd26d1d1b436")); //Assets/Monkeys/Quincy/Graphics/projectiles/ArrowCyber.prefab
             wpn.GetDescendant<DamageModel>().immuneBloonProperties &= BloonProperties.Frozen;
             wpn.GetDescendant<DamageModel>().immuneBloonProperties |= BloonProperties.Purple;
             wpn.range = tower.towerModel.range;
@@ -298,6 +300,7 @@ namespace AncientMonkey.Weapons
             TowerModel dartling = Game.instance.model.GetTowerFromId(TowerType.DartlingGunner + "-200");
             AddBehaviorToBloonModel electricShock = dartling.GetDescendant<AddBehaviorToBloonModel>().Duplicate();
             wpn.weapons[0].projectile.AddBehavior(electricShock);
+            wpn.weapons[0].projectile.collisionPasses = new[] { 0, 1 };
             ///
             wpn.range = tower.towerModel.range;
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
@@ -496,18 +499,6 @@ namespace AncientMonkey.Weapons
             wpn.range = tower.towerModel.range;
             towerModel.AddBehavior(wpn);
             tower.UpdateRootModel(towerModel);
-        }
-    }
-    public class DoubleTap : WeaponTemplate
-    {
-        public override int SandboxIndex => 1;
-        public override Rarity WeaponRarity => Rarity.Common;
-        public override string WeaponName => "Double Tap";
-        public override string Icon => VanillaSprites.EvenFasterShootingUpgradeIcon;
-        public override bool Is4thPath => true;
-        public override void EditTower(Tower tower)
-        {
-
         }
     }
     public class Common

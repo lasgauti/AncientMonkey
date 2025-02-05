@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Il2CppAssets.Scripts.Models.Towers;
+﻿using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Unity.Display;
 using BTD_Mod_Helper.Api.Display;
 using BTD_Mod_Helper.Extensions;
@@ -109,6 +108,15 @@ namespace PlasmaEffects
         public override void ModifyDisplayNode(UnityDisplayNode node)
         {
             Set2DTexture(node, "SuppressiveFireProj");
+        }
+    }
+    public class SpicyThornDisplay : ModDisplay
+    {
+        public override string BaseDisplay => Generic2dDisplay;
+
+        public override void ModifyDisplayNode(UnityDisplayNode node)
+        {
+            Set2DTexture(node, "ThornRed1");
         }
     }
 }

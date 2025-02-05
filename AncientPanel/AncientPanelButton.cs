@@ -13,6 +13,7 @@ using Il2CppAssets.Scripts.Unity.UI_New.Main.MapSelect;
 using HarmonyLib;
 using Il2CppAssets.Scripts.Unity.UI_New.InGame;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace AncientMonkey.Challenge
 {
     public static class AncientPanelButton
