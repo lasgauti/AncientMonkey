@@ -271,7 +271,8 @@ namespace AncientMonkey.Weapons
     {
         public override int SandboxIndex => 1;
         public override Rarity WeaponRarity => Rarity.Common;
-        public override string Icon => "COBRAIcon";
+        public override string Icon => VanillaSprites.Cobweb;
+        public override Sprite CustomIcon => GetSprite("COBRAIcon");
         public override string WeaponName => "Cobra";
         public override void EditTower(Tower tower)
         {
@@ -289,7 +290,8 @@ namespace AncientMonkey.Weapons
     {
         public override int SandboxIndex => 1;
         public override Rarity WeaponRarity => Rarity.Common;
-        public override string Icon => "EnergyBlasterIcon";
+        public override string Icon => VanillaSprites.LaserShockUpgradeIcon;
+        public override Sprite CustomIcon => GetSprite("EnergyBlasterIcon");
         public override string WeaponName => "Energy Blaster";
         public override void EditTower(Tower tower)
         {

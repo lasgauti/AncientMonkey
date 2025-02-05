@@ -37,7 +37,7 @@ namespace AncientMonkey.Challenge
             animator.runtimeAnimatorController = Animations.GlobalButtonAnimation;
             animator.speed = .75f;
 
-            image = panel.AddButton(new Info("ChallengeButton", -3590, 500, 420, 420, new Vector2(1, 0), new Vector2(0.5f, 0)), VanillaSprites.ChallengesIcon, new Action(OpenEditorPanel));
+            image = panel.AddButton(new Info("ChallengeButton", -4390, 000, 420, 420, new Vector2(1, 0), new Vector2(0.5f, 0)), VanillaSprites.ChallengesIcon, new Action(OpenEditorPanel));
             image.AddText(new Info("Text", 0, -125, 425, 200), "Ancients Challenges", 70f);
         }
         private static void HideButton()

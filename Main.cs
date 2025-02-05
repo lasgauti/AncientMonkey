@@ -2312,7 +2312,7 @@ public class AncientMonkey : BloonsTD6Mod
             
         }
     }
-    [HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
+    /*[HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
     internal static class Bloon_Damage
     {
         [HarmonyPrefix]
@@ -2328,5 +2328,5 @@ public class AncientMonkey : BloonsTD6Mod
                 }
             }
         }
-    }
+    }*/
 }
