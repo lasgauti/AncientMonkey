@@ -2317,10 +2317,10 @@ public class AncientMonkey : BloonsTD6Mod
         [HarmonyPrefix]
         private static void Prefix(Bloon __instance, float totalAmount, Projectile projectile, bool distributeToChildren, bool overrideDistributeBlocker, bool createEffect, Tower tower, BloonProperties immuneBloonProperties = BloonProperties.None, bool canDestroyProjectile = true, bool ignoreNonTargetable = false, bool blockSpawnChildren = false, bool ignoreInvunerable = false)
         {
-            if (__instance != null)
+            if (__instance != null && tower != null)
             {
                 InGame game = InGame.instance;
-                if (!game.GetGameModel().gameMode.Contains("Sandbox")&&tower.towerModel.name.Contains("AncientMonkey"))
+                if (!game.GetGameModel().gameMode.Contains("Sandbox") && tower.towerModel.name.Contains("AncientMonkey"))
                 {
                     mod.BloonsPopped += (int)Mathf.Round(totalAmount);
                     mod.DailyBloonsPopped += (int)Mathf.Round(totalAmount);

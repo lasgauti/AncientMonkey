@@ -1,61 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
 using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Unity;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using System.Threading;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
 using AncientMonkey.Projectiles;
@@ -68,6 +18,23 @@ using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 namespace AncientMonkey.Weapons
 {
     public class ApexPlasmaMaster : WeaponTemplate
+    {
+        public override int SandboxIndex => 6;
+        public override Rarity WeaponRarity => Rarity.Godly;
+        public override string Icon => VanillaSprites.ApexPlasmaMasterUpgradeIcon;
+        public override string WeaponName => "Apex Plasma Master";
+        public override bool IsCamo => true;
+        public override bool IsLead => true;
+        public override void EditTower(Tower tower)
+        {
+            var wpn = Game.instance.model.GetTowerFromId("DartMonkey-Paragon").GetAttackModel().Duplicate();
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            wpn.range = tower.towerModel.range;
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+    public class CrucibleOfSteelAndFlame : WeaponTemplate
     {
         public override int SandboxIndex => 6;
         public override Rarity WeaponRarity => Rarity.Godly;
@@ -193,6 +160,7 @@ namespace AncientMonkey.Weapons
         public override string Description => "Super Monkey 4th path by LynxC";
         public override bool IsCamo => true;
         public override bool IsLead => true;
+        public override bool Is4thPath => true;
         public override void EditTower(Tower tower)
         {
             var fire = Game.instance.model.GetTowerFromId("MortarMonkey-002").Duplicate<TowerModel>().GetBehavior<AttackModel>().weapons[0].projectile.

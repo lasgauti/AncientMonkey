@@ -84,4 +84,31 @@ namespace PlasmaEffects
             }
         }
     }
+    public class DoubleTapDisplay : ModDisplay
+    {
+        public override string BaseDisplay => Generic2dDisplay;
+
+        public override void ModifyDisplayNode(UnityDisplayNode node)
+        {
+            Set2DTexture(node, "DoubleTapProj");
+        }
+    }
+    public class PhaseRoundDisplay : ModDisplay
+    {
+        public override string BaseDisplay => Generic2dDisplay;
+
+        public override void ModifyDisplayNode(UnityDisplayNode node)
+        {
+            Set2DTexture(node, "PhaseRoundProj");
+        }
+    }
+    public class SuppressiveFireDisplay : ModDisplay
+    {
+        public override string BaseDisplay => Generic2dDisplay;
+
+        public override void ModifyDisplayNode(UnityDisplayNode node)
+        {
+            Set2DTexture(node, "SuppressiveFireProj");
+        }
+    }
 }

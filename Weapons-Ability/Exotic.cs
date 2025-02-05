@@ -310,6 +310,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Tack Shooter 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var effect = Game.instance.model.GetTower(TowerType.MortarMonkey).GetAttackModel().weapons[0].projectile.GetBehavior<Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors.CreateEffectOnExpireModel>().Duplicate();
@@ -365,6 +366,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Ice Monkey 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var seeking = Game.instance.model.GetTowerFromId("WizardMonkey-500").GetWeapon().projectile.GetBehavior<TrackTargetModel>().Duplicate();
@@ -446,6 +448,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Glue Gunner 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var overlay = Game.instance.model.GetTowerFromId("GlueGunner-300").GetAttackModel().weapons[0].projectile.GetBehavior<SlowModel>().overlayType;
@@ -483,6 +486,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Buccaneer 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var bleed = Game.instance.model.GetTowerFromId("Sauda 9").GetAttackModel().weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
@@ -546,6 +550,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Dartling 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var fire = Game.instance.model.GetTowerFromId("MortarMonkey-002").Duplicate<TowerModel>().GetBehavior<AttackModel>().weapons[0].projectile.
@@ -581,6 +586,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Spike Factory 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var wpn = Game.instance.model.GetTowerFromId("SpikeFactory-020").GetAttackModel().Duplicate();
@@ -607,6 +613,7 @@ namespace AncientMonkey.Weapons
             public override Sprite CustomIcon => GetSprite("PrimalLegendIcon");
             public override string Description => "Beast Handler 4th path by LynxC";
             public override bool IsLead => true;
+            public override bool Is4thPath => true;
             public override void EditTower(Tower tower)
             {
                 var wpn = Game.instance.model.GetTowerFromId("ObynGreenfoot").GetAttackModel().Duplicate();

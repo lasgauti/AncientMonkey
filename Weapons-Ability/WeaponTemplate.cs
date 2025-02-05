@@ -34,6 +34,8 @@ namespace AncientMonkey
         public bool unlocked = false;
         public virtual bool IsCamo { get; }
         public virtual bool IsLead { get; }
+        public virtual bool Is4thPath { get; }
+        public virtual bool IsDisabled { get; }
         public virtual string Description { get; }
         public virtual Sprite CustomIcon { get; }
 

@@ -30,6 +30,8 @@ using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Filters;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using static MelonLoader.MelonLogger;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 
 namespace AncientMonkey.Weapons
 {
@@ -249,6 +251,45 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+    public class SentaiChurchill : WeaponTemplate
+    {
+        public override int SandboxIndex => 2;
+        public override Rarity WeaponRarity => Rarity.Rare;
+        public override string Icon => VanillaSprites.SentaiChurchillIcon;
+        public override string WeaponName => "Sentai Churchill";
+        public override bool IsLead => true;
+        public override void EditTower(Tower tower)
+        {
+            var wpn = Game.instance.model.GetTowerFromId("CaptainChurchill").GetAttackModel().Duplicate();
+            wpn.range = tower.towerModel.range;
+
+            ///
+            TowerModel dartling = Game.instance.model.GetTowerFromId(TowerType.DartlingGunner + "-200");
+            AddBehaviorToBloonModel electricShock = dartling.GetDescendant<AddBehaviorToBloonModel>().Duplicate();
+            wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.AddBehavior(electricShock);
+            ///
+
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+    public class ChurchillMachineGun : WeaponTemplate
+    {
+        public override int SandboxIndex => 2;
+        public override Rarity WeaponRarity => Rarity.Rare;
+        public override string Icon => "ChurchillGunIcon";
+        public override string WeaponName => "Machine Gun";
+        public override bool IsLead => true;
+        public override void EditTower(Tower tower)
+        {
+            var wpn = Game.instance.model.GetTowerFromId("CaptainChurchill 5").GetAttackModel(1).Duplicate();
+            wpn.range = tower.towerModel.range;
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
     public class Adora : WeaponTemplate
     {
         public override int SandboxIndex => 2;
@@ -403,13 +444,31 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Faster Engineering";
         public override void EditTower(Tower tower)
         {
-            var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-200").GetAttackModel(1).Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-201").GetAttackModel(1).Duplicate();
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
             tower.UpdateRootModel(towerModel);
         }
     }
+
+    public class DoubleGun : WeaponTemplate
+    {
+        public override int SandboxIndex => 2;
+        public override Rarity WeaponRarity => Rarity.Rare;
+        public override string Icon => VanillaSprites.DoubleGunUpgradeIcon;
+        public override string WeaponName => "Double Gun";
+        public override bool IsCamo => true;
+        public override void EditTower(Tower tower)
+        {
+            var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-003").GetAttackModel().Duplicate();
+            wpn.range = tower.towerModel.range;
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+
     public class MissileLauncher : WeaponTemplate
     {
         public override int SandboxIndex => 2;
@@ -450,7 +509,7 @@ namespace AncientMonkey.Weapons
         public override bool IsLead => true;
         public override void EditTower(Tower tower)
         {
-            var wpn = Game.instance.model.GetTowerFromId("ObynGreenfoot").GetAttackModel().Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("ObynGreenfoot 2").GetAttackModel().Duplicate();
             wpn.range = tower.towerModel.range;
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             towerModel.AddBehavior(wpn);
@@ -466,7 +525,7 @@ namespace AncientMonkey.Weapons
         public override bool IsLead => true;
         public override void EditTower(Tower tower)
         {
-            var wpn = Game.instance.model.GetTowerFromId("Gwendolin").GetAttackModel().Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("Gwendolin 2").GetAttackModel().Duplicate();
             wpn.range = tower.towerModel.range;
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             towerModel.AddBehavior(wpn);
@@ -489,6 +548,7 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+
     public class Chakrams : WeaponTemplate
     {
         public override int SandboxIndex => 2;
@@ -496,6 +556,7 @@ namespace AncientMonkey.Weapons
         public override string Icon => VanillaSprites.BladeShooterUpgradeIcon;
         public override string WeaponName => "Chakrams";
         public override bool IsCamo => true;
+        public override bool Is4thPath => true;
         public override Sprite CustomIcon => GetSprite("ChakramIcon");
         public override string Description => "Boomerang 4th path by LynxC";
         public override void EditTower(Tower tower)
@@ -525,6 +586,7 @@ namespace AncientMonkey.Weapons
         public override string Icon => VanillaSprites.ShrapnelShotUpgradeIcon;
         public override string WeaponName => "Frostbite";
         public override Sprite CustomIcon => GetSprite("FrostbiteIcon");
+        public override bool Is4thPath => true;
         public override string Description => "Ice Monkey 4th path by LynxC";
         public override void EditTower(Tower tower)
         {
@@ -550,6 +612,7 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Crack Shot Darts";
         public override Sprite CustomIcon => GetSprite("CrackShotIcon");
         public override string Description => "Monkey Ace 4th path by LynxC";
+        public override bool Is4thPath => true;
         public override void EditTower(Tower tower)
         {
             var bomb = Game.instance.model.GetTower(TowerType.BombShooter).GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
@@ -584,6 +647,7 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "High-Grade Darts";
         public override Sprite CustomIcon => GetSprite("HighGradeDartsIcon");
         public override string Description => "Dartling 4th path by LynxC";
+        public override bool Is4thPath => true;
         public override void EditTower(Tower tower)
         {
             var wpn = Game.instance.model.GetTowerFromId("DartlingGunner-100").GetAttackModel().Duplicate();
@@ -603,6 +667,7 @@ namespace AncientMonkey.Weapons
         public override bool IsCamo => true;
         public override Sprite CustomIcon => GetSprite("SaiTossIcon");
         public override string Description => "Ninja 4th path by LynxC";
+        public override bool Is4thPath => true;
         public override void EditTower(Tower tower)
         {
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
@@ -623,6 +688,7 @@ namespace AncientMonkey.Weapons
         public override string Icon => VanillaSprites.BarracudaUpgradeIcon;
         public override string WeaponName => "Heart of the Sea";
         public override bool IsLead => true;
+        public override bool Is4thPath => true;
         public override Sprite CustomIcon => GetSprite("HeartofSeaIcon");
         public override string Description => "Druid 4th path by LynxC";
         public override void EditTower(Tower tower)
@@ -649,6 +715,7 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Banana Stock";
         public override Sprite CustomIcon => GetSprite("BananaStockIcon");
         public override string Description => "Farm 4th path by LynxC";
+        public override bool Is4thPath => true;
         public override void EditTower(Tower tower)
         {
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
@@ -667,6 +734,7 @@ namespace AncientMonkey.Weapons
         public override string Icon => VanillaSprites.EvenMoreTacksUpgradeIcon;
         public override string WeaponName => "Burst Fire";
         public override bool IsLead => true;
+        public override bool Is4thPath => true;
         public override Sprite CustomIcon => GetSprite("BurstFireIcon");
         public override string Description => "Engineer 4th path by LynxC";
         public override void EditTower(Tower tower)
@@ -682,7 +750,33 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
-    
+    public class GarlicBombs : WeaponTemplate
+    {
+        public override int SandboxIndex => 2;
+        public override Rarity WeaponRarity => Rarity.Rare;
+        public override string Icon => VanillaSprites.EngineerVampireHunterProjectilesIcon;
+        public override string WeaponName => "Garlic Pineapples";
+        public override bool IsLead => true;
+        public override void EditTower(Tower tower)
+        {
+            var wpn = Game.instance.model.GetTowerFromId("Alchemist-002").GetAttackModel().Duplicate();
+            wpn.weapons[0].projectile = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().weapons[0].projectile.Duplicate();
+
+            foreach (var a in Game.instance.model.GetTowerFromId("MonkeyAce-020").GetDescendants<AttackAirUnitModel>().ToList())
+            {
+                if (a.name.Contains("_PineappleBombs_"))
+                {
+                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = a.weapons[0].projectile;
+                    wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist").GetDescendant<AddBehaviorToBloonModel>().Duplicate());
+                }
+            }
+            wpn.range = tower.towerModel.range;
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+
     public class Rare
     {
         public static List<string> RareWpn = new List<string>();

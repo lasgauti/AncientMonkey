@@ -485,7 +485,7 @@ namespace AncientMonkey.Weapons
                 var wpn = Game.instance.model.GetTowerFromId("MonkeySub-024").GetAttackModel().Duplicate();
                 var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 wpn.range = towerModel.range;
-              towerModel.AddBehavior(wpn);
+                towerModel.AddBehavior(wpn);
                 tower.UpdateRootModel(towerModel);
             }
         }
@@ -1197,7 +1197,7 @@ namespace AncientMonkey.Weapons
                 tower.UpdateRootModel(towerModel);
             }
         }
-      
+
         public class TruckNotRotorDisplay : ModDisplay
         {
             public override PrefabReference BaseDisplayReference => Game.instance.model.GetTower(TowerType.HeliPilot, 0, 4, 0).GetBehavior<AirUnitModel>().display;
@@ -1211,6 +1211,50 @@ namespace AncientMonkey.Weapons
         public static List<string> EpicImg = new List<string>();
         public static List<Sprite> EpicCustomImg = new List<Sprite>();
     }
+
+    /*public class AlchemicEngineering : WeaponTemplate
+    {
+        public override int SandboxIndex => 3;
+        public override Rarity WeaponRarity => Rarity.Epic;
+        public override string Icon => VanillaSprites.RubbertoGoldUpgradeIcon;
+        public override string WeaponName => "Alchemic Engineering";
+        public override string Description => "Based on a upcoming Rogue Legends Artifact";
+        public override bool Is4thPath => true;
+        public override Sprite CustomIcon => GetSprite("AlchemicEngineeringIcon");
+        public override void EditTower(Tower tower)
+        {
+            var seeking = Game.instance.model.GetTowerFromId("IceMonkey-100").GetDescendant<SlowModel>().Duplicate();
+
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var wpn = Game.instance.model.GetTowerFromId("DartMonkey").GetAttackModel().Duplicate();
+            wpn.range = tower.towerModel.range;
+            wpn.weapons[0].projectile.AddBehavior(seeking);
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+    public class CorrosiveTorpEDarts : WeaponTemplate
+    {
+        public override int SandboxIndex => 3;
+        public override Rarity WeaponRarity => Rarity.Epic;
+        public override string Icon => VanillaSprites.HotShotsUpgradeIcon;
+        public override string WeaponName => "Corrosive Torp-E-Darts";
+        public override Sprite CustomIcon => GetSprite("AlchemicEngineeringIcon");
+        public override string Description => "Based on a upcoming Rogue Legends Artifact";
+        public override bool IsLead => true;
+        public override bool Is4thPath => true;
+        public override void EditTower(Tower tower)
+        {
+            var seeking = Game.instance.model.GetTowerFromId("IceMonkey-100").GetDescendant<SlowModel>().Duplicate();
+            
+            var wpn = Game.instance.model.GetTowerFromId("MonkeySub-023").GetAttackModel().Duplicate();
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            wpn.range = towerModel.range;
+            wpn.range = towerModel.range;
+            towerModel.AddBehavior(wpn);
+            tower.UpdateRootModel(towerModel);
+        }
+    }*/
 }
 namespace Monkeys
 {
