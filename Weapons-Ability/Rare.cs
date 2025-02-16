@@ -250,7 +250,9 @@ namespace AncientMonkey.Weapons
             ///
             TowerModel dartling = Game.instance.model.GetTowerFromId(TowerType.DartlingGunner + "-200");
             AddBehaviorToBloonModel electricShock = dartling.GetDescendant<AddBehaviorToBloonModel>().Duplicate();
+            wpn.weapons[0].rate = 0.7f;
             wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.AddBehavior(electricShock);
+            wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.GetDamageModel().damage -= 2;
             wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.pierce -= 10;
             wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustPierceModel>().projectile.collisionPasses = new[] { 0, 1 };
             ///
@@ -264,12 +266,14 @@ namespace AncientMonkey.Weapons
     {
         public override int SandboxIndex => 2;
         public override Rarity WeaponRarity => Rarity.Rare;
-        public override string Icon => "ChurchillGunIcon";
+        public override string Icon => VanillaSprites.CaptainChurchillPortraitLvl5;
+        public override Sprite CustomIcon => GetSprite("ChurchillGunIcon");
         public override string WeaponName => "Machine Gun";
         public override bool IsLead => true;
         public override void EditTower(Tower tower)
         {
             var wpn = Game.instance.model.GetTowerFromId("CaptainChurchill 5").GetAttackModel(1).Duplicate();
+            wpn.weapons[0].projectile.GetDamageModel().damage--; //
             wpn.range = tower.towerModel.range;
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             towerModel.AddBehavior(wpn);
@@ -782,8 +786,8 @@ namespace AncientMonkey.Weapons
                 if (a.name.Contains("_PineappleBombs_"))
                 {
                     wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = a.weapons[0].projectile;
-                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile.RemoveBehavior<FallToGroundModel>();
-                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = Game.instance.model.GetTowerFromId("GlueGunner-320").GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile;
+                    //wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile.RemoveBehavior<FallToGroundModel>();
+                    wpn.weapons[0].projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile = Game.instance.model.GetTowerFromId("GlueGunner-320").GetDescendant<CreateProjectileOnContactModel>().projectile;
                     //wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("Alchemist-120").GetDescendant<AddBehaviorToBloonModel>().Duplicate());
                 }
             }

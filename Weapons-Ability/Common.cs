@@ -36,32 +36,36 @@ namespace AncientMonkey.Weapons
         public override void EditTower(Tower tower)
         {
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            var wpn = Game.instance.model.GetTowerFromId("DartMonkey-110").GetAttackModel().Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("DartMonkey-020").GetAttackModel().Duplicate();
             wpn.range = tower.towerModel.range;
             towerModel.AddBehavior(wpn);
             tower.UpdateRootModel(towerModel);
         }
     }
-    /*public class FrostedTips : WeaponTemplate
+    public class FrostedTips : WeaponTemplate
     {
         public override int SandboxIndex => 1;
         public override Rarity WeaponRarity => Rarity.Common;
         public override string WeaponName => "Frosted Tips";
-        public override string Icon => VanillaSprites.PermafrostUpgradeIcon;
-        public override Sprite CustomIcon => GetSprite("AlchemicEngineeringIcon");
-        public override string Description => "Based on a upcoming Rogue Legends Artifact";
+        public override string Icon => VanillaSprites.ArtifactFrostedTips;
         public override void EditTower(Tower tower)
         {
-            var seeking = Game.instance.model.GetTowerFromId("IceMonkey-100").GetDescendant<SlowModel>().Duplicate();
+            var seeking = Game.instance.model.GetTowerFromId("IceMonkey-100").GetBehavior<LinkProjectileRadiusToTowerRangeModel>().projectileModel.GetBehavior<SlowModel>().Duplicate();
+            var seeking2 = new SlowModifierForTagModel("", "Moabs", "Permafrost", 1f, true, false, 0f, false);
+            var balls3 = new CreateEffectOnContactModel("CreateEffectOnContactModel_", new Il2CppAssets.Scripts.Models.Effects.EffectModel("", new Il2CppNinjaKiwi.Common.ResourceUtils.PrefabReference("f73f2e12a1827cd40b99cf65312a3a2f"), 0.5f, 1.0f, Il2CppAssets.Scripts.Models.Effects.Fullscreen.No,
+                false, false, false, true, false, false));
 
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            var wpn = Game.instance.model.GetTowerFromId("DartMonkey").GetAttackModel().Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("DartMonkey-200").GetAttackModel().Duplicate();
+            wpn.weapons[0].projectile.AddBehavior(seeking);
+            wpn.weapons[0].projectile.AddBehavior(seeking2);
+            wpn.weapons[0].projectile.AddBehavior(balls3);
             wpn.range = tower.towerModel.range;
             wpn.weapons[0].projectile.AddBehavior(seeking);
             towerModel.AddBehavior(wpn);
             tower.UpdateRootModel(towerModel);
         }
-    }*/
+    }
 
     public class SeekingDart : WeaponTemplate
     {
@@ -81,7 +85,7 @@ namespace AncientMonkey.Weapons
             seeking.constantlyAquireNewTarget = true;
 
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            var wpn = Game.instance.model.GetTowerFromId("DartMonkey").GetAttackModel().Duplicate();
+            var wpn = Game.instance.model.GetTowerFromId("DartMonkey-002").GetAttackModel().Duplicate();
             wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.None;
             wpn.weapons[0].projectile.AddBehavior(seeking);
             wpn.weapons[0].projectile.GetBehavior<TravelStraitModel>().Lifespan *= 4;
@@ -209,7 +213,7 @@ namespace AncientMonkey.Weapons
             var wpn = Game.instance.model.GetTowerFromId("Quincy").GetAttackModel().Duplicate();
             wpn.GetDescendant<ProjectileModel>().ignoreBlockers = true;
             wpn.GetDescendant<ProjectileModel>().ignoreNonTargetable = false;
-            wpn.GetDescendant<ProjectileModel>().SetDisplay(new Il2CppNinjaKiwi.Common.ResourceUtils.PrefabReference("d1183e58ef5e4a54cb76dd26d1d1b436")); //Assets/Monkeys/Quincy/Graphics/projectiles/ArrowCyber.prefab
+            //wpn.GetDescendant<ProjectileModel>().SetDisplay(new Il2CppNinjaKiwi.Common.ResourceUtils.PrefabReference("d1183e58ef5e4a54cb76dd26d1d1b436")); //Assets/Monkeys/Quincy/Graphics/projectiles/ArrowCyber.prefab
             wpn.GetDescendant<DamageModel>().immuneBloonProperties &= BloonProperties.Frozen;
             wpn.GetDescendant<DamageModel>().immuneBloonProperties |= BloonProperties.Purple;
             wpn.range = tower.towerModel.range;
