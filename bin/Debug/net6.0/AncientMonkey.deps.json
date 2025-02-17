@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "AncientMonkey/1.0.0": {
+        "runtime": {
+          "AncientMonkey.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AncientMonkey/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

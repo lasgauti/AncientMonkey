@@ -1,36 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Components;
+﻿using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Api;
-using Il2Cpp;
-using Il2CppAssets.Scripts.Unity.Menu;
 using Il2CppAssets.Scripts.Unity.UI_New.ChallengeEditor;
 using Il2CppAssets.Scripts.Unity.UI_New;
 using Il2CppTMPro;
 using UnityEngine;
 using BTD_Mod_Helper.Extensions;
 using Il2CppNinjaKiwi.Common;
-using Il2CppAssets.Scripts.Unity.Effects;
-using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
 using static AncientMonkey.AncientMonkey;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity.Towers;
-using Il2CppInterop.Runtime;
 using Il2CppSystem;
 using BTD_Mod_Helper;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using System.Runtime.InteropServices;
-using AncientMonkey.Weapons;
 using AncientMonkey.Quest;
-using static MelonLoader.MelonLogger;
-using Il2CppNewtonsoft.Json.Bson;
-using System.Globalization;
-using Il2CppNinjaKiwi.GUTS.Models;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 namespace AncientMonkey.Challenge
 {
     public class AncientPanel : ModGameMenu<ExtraSettingsScreen>
@@ -109,6 +92,7 @@ namespace AncientMonkey.Challenge
             {
                 sprite = VanillaSprites.MainBgPanelHematite;
             }
+            #pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
             ModHelperButton selectWpnBtn = null;
             ModHelperText selectWpn = null;
             var panel = ModHelperPanel.Create(new Info("WeaponContent" + weapon.WeaponName, 0, 0, 2800, 150), sprite);
@@ -120,6 +104,7 @@ namespace AncientMonkey.Challenge
                 weapon.enabled = !weapon.enabled;
                 if (weapon.enabled)
                 {
+                    #pragma warning disable CS8602 // Dereference of a possibly null reference.
                     selectWpnBtn.Image.SetSprite(VanillaSprites.GreenBtnLong);
                     selectWpn.Text.text = "Enabled";
                 }

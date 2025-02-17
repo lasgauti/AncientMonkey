@@ -1,33 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
 using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Unity;
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppSystem;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Mutators;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
 using BTD_Mod_Helper.Api;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
@@ -224,6 +203,36 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+
+    //public class AncientMonkey_GLAoL : 
+    /*public class GLAoL : AbilityTemplate
+    {
+        public override string AbilityName => "Group Long Arm of Light";
+        public override string Icon => VanillaSprites.TheLongArmofLightAA;
+        public override string Description => "Custom Ability by Derpy-Jacob-903, Affects Heros";
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var ab = Game.instance.model.GetTowerFromId("Adora 20").GetAbility(0).Duplicate();
+            var ab2 = Game.instance.model.GetTowerFromId("AdmiralBrickell 20").GetAbility(0).Duplicate();
+            //var ActivateRangeSupportZoneModel = new ActivatePierceSupportZoneModel("", "AncientMonkey_GLAoL", true, 3, 0, 9999, 999, false, 12,  ab.GetDescendant<LongArmOfLightModel>()., "AncientMonkey_GLAoL", new Il2CppReferenceArray<TowerFilterModel>([]));
+            ab2.RemoveBehavior<ActivateRateSupportZoneModel>();
+            ab2.GetBehavior<ActivatePierceSupportZoneModel>().pierceIncrease = 25;
+            ab2.GetBehavior<ActivatePierceSupportZoneModel>().
+            var ActivateRangeSupportZoneModel = new ActivateRangeSupportZoneModel("", "AncientMonkey_GLAoL", true, 3, 0, 9999, 999, false, 12, new Il2CppReferenceArray<TowerFilterModel>([]));
+            var fillterModels = ActivateRangeSupportZoneModel.filters.ToList();
+            fillterModels.Clear();
+            fillterModels.Add(new FilterInBaseTowerIdModel("Sally_FilterInBaseTowerIdModel", new Il2CppStringArray(["TackShooter"])));
+            //fillterModels.Add(new FilterInBaseTowerIdModel("Sally_FilterInBaseTowerIdModel", new Il2CppStringArray(["TackShooter"])));
+            //abilityBrickell.filters = fillterModels.ToIl2CppReferenceArray();
+            //ab.AddBehavior(abilityBrickell);
+
+
+            //
+            towerModel.AddBehavior(ab);
+            tower.UpdateRootModel(towerModel);
+        }
+    }*/
     public class PermaUCAV : AbilityTemplate
     {
         public override string AbilityName => "Perma UCAV";
@@ -273,6 +282,57 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+    public class Benzili : AbilityTemplate
+    {
+        public override string AbilityName => "Sacrificial Totem + Cyber Security";
+        public override string Icon => VanillaSprites.SacrificialTotemAA;
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var ab = Game.instance.model.GetTowerFromId("Ezili 16").GetAbility(1).Duplicate();
+            var ab2 = Game.instance.model.GetTowerFromId("Benjamin 4").GetBehavior<BonusLivesPerRoundModel>().Duplicate();
+            towerModel.AddBehavior(ab);
+            towerModel.AddBehavior(ab2);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+    public class ArtilleryCommand : AbilityTemplate
+    {
+        public override string AbilityName => "Artillery Command + Black Bloon debuff";
+        public override string Icon => VanillaSprites.ArtilleryCommandAA;
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            if (towerModel.GetBehavior<AddBehaviorToBloonInZoneModel>() == null)
+            {
+                var ab2 = Game.instance.model.GetTowerFromId("StrikerJones 20").GetBehavior<AddBehaviorToBloonInZoneModel>().Duplicate();
+                towerModel.AddBehavior(ab2);
+            }
+            var ab = Game.instance.model.GetTowerFromId("StrikerJones 20").GetAbility(2).Duplicate();
+            towerModel.AddBehavior(ab);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
+    public class StormOfArrows : AbilityTemplate
+    {
+        public override string AbilityName => "Double Storm";
+        public override string Icon => "DualStormIcon";
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var ab = Game.instance.model.GetTowerFromId("Quincy 20").GetAbility(1).Duplicate();
+            var wpn = ab.GetDescendant<ActivateAttackModel>().Duplicate();
+            var projectile = ab.GetDescendant<CreateProjectileOnExhaustFractionModel>().projectile;
+            projectile.SetDisplay(new Il2CppNinjaKiwi.Common.ResourceUtils.PrefabReference("e47480a09929b1342bc3f3ddab711b0c")); //Assets/Monkeys/Quincy/Graphics/Effects/Cyber/FSStormOfArrowsV3CyberPunk.prefab
+            projectile.GetBehavior<DamageModel>().damage *= 2;
+            projectile.GetBehavior<DamageModel>().immuneBloonProperties = Il2Cpp.BloonProperties.Purple;
+            projectile.GetBehavior<AgeModel>().lifespan = projectile.GetBehavior<AgeModel>().Lifespan /= 2;
+            projectile.GetBehavior<ClearHitBloonsModel>().interval /= 2;
+            ab.AddBehavior(wpn);
+            towerModel.AddBehavior(ab);
+            tower.UpdateRootModel(towerModel);
+        }
+    }
     public class Popseidon : AbilityTemplate
     {
         public override string AbilityName => "Popseidon";
@@ -285,6 +345,18 @@ namespace AncientMonkey.Weapons
             tower.UpdateRootModel(towerModel);
         }
     }
+    /*public class RapidShot : AbilityTemplate
+    {
+        public override string AbilityName => "Group Rapid Shot";
+        public override string Icon => VanillaSprites.RapidShotAA;
+        public override void EditTower(Tower tower)
+        {
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+            var ab = Game.instance.model.GetTowerFromId("Mermonkey-050").GetAbility().Duplicate();
+            towerModel.AddBehavior(ab);
+            tower.UpdateRootModel(towerModel);
+        }
+    }*/
     public class BananaStockExchange : AbilityTemplate
     {
         public override string AbilityName => "Banana Stock Exchange";

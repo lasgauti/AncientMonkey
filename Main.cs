@@ -3,178 +3,40 @@ using BTD_Mod_Helper;
 using AncientMonkey;
 using Il2CppAssets.Scripts.Simulation.Towers;
 using Il2CppAssets.Scripts.Models.Towers;
-using static Il2CppSystem.Globalization.TimeSpanParse;
 using BTD_Mod_Helper.Extensions;
 using Il2CppAssets.Scripts.Models;
 using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Api.Enums;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using MelonLoader;
-using BTD_Mod_Helper;
-using System;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Unity.Display;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Models.Towers;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
 using UnityEngine;
-using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
-using Il2CppAssets.Scripts.Models.Bloons;
-using Il2CppAssets.Scripts.Unity.Scenes;
 using Il2CppAssets.Scripts.Unity;
-using BTD_Mod_Helper.Extensions;
-using MelonLoader;
-using UnityEngine;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Unity.Display;
-using Il2CppSystem;
 using Il2CppAssets.Scripts.Simulation.Bloons;
-using System.Runtime.InteropServices;
 using BTD_Mod_Helper.Api;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities.Behaviors;
-using BTD_Mod_Helper.Api.Components;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using UnityEngine;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppSystem;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack.Behaviors;
 using System.Linq;
-using BTD_Mod_Helper.Api.Enums;
-using BTD_Mod_Helper.Extensions;
 using Il2Cpp;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Models.Towers.Filters;
-using Il2CppAssets.Scripts.Unity;
-
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Simulation.Bloons;
-using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Weapons;
 using Il2CppAssets.Scripts.Simulation.Objects;
-using UnityEngine.InputSystem.Utilities;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using System.Threading;
-using Il2CppSystem.Runtime.InteropServices;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Unity.Display;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper.Api;
-using BTD_Mod_Helper.Api.Components;
-using BTD_Mod_Helper.Extensions;
-using UnityEngine;
-using BTD_Mod_Helper.Api.Enums;
-using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
-using Il2CppAssets.Scripts.Unity.UI_New.ChallengeEditor;
-using Il2CppAssets.Scripts.Utils;
-using Il2CppAssets.Scripts.Unity.UI_New;
-using Il2CppAssets.Scripts.Unity.Menu;
 using Il2CppTMPro;
 using Il2CppNinjaKiwi.Common;
-using Il2CppAssets.Scripts.Unity.UI_New.Quests;
-using Il2Cpp;
-using System.Linq;
-using MelonLoader;
 using AncientMonkey.Weapons;
-using Unity.XR.Oculus.Input;
-using BTD_Mod_Helper.Api.Helpers;
 using HarmonyLib;
-using Il2CppAssets.Scripts.Unity.Towers.Weapons;
-using BTD_Mod_Helper.Api.ModOptions;
-using UnityEngine.UIElements;
-using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities;
-using Il2CppAssets.Scripts.Unity.Gamepad;
-using AncientMonkey.Challenge;
-using Il2CppNewtonsoft.Json.Utilities;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
-using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using Il2CppAssets.Scripts.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using Il2CppAssets.Scripts.Unity;
-using MelonLoader;
-using BTD_Mod_Helper;
-using MelonLoader;
-using BTD_Mod_Helper;
-using BTD_Mod_Helper.Api.Towers;
-using Il2CppAssets.Scripts.Models.Towers;
-using MelonLoader;
-using BTD_Mod_Helper;
-using MelonLoader;
-using BTD_Mod_Helper;
-using BTD_Mod_Helper.Api;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models;
-using Il2CppAssets.Scripts.Simulation.Objects;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
-using UnityEngine;
-using Random = System.Random;
-using System.Collections.Generic;
-using System.Linq;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using BTD_Mod_Helper.Api.Enums;
-using BTD_Mod_Helper.Api.Towers;
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Unity.Display;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppNinjaKiwi.Common.ResourceUtils;
-using Il2CppNinjaKiwi.LiNK.Utils;
-using Octokit;
 using Il2CppAssets.Scripts.Simulation.Towers.Projectiles;
 using System.IO;
 using Il2CppSystem.Linq;
 using AncientMonkey.Quest;
+using System.Collections.Generic;
+using AncientMonkey.Challenge;
 
 [assembly: MelonInfo(typeof(AncientMonkey.AncientMonkey), ModHelperData.Name, ModHelperData.Version, ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
 
 namespace AncientMonkey;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 public class AncientMonkey : BloonsTD6Mod
 {
 
@@ -255,6 +117,7 @@ public class AncientMonkey : BloonsTD6Mod
     public int EpicWeaponsBoxCount = 0;
     public string Path = "Mods/AncientMonkey/";
     public bool DailyReset = false;
+    public ChallengeTemplate selectedChallenge;
 
     public override void OnApplicationQuit()
     {
@@ -2449,21 +2312,21 @@ public class AncientMonkey : BloonsTD6Mod
             
         }
     }
-    [HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
+    /*[HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
     internal static class Bloon_Damage
     {
         [HarmonyPrefix]
         private static void Prefix(Bloon __instance, float totalAmount, Projectile projectile, bool distributeToChildren, bool overrideDistributeBlocker, bool createEffect, Tower tower, BloonProperties immuneBloonProperties = BloonProperties.None, bool canDestroyProjectile = true, bool ignoreNonTargetable = false, bool blockSpawnChildren = false, bool ignoreInvunerable = false)
         {
-            if (__instance != null)
+            if (__instance != null && tower != null)
             {
                 InGame game = InGame.instance;
-                if (!game.GetGameModel().gameMode.Contains("Sandbox")&&tower.towerModel.name.Contains("AncientMonkey"))
+                if (!game.GetGameModel().gameMode.Contains("Sandbox") && tower.towerModel.name.Contains("AncientMonkey"))
                 {
                     mod.BloonsPopped += (int)Mathf.Round(totalAmount);
                     mod.DailyBloonsPopped += (int)Mathf.Round(totalAmount);
                 }
             }
         }
-    }
+    }*/
 }

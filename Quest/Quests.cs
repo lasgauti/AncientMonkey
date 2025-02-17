@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace AncientMonkey.Quest
 {
-    public class BloonsPopper : QuestTemplate
+    /*public class BloonsPopper : QuestTemplate
     {
         public override double GoalCountRequired => 2500000;
         public override Goal QuestGoal => Goal.BloonsPopped;
@@ -58,7 +58,7 @@ namespace AncientMonkey.Quest
         public override string QuestID => "Pop-6";
         public override string QuestName => "Red Regen Camo Fortified Bloons Power";
         public override int Reward => 100;
-    }
+    }*/
     public class BigSpender : QuestTemplate
     {
         public override double GoalCountRequired => 500000;
