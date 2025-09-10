@@ -103,6 +103,8 @@ namespace AncientMonkey
         {
             var attackModel = towerModel.GetAttackModel();
             attackModel.range = 0;
+            towerModel.towerSelectionMenuThemeId = "SelectPointInput";
+            towerModel.dontDisplayUpgrades = true;
         }
     }
     [HarmonyPatch(typeof(NecroData), nameof(NecroData.RbePool))]

@@ -75,13 +75,12 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Apex Plasma Master";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var wpn = Game.instance.model.GetTowerFromId("DartMonkey-Paragon").GetAttackModel().Duplicate();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            wpn.range = tower.towerModel.range;
+            wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
         }
     }
     public class GlaiveDominus : WeaponTemplate
@@ -92,19 +91,20 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Glaive Dominus";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var wpn = Game.instance.model.GetTowerFromId("BoomerangMonkey-Paragon").GetAttackModel().Duplicate();
             var wpn2 = Game.instance.model.GetTowerFromId("BoomerangMonkey-Paragon").GetAttackModel(1).Duplicate();
             var wpn3 = Game.instance.model.GetTowerFromId("BoomerangMonkey-Paragon").GetAttackModel(2).Duplicate();
             var orbit = Game.instance.model.GetTowerFromId("BoomerangMonkey-Paragon").GetBehavior<OrbitModel>().Duplicate();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            wpn.range = tower.towerModel.range;
+            wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
             towerModel.AddBehavior(wpn2);
             towerModel.AddBehavior(wpn3);
             towerModel.AddBehavior(orbit);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
+            AncientMonkey.mod.newAttackModels.Add(wpn2);
+            AncientMonkey.mod.newAttackModels.Add(wpn3);
         }
     }
     public class AscendedShadow : WeaponTemplate
@@ -115,19 +115,21 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Ascended Shadow";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var wpn = Game.instance.model.GetTowerFromId("NinjaMonkey-Paragon").GetAttackModel().Duplicate();
             var wpn2 = Game.instance.model.GetTowerFromId("NinjaMonkey-Paragon").GetAttackModel(1).Duplicate();
             var wpn3 = Game.instance.model.GetTowerFromId("NinjaMonkey-Paragon").GetAttackModel(2).Duplicate();
             var wpn4 = Game.instance.model.GetTowerFromId("NinjaMonkey-Paragon").GetAttackModel(3).Duplicate();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-            wpn.range = tower.towerModel.range;
+            wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
             towerModel.AddBehavior(wpn2);
             towerModel.AddBehavior(wpn3);
             towerModel.AddBehavior(wpn4);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
+            AncientMonkey.mod.newAttackModels.Add(wpn2);
+            AncientMonkey.mod.newAttackModels.Add(wpn3);
+            AncientMonkey.mod.newAttackModels.Add(wpn4);
         }
     }
     public class GoliathDoomship : WeaponTemplate
@@ -138,7 +140,7 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Goliath Doomship";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var phoenix = Game.instance.model.GetTowerFromId("WizardMonkey-050").GetBehavior<TowerCreateTowerModel>().Duplicate();
             var ace = Game.instance.model.GetTowerFromId("MonkeyAce-Paragon").GetBehavior<AirUnitModel>().Duplicate();
@@ -146,7 +148,6 @@ namespace AncientMonkey.Weapons
             var wpn = Game.instance.model.GetTowerFromId("MonkeyAce-Paragon").GetBehavior<AttackAirUnitModel>().Duplicate();
             var wpn2 = Game.instance.model.GetTowerFromId("MonkeyAce-Paragon").GetBehaviors<AttackAirUnitModel>()[1].Duplicate();
             var wpn3 = Game.instance.model.GetTowerFromId("MonkeyAce-Paragon").GetBehaviors<AttackAirUnitModel>()[2].Duplicate();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             ace.AddBehavior(wpn);
             ace.AddBehavior(wpn2);
             ace.AddBehavior(wpn3);
@@ -158,7 +159,10 @@ namespace AncientMonkey.Weapons
             phoenix.towerModel.AddBehavior(ace);
             phoenix.towerModel.AddBehavior(ab);
             towerModel.AddBehavior(phoenix);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
+            AncientMonkey.mod.newAttackModels.Add(wpn2);
+            AncientMonkey.mod.newAttackModels.Add(wpn3);
+            AncientMonkey.mod.newAttackModels.Add(ab);
         }
     }
     public class MasterBuilder : WeaponTemplate
@@ -169,18 +173,20 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Master Builder";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-Paragon").GetAttackModel().Duplicate();
             var wpn2 = Game.instance.model.GetTowerFromId("EngineerMonkey-Paragon").GetAttackModel(1).Duplicate();
             var wpn3 = Game.instance.model.GetTowerFromId("EngineerMonkey-Paragon").GetAttackModel(2).Duplicate();
             var ab = Game.instance.model.GetTowerFromId("EngineerMonkey-Paragon").GetAbility();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             towerModel.AddBehavior(wpn);
             towerModel.AddBehavior(wpn2);
             towerModel.AddBehavior(wpn3);
             towerModel.AddBehavior(ab);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
+            AncientMonkey.mod.newAttackModels.Add(wpn2);
+            AncientMonkey.mod.newAttackModels.Add(wpn3);
+            AncientMonkey.mod.newAttackModels.Add(ab);
         }
     }
     public class ArcaneGuardian : WeaponTemplate
@@ -193,7 +199,7 @@ namespace AncientMonkey.Weapons
         public override string Description => "Super Monkey 4th path by LynxC";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
             var fire = Game.instance.model.GetTowerFromId("MortarMonkey-002").Duplicate<TowerModel>().GetBehavior<AttackModel>().weapons[0].projectile.
                 GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
@@ -202,7 +208,6 @@ namespace AncientMonkey.Weapons
             fire.GetBehavior<DamageOverTimeModel>().Interval -= 1f;
 
             var wpn = Game.instance.model.GetTowerFromId("SuperMonkey-200").GetAttackModel().Duplicate();
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             wpn.weapons[0].projectile.AddBehavior(fire);
             wpn.weapons[0].projectile.collisionPasses = new int[] { -1, 0, 1 };
             wpn.weapons[0].projectile.hasDamageModifiers = true;
@@ -215,9 +220,10 @@ namespace AncientMonkey.Weapons
             wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
             wpn.weapons[0].projectile.ApplyDisplay<EnergyBeam>();
 
-            wpn.range = tower.towerModel.range;
+            wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
-            tower.UpdateRootModel(towerModel);
+          
+            AncientMonkey.mod.newAttackModels.Add(wpn);
         }
     }
     public class Godly

@@ -65,13 +65,12 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Legend Of The Night";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("SuperMonkey-205").GetAttackModel().Duplicate();
-                wpn.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn.range = towerModel.range;
+                AncientMonkey.mod.newAttackModels.Add(wpn);
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
             }
         }
         public class SuperMines : WeaponTemplate
@@ -82,13 +81,12 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Super Mines";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("SpikeFactory-520").GetAttackModel().Duplicate();
-                wpn.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class BananaCentral : WeaponTemplate
@@ -97,13 +95,12 @@ namespace AncientMonkey.Weapons
             public override Rarity WeaponRarity => Rarity.Exotic;
             public override string Icon => VanillaSprites.BananaCentralUpgradeIcon;
             public override string WeaponName => "Banana Central";
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("BananaFarm-520").GetAttackModel().Duplicate();
-                wpn.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class XXXLTrap : WeaponTemplate
@@ -113,13 +110,12 @@ namespace AncientMonkey.Weapons
             public override string Icon => VanillaSprites.XXXLUpgradeIcon;
             public override string WeaponName => "XXXL Trap";
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-015").GetAttackModel(1).Duplicate();
-                wpn.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class Archmage : WeaponTemplate
@@ -130,19 +126,20 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Archmage";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("WizardMonkey-500").GetAttackModel().Duplicate();
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
                 var wpn2 = Game.instance.model.GetTowerFromId("WizardMonkey-500").GetAttackModel(1).Duplicate();
-                wpn2.range = tower.towerModel.range;
+                wpn2.range = towerModel.range;
                 var wpn3 = Game.instance.model.GetTowerFromId("WizardMonkey-500").GetAttackModel(2).Duplicate();
-                wpn3.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn3.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
                 towerModel.AddBehavior(wpn2);
                 towerModel.AddBehavior(wpn3);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
+                AncientMonkey.mod.newAttackModels.Add(wpn2);
+                AncientMonkey.mod.newAttackModels.Add(wpn3);
             }
         }
         public class MAD : WeaponTemplate
@@ -153,12 +150,11 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "M.A.D";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("DartlingGunner-250").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class RayOfDoom : WeaponTemplate
@@ -169,12 +165,11 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Ray Of Doom";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("DartlingGunner-520").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class AvatarOfWrath : WeaponTemplate
@@ -183,12 +178,11 @@ namespace AncientMonkey.Weapons
             public override Rarity WeaponRarity => Rarity.Exotic;
             public override string Icon => VanillaSprites.AvatarofWrathUpgradeIcon;
             public override string WeaponName => "Avatar Of Wrath";
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("Druid-025").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class InfernoRing : WeaponTemplate
@@ -199,14 +193,14 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Inferno Ring";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("TackShooter-520").GetAttackModel().Duplicate();
                 var wpn2 = Game.instance.model.GetTowerFromId("TackShooter-520").GetAttackModel(1).Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
                 towerModel.AddBehavior(wpn2);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
+                AncientMonkey.mod.newAttackModels.Add(wpn2);
             }
         }
         public class BloonCrush : WeaponTemplate
@@ -216,12 +210,11 @@ namespace AncientMonkey.Weapons
             public override string Icon => VanillaSprites.BloonCrushUpgradeIcon;
             public override string WeaponName => "Bloon Crush";
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("BombShooter-520").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class MoabDomination : WeaponTemplate
@@ -231,12 +224,12 @@ namespace AncientMonkey.Weapons
             public override string Icon => VanillaSprites.MoabDominationUpgradeIcon;
             public override string WeaponName => "Moab Domination";
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("BoomerangMonkey-025").GetAttackModel(1).Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+               
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class PermaBrew : WeaponTemplate
@@ -245,12 +238,11 @@ namespace AncientMonkey.Weapons
             public override Rarity WeaponRarity => Rarity.Exotic;
             public override string Icon => VanillaSprites.PermanentBrewUpgradeIcon;
             public override string WeaponName => "Perma Brew";
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("Alchemist-520").GetAttackModel(2).Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class SuperStorm : WeaponTemplate
@@ -261,12 +253,11 @@ namespace AncientMonkey.Weapons
             public override string WeaponName => "Super Storm";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var tornado = Game.instance.model.GetTowerFromId("Druid-520").GetAttackModel().weapons.First(w => w.name.Contains("Superstorm")).Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.GetAttackModel().AddWeapon(tornado);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(tornado);
             }
         }
         public class FlyingFortress : WeaponTemplate
@@ -276,7 +267,7 @@ namespace AncientMonkey.Weapons
             public override string Icon => VanillaSprites.FlyingFortressUpgradeIcon;
             public override string WeaponName => "Flying Fortress";
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var phoenix = Game.instance.model.GetTowerFromId("WizardMonkey-050").GetBehavior<TowerCreateTowerModel>().Duplicate();
                 var ace = Game.instance.model.GetTowerFromId("MonkeyAce-205").GetBehavior<AirUnitModel>().Duplicate();
@@ -284,7 +275,6 @@ namespace AncientMonkey.Weapons
                 var wpn2 = Game.instance.model.GetTowerFromId("MonkeyAce-205").GetBehaviors<AttackAirUnitModel>()[1].Duplicate();
                 var wpn3 = Game.instance.model.GetTowerFromId("MonkeyAce-205").GetBehaviors<AttackAirUnitModel>()[2].Duplicate();
                 var wpn4 = Game.instance.model.GetTowerFromId("MonkeyAce-205").GetBehaviors<AttackAirUnitModel>()[3].Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 ace.AddBehavior(wpn);
                 ace.AddBehavior(wpn2);
                 ace.AddBehavior(wpn3);
@@ -297,7 +287,10 @@ namespace AncientMonkey.Weapons
                 phoenix.towerModel.AddBehavior(ace);
 
                 towerModel.AddBehavior(phoenix);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
+                AncientMonkey.mod.newAttackModels.Add(wpn2);
+                AncientMonkey.mod.newAttackModels.Add(wpn3);
+                AncientMonkey.mod.newAttackModels.Add(wpn4);
             }
         }
         public class ExplosionKing : WeaponTemplate
@@ -310,7 +303,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Tack Shooter 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var effect = Game.instance.model.GetTower(TowerType.MortarMonkey).GetAttackModel().weapons[0].projectile.GetBehavior<Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors.CreateEffectOnExpireModel>().Duplicate();
                 var sound = Game.instance.model.GetTower(TowerType.MortarMonkey).GetAttackModel().weapons[0].projectile.GetBehavior<CreateSoundOnProjectileExhaustModel>().Duplicate();
@@ -328,7 +321,6 @@ namespace AncientMonkey.Weapons
                 clusterExplosion.GetDamageModel().damage = 4;
                 recursiveExplosion.GetDamageModel().damage = 2;
 
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 var wpn = Game.instance.model.GetTowerFromId("TackShooter-200").GetAttackModel().Duplicate();
                 wpn.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
                 wpn.weapons[0].projectile.display = Game.instance.model.GetTower(TowerType.BombShooter).GetAttackModel().weapons[0].projectile.display;
@@ -343,16 +335,16 @@ namespace AncientMonkey.Weapons
                 var firework = wpn.weapons[0].projectile.Duplicate();
                 var recursiveFirework = firework.Duplicate();
 
-                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Explosion", explosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false));
-                firework.AddBehavior(new CreateProjectileOnExpireModel("Explosion", clusterExplosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false));
-                recursiveFirework.AddBehavior(new CreateProjectileOnExpireModel("Explosion", recursiveExplosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false));
+                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Explosion", explosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false, false));
+                firework.AddBehavior(new CreateProjectileOnExpireModel("Explosion", clusterExplosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false, false));
+                recursiveFirework.AddBehavior(new CreateProjectileOnExpireModel("Explosion", recursiveExplosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false, false));
 
-                firework.AddBehavior(new CreateProjectileOnExpireModel("Firework", recursiveFirework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false));
-                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Firework", firework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false));
+                firework.AddBehavior(new CreateProjectileOnExpireModel("Firework", recursiveFirework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false, false));
+                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Firework", firework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false, false));
 
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class PolarVortex : WeaponTemplate
@@ -365,7 +357,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Ice Monkey 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var seeking = Game.instance.model.GetTowerFromId("WizardMonkey-500").GetWeapon().projectile.GetBehavior<TrackTargetModel>().Duplicate();
                 seeking.distance = 999;
@@ -393,11 +385,11 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.pierce = 1;
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("CreateProjectileOnContactModel_", shard, new ArcEmissionModel("ArcEmissionModel_", 5, 0, 50, null, true, false), true, false, false));
                 wpn.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("NinjaMonkey-020").GetAttackModel().weapons[0].projectile.GetBehavior<RemoveBloonModifiersModel>().Duplicate());
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
 
                 var breath = Game.instance.model.GetTower(TowerType.DartMonkey).GetAttackModel().Duplicate();
                 breath.weapons[0].projectile.display = Game.instance.model.GetTower(TowerType.IceMonkey, 0, 0, 3).GetAttackModel().weapons[0].projectile.display;
-                breath.range = tower.towerModel.range;
+                breath.range =towerModel.range;
                 breath.weapons[0].rate /= 12;
                 breath.weapons[0].projectile.GetDamageModel().damage = 4;
                 breath.weapons[0].projectile.pierce = 3;
@@ -422,18 +414,21 @@ namespace AncientMonkey.Weapons
                 icicleDamage.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
                 icicleDamage.weapons[0].projectile.GetDamageModel().damage *= 4;
                 icicleDamage.weapons[0].projectile.pierce *= 3;
-                icicleDamage.range = tower.towerModel.range;
+                icicleDamage.range = towerModel.range;
                 icicleDamage.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 2, 0, false, false) { name = "MoabModifier_" });
                 icicleDamage.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
                 icicleDamage.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
 
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(wpn);
                 towerModel.AddBehavior(breath);
                 towerModel.AddBehavior(icicleOrbit);
                 towerModel.AddBehavior(icicleOrbit2);
                 towerModel.AddBehavior(icicleDamage);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
+                AncientMonkey.mod.newAttackModels.Add(breath);
+                AncientMonkey.mod.newAttackModels.Add(icicleDamage);
+                AncientMonkey.mod.newAttackModels.Add(icicleOrbit);
+                AncientMonkey.mod.newAttackModels.Add(icicleOrbit2);
             }
         }
         public class KingCobra : WeaponTemplate
@@ -446,13 +441,12 @@ namespace AncientMonkey.Weapons
             public override string Description => "Glue Gunner 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var overlay = Game.instance.model.GetTowerFromId("GlueGunner-300").GetAttackModel().weapons[0].projectile.GetBehavior<SlowModel>().overlayType;
                 var slow = Game.instance.model.GetTowerFromId("GlueGunner-100").GetAttackModel().weapons[0].projectile.GetBehavior<SlowModel>().Duplicate();
-                var slowModel = new SlowModel("SlowModel_", slow.multiplier, slow.lifespan, "AcidSlow", 3, overlay, slow.isUnique, slow.dontRefreshDuration, slow.effectModel, true, false, false);
+                var slowModel = new SlowModel("SlowModel_", slow.multiplier, slow.lifespan, "AcidSlow", 3, overlay, slow.isUnique, slow.dontRefreshDuration, slow.effectModel, true, false, false,slow.chance);
 
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 var wpn = Game.instance.model.GetTowerFromId("DartMonkey-002").GetAttackModel().Duplicate();
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 wpn.weapons[0].rate = Game.instance.model.GetTower(TowerType.GlueGunner).GetAttackModel().weapons[0].rate / 7f;
@@ -468,9 +462,9 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 3, 0, false, false) { name = "MoabModifier_" });
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Fortified", 2, 0, false, false) { name = "FortifiedModifier_" });
                 wpn.GetBehavior<AttackFilterModel>().filters = Game.instance.model.GetTowerFromId("DartMonkey-003").GetAttackModel().GetBehavior<AttackFilterModel>().filters;
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class FlyingDutchman : WeaponTemplate
@@ -483,7 +477,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Buccaneer 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var bleed = Game.instance.model.GetTowerFromId("Sauda 9").GetAttackModel().weapons[0].projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
                 bleed.GetBehavior<DamageOverTimeModel>().damage += 5;
@@ -516,7 +510,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 wpn.weapons[0].projectile.GetBehavior<TravelStraitModel>().Speed *= 2;
                 wpn.weapons[0].projectile.ApplyDisplay<GhostBall>();
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
 
                 var ball2 = wpn.weapons[0].Duplicate();
                 var ball3 = wpn.weapons[0].Duplicate();
@@ -527,13 +521,16 @@ namespace AncientMonkey.Weapons
                 wpn.AddWeapon(ball2);
                 wpn.AddWeapon(ball3);
 
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                 towerModel.AddBehavior(aura);
                 towerModel.AddBehavior(orbit);
                 towerModel.AddBehavior(necroWeapon);
                 towerModel.AddBehavior(necro);
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(aura);
+                AncientMonkey.mod.newAttackModels.Add(orbit);
+                AncientMonkey.mod.newAttackModels.Add(necroWeapon);
+                AncientMonkey.mod.newAttackModels.Add(necro);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class Incinerator : WeaponTemplate
@@ -546,13 +543,13 @@ namespace AncientMonkey.Weapons
             public override string Description => "Dartling 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var fire = Game.instance.model.GetTowerFromId("MortarMonkey-002").Duplicate<TowerModel>().GetBehavior<AttackModel>().weapons[0].projectile.
                     GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
 
                 var wpn = Game.instance.model.GetTowerFromId("DartlingGunner-020").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+               
                 wpn.weapons[0].projectile.AddBehavior(new WindModel("WindModel_", 18, 36, 100, false, null, 0, null, 1));
                 wpn.weapons[0].projectile.GetDamageModel().damage += 31;
                 wpn.weapons[0].emission = new RandomArcEmissionModel("VollyGunner_", 12, 0, 0, 60, 0, null);
@@ -567,7 +564,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 2, 0, false, false) { name = "MoabModifier_" });
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "BAD", 3, 0, false, false) { name = "BADModifier_" });
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
    
@@ -581,7 +578,7 @@ namespace AncientMonkey.Weapons
             public override string Description => "Spike Factory 4th path by LynxC";
             public override bool IsCamo => true;
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("SpikeFactory-020").GetAttackModel().Duplicate();
                 wpn.weapons[0].projectile.RemoveBehavior<SetSpriteFromPierceModel>();
@@ -592,10 +589,10 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().damage += 4;
                 wpn.weapons[0].projectile.ApplyDisplay<ForceFieldsLockdown>();
                 //wpn.weapons[0].rate /= 2;
-                wpn.range = tower.towerModel.range;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                wpn.range = towerModel.range;
+                
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public class PrimalLegend : WeaponTemplate
@@ -607,10 +604,10 @@ namespace AncientMonkey.Weapons
             public override Sprite CustomIcon => GetSprite("PrimalLegendIcon");
             public override string Description => "Beast Handler 4th path by LynxC";
             public override bool IsLead => true;
-            public override void EditTower(Tower tower)
+            public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("ObynGreenfoot").GetAttackModel().Duplicate();
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+               
                 wpn.weapons[0].rate /= 5f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 7;
                 wpn.weapons[0].projectile.pierce += 5;
@@ -628,9 +625,9 @@ namespace AncientMonkey.Weapons
                 shard.pierce = 6;
 
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("", shard, new ArcEmissionModel("aaa", 16, 0, 360, null, true, false), true, false, false));
-                wpn.range = tower.towerModel.range;
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
-                tower.UpdateRootModel(towerModel);
+                AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
         public static List<string> ExoticWpn = new List<string>();

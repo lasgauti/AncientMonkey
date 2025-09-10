@@ -1,174 +1,181 @@
-using MelonLoader;
-using BTD_Mod_Helper;
-using AncientMonkey;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Models.Towers;
-using static Il2CppSystem.Globalization.TimeSpanParse;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models;
-using BTD_Mod_Helper.Api.Components;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using MelonLoader;
-using BTD_Mod_Helper;
 using System;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Unity.Display;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Models.Towers;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
-using Il2CppAssets.Scripts.Models.Bloons;
-using Il2CppAssets.Scripts.Unity.Scenes;
-using Il2CppAssets.Scripts.Unity;
-using BTD_Mod_Helper.Extensions;
-using MelonLoader;
-using UnityEngine;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Unity.Display;
-using Il2CppSystem;
-using Il2CppAssets.Scripts.Simulation.Bloons;
-using System.Runtime.InteropServices;
-using BTD_Mod_Helper.Api;
-using Il2CppAssets.Scripts.Unity.UI_New.InGame;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities.Behaviors;
-using BTD_Mod_Helper.Api.Components;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using UnityEngine;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppSystem;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack.Behaviors;
-using System.Linq;
-using BTD_Mod_Helper.Api.Enums;
-using BTD_Mod_Helper.Extensions;
-using Il2Cpp;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.Towers.Filters;
-using Il2CppAssets.Scripts.Unity;
-
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Simulation.Bloons;
-using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-using Il2CppAssets.Scripts.Models.Towers.Weapons;
-using Il2CppAssets.Scripts.Simulation.Objects;
-using UnityEngine.InputSystem.Utilities;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using System.Threading;
-using Il2CppSystem.Runtime.InteropServices;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Unity.Display;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper.Api;
-using BTD_Mod_Helper.Api.Components;
-using BTD_Mod_Helper.Extensions;
-using UnityEngine;
-using BTD_Mod_Helper.Api.Enums;
-using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
-using Il2CppAssets.Scripts.Unity.UI_New.ChallengeEditor;
-using Il2CppAssets.Scripts.Utils;
-using Il2CppAssets.Scripts.Unity.UI_New;
-using Il2CppAssets.Scripts.Unity.Menu;
-using Il2CppTMPro;
-using Il2CppNinjaKiwi.Common;
-using Il2CppAssets.Scripts.Unity.UI_New.Quests;
-using Il2Cpp;
-using System.Linq;
-using MelonLoader;
-using AncientMonkey.Weapons;
-using Unity.XR.Oculus.Input;
-using BTD_Mod_Helper.Api.Helpers;
-using HarmonyLib;
-using Il2CppAssets.Scripts.Unity.Towers.Weapons;
-using BTD_Mod_Helper.Api.ModOptions;
-using UnityEngine.UIElements;
-using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities;
-using Il2CppAssets.Scripts.Unity.Gamepad;
-using AncientMonkey.Challenge;
-using Il2CppNewtonsoft.Json.Utilities;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
+using System;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
-using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using Il2CppAssets.Scripts.Unity;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Towers;
-using BTD_Mod_Helper;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using Il2CppAssets.Scripts.Unity;
-using MelonLoader;
-using BTD_Mod_Helper;
-using MelonLoader;
-using BTD_Mod_Helper;
-using BTD_Mod_Helper.Api.Towers;
-using Il2CppAssets.Scripts.Models.Towers;
-using MelonLoader;
-using BTD_Mod_Helper;
-using MelonLoader;
-using BTD_Mod_Helper;
-using BTD_Mod_Helper.Api;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Models;
-using Il2CppAssets.Scripts.Simulation.Objects;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
-using UnityEngine;
-using Random = System.Random;
 using System.Collections.Generic;
-using System.Linq;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Models.TowerSets;
-using BTD_Mod_Helper.Api.Enums;
-using BTD_Mod_Helper.Api.Towers;
-using Il2CppAssets.Scripts.Unity;
-using Il2CppAssets.Scripts.Unity.Display;
-using BTD_Mod_Helper.Api.Display;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Models.GenericBehaviors;
-using Il2CppNinjaKiwi.Common.ResourceUtils;
-using Il2CppNinjaKiwi.LiNK.Utils;
-using Octokit;
-using Il2CppAssets.Scripts.Simulation.Towers.Projectiles;
 using System.IO;
+using System.Linq;
+using System.Linq;
+using System.Linq;
+using System.Linq;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Text;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Threading.Tasks;
+using AncientMonkey;
+using AncientMonkey.Artefacts;
+using AncientMonkey.Challenge;
+using AncientMonkey.Helper;
+using AncientMonkey.Mutators;
+using AncientMonkey.StrongerWeapons;
+using AncientMonkey.UI;
+using AncientMonkey.Weapons;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper;
+using BTD_Mod_Helper.Api;
+using BTD_Mod_Helper.Api;
+using BTD_Mod_Helper.Api;
+using BTD_Mod_Helper.Api.Components;
+using BTD_Mod_Helper.Api.Components;
+using BTD_Mod_Helper.Api.Components;
+using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Helpers;
+using BTD_Mod_Helper.Api.ModOptions;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Extensions;
+using BTD_Mod_Helper.Extensions;
+using BTD_Mod_Helper.Extensions;
+using BTD_Mod_Helper.Extensions;
+using BTD_Mod_Helper.Extensions;
+using BTD_Mod_Helper.Extensions;
+using HarmonyLib;
+using Il2Cpp;
+using Il2Cpp;
+using Il2CppAssets.Scripts.Data.Behaviors.Weapons;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Models;
+using Il2CppAssets.Scripts.Models;
+using Il2CppAssets.Scripts.Models.Bloons;
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+using Il2CppAssets.Scripts.Models.GenericBehaviors;
+using Il2CppAssets.Scripts.Models.GenericBehaviors;
+using Il2CppAssets.Scripts.Models.GenericBehaviors;
+using Il2CppAssets.Scripts.Models.Powers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Filters;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Weapons;
+using Il2CppAssets.Scripts.Models.Towers.Weapons.Behaviors;
+using Il2CppAssets.Scripts.Models.TowerSets;
+using Il2CppAssets.Scripts.Models.TowerSets;
+using Il2CppAssets.Scripts.Models.TowerSets;
+using Il2CppAssets.Scripts.Simulation.Bloons;
+using Il2CppAssets.Scripts.Simulation.Bloons;
+using Il2CppAssets.Scripts.Simulation.Objects;
+using Il2CppAssets.Scripts.Simulation.Objects;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities;
+using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Abilities.Behaviors;
+using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack.Behaviors;
+using Il2CppAssets.Scripts.Simulation.Towers.Projectiles;
+using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
+using Il2CppAssets.Scripts.Simulation.Towers.Weapons;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity.Display;
+using Il2CppAssets.Scripts.Unity.Display;
+using Il2CppAssets.Scripts.Unity.Display;
+using Il2CppAssets.Scripts.Unity.Display;
+using Il2CppAssets.Scripts.Unity.Gamepad;
+using Il2CppAssets.Scripts.Unity.Menu;
+using Il2CppAssets.Scripts.Unity.Scenes;
+using Il2CppAssets.Scripts.Unity.Towers.Upgrades;
+using Il2CppAssets.Scripts.Unity.Towers.Weapons;
+using Il2CppAssets.Scripts.Unity.UI_New;
+using Il2CppAssets.Scripts.Unity.UI_New.ChallengeEditor;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame;
+using Il2CppAssets.Scripts.Unity.UI_New.Popups;
+using Il2CppAssets.Scripts.Unity.UI_New.Quests;
+using Il2CppAssets.Scripts.Utils;
+using Il2CppNewtonsoft.Json.Utilities;
+using Il2CppNinjaKiwi.Common;
+using Il2CppNinjaKiwi.Common.ResourceUtils;
+using Il2CppSystem;
+using Il2CppSystem;
 using Il2CppSystem.Linq;
-using AncientMonkey.Quest;
+using Il2CppSystem.Runtime.InteropServices;
+using Il2CppTMPro;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using MelonLoader;
+using Octokit;
+using Unity.XR.Oculus.Input;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
+using static Il2CppSystem.Globalization.TimeSpanParse;
+using Random = System.Random;
+using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
 
 [assembly: MelonInfo(typeof(AncientMonkey.AncientMonkey), ModHelperData.Name, ModHelperData.Version, ModHelperData.RepoOwner)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -245,57 +252,15 @@ public class AncientMonkey : BloonsTD6Mod
     public WeaponTemplate.Rarity maxNewWeaponRarity = WeaponTemplate.Rarity.Exotic;
     public WeaponTemplate.Rarity minStrongWeaponRarity = WeaponTemplate.Rarity.Common;
     public WeaponTemplate.Rarity maxStrongWeaponRarity = WeaponTemplate.Rarity.Exotic;
-    public Il2CppSystem.DateTime LastDateLogin = new Il2CppSystem.DateTime();
-    public List<object> daily1;
-    public List<object> daily2;
-    public List<object> daily3;
-    public int CostReductionUpgradeBought = 0;
-    public int LuckIncreaseUpgradeBought = 0;
-    public int LeftUpgradesBought = 0;
-    public int EpicWeaponsBoxCount = 0;
     public string Path = "Mods/AncientMonkey/";
-    public bool DailyReset = false;
+    public List<Model> newAttackModels = new List<Model>();
+    public List<KeyValuePair<AbilityTemplate, List<Model>>> currentAbilities = new List<KeyValuePair<AbilityTemplate, List<Model>>>();
 
     public override void OnApplicationQuit()
     {
         if (!Directory.Exists(Path)) { return; }
         string file = Path + "Data.txt";
         string[] lines = File.ReadAllLines(file);
-        double bloonsPopped = BloonsPopped;
-        lines[0] = "bloonsPopped:" + bloonsPopped;
-        double cashSpent = CashSpent;
-        lines[1] = "cashSpent:" + cashSpent;
-        int weaponsBought = (int)Mathf.Round(WeaponsBought);
-        lines[2] = "weaponsBought:" + weaponsBought;
-        int strongerWeaponsBought = (int)Mathf.Round(StrongerWeaponsBought);
-        lines[3] = "strongerWeaponBought:" + strongerWeaponsBought;
-        int abilityBought = (int)Mathf.Round(AbilityBought);
-        lines[4] = "abilityBought:" + abilityBought;
-        int roundsCleared = (int)Mathf.Round(RoundsCleared);
-        lines[5] = "roundsCleared:" + roundsCleared;
-        int ancientPiece = (int)Mathf.Round(AncientPiece);
-        lines[6] = "ancientPiece:" + ancientPiece;
-        double bloonsPoppedDaily = DailyBloonsPopped;
-        lines[7] = "bloonsDailyPopped:" + bloonsPoppedDaily;
-        double cashSpentDaily = DailyCashSpent;
-        lines[8] = "cashDailySpent:" + cashSpentDaily;
-        double weaponsBoughtDaily = DailyWeaponsBought;
-        lines[9] = "weaponsDailyBought:" + weaponsBoughtDaily;
-        Il2CppSystem.DateTime lastLoginDay = Il2CppSystem.DateTime.Now;
-        lines[10] = "lastLoginDate!" + lastLoginDay;
-        lines[11] = "daily1:" + daily1[0] + "/" + daily1[1] + "/" + daily1[2] + "/" + daily1[3];
-        lines[12] = "daily2:" + daily2[0] + "/" + daily2[1] + "/" + daily2[2] + "/" + daily2[3];
-        lines[13] = "daily3:" + daily3[0] + "/" + daily3[1] + "/" + daily3[2] + "/" + daily3[3];
-        ModHelper.Log<AncientMonkey>(CostReductionUpgradeBought);
-        lines[14] = "costRedutionBought:" + CostReductionUpgradeBought;
-        lines[15] = "luckIncreaseBought:" + LuckIncreaseUpgradeBought;
-        lines[16] = "leftUpgradesBought:" + LeftUpgradesBought;
-        var i = 17;
-        foreach (QuestTemplate quest in ModContent.GetContent<QuestTemplate>())
-        {
-            lines[i] = quest.QuestID + ":" + quest.Cleared;
-            i++;
-        }
         File.WriteAllLines(file, lines);
     }
     public List<object> DoesLinesContains(string stringContain)
@@ -336,432 +301,39 @@ public class AncientMonkey : BloonsTD6Mod
             mod.RoundsCleared++;
         }
     }
+    public static T StartMonobehavior<T>() where T : MonoBehaviour {
+        var obj = InGame.instance.GetInGameUI().AddComponent<T>();
+
+        return obj as T;
+    }
     public override void OnApplicationStart()
     {
         mod = this;
-        foreach (QuestTemplate quest in ModContent.GetContent<QuestTemplate>())
-        {
-            quest.Cleared = false;
-        }
-        if (!Directory.Exists(Path))
-        {
-            Directory.CreateDirectory(Path);
-            if (Directory.GetFiles(Path).Length == 0)
-            {
-                List<string> lines = new List<string>();
-                lines.Add("bloonsPopped:" + 0);
-                lines.Add("cashSpent:" + 0);
-                lines.Add("weaponsBought:" + 0);
-                lines.Add("strongerWeaponBought:" + 0);
-                lines.Add("abilityBought:" + 0);
-                lines.Add("roundsCleared:" + 0);
-                lines.Add("ancientPiece:" + 0);
-                lines.Add("bloonsDailyPopped:" + 0);
-                lines.Add("cashDailySpent:" + 0);
-                lines.Add("weaponsDailyBought:" + 0);
-                lines.Add("lastLoginDate!" + new Il2CppSystem.DateTime());
-                lines.Add("daily1:BloonsPopped/0/0/False");
-                lines.Add("daily2:BloonsPopped/0/0/False");
-                lines.Add("daily3:BloonsPopped/0/0/False");
-                lines.Add("costRedutionBought:0");
-                lines.Add("luckIncreaseBought:0");
-                lines.Add("leftUpgradesBought:0");
-                foreach (QuestTemplate quest in ModContent.GetContent<QuestTemplate>())
-                {
-                    lines.Add(quest.QuestID + ":" + false);
-                }
-                File.WriteAllLines(Path + "Data.txt", lines.ToArray());
-            }
-        }
-        else
-        {
-            string file = Path + "Data.txt";
-            string[] lines = File.ReadAllLines(file);
-            List<object> bloonPoppedLine = DoesLinesContains("bloonsPopped");
-            if((bool)bloonPoppedLine[0])
-            {
-                var line = lines[(int)bloonPoppedLine[1]];
-                BloonsPopped = double.Parse(line.Split(':')[1]);
-            }
-            List<object> cashSpentLine = DoesLinesContains("cashSpent");
-            if ((bool)cashSpentLine[0])
-            {
-                var line = lines[(int)cashSpentLine[1]];
-                CashSpent = double.Parse(line.Split(':')[1]);
-            }
-            List<object> weaponsBoughtLine = DoesLinesContains("weaponsBought");
-            if ((bool)weaponsBoughtLine[0])
-            {
-                var line = lines[(int)weaponsBoughtLine[1]];
-                WeaponsBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> strongerWeaponsBoughtLine = DoesLinesContains("strongerWeaponBought");
-            if ((bool)weaponsBoughtLine[0])
-            {
-                var line = lines[(int)weaponsBoughtLine[1]];
-                WeaponsBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> abilityBoughtLine = DoesLinesContains("abilityBought");
-            if ((bool)abilityBoughtLine[0])
-            {
-                var line = lines[(int)abilityBoughtLine[1]];
-                AbilityBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> roundsClearedLine = DoesLinesContains("roundsCleared");
-            if ((bool)roundsClearedLine[0])
-            {
-                var line = lines[(int)roundsClearedLine[1]];
-                RoundsCleared = int.Parse(line.Split(':')[1]);
-            }
-            List<object> ancientPieceLine = DoesLinesContains("ancientPiece");
-            if ((bool)ancientPieceLine[0])
-            {
-                var line = lines[(int)ancientPieceLine[1]];
-                AncientPiece = int.Parse(line.Split(':')[1]);
-            }
-            List<object> bloonDailyPoppedLine = DoesLinesContains("bloonsDailyPopped");
-            if ((bool)bloonDailyPoppedLine[0])
-            {
-                var line = lines[(int)bloonDailyPoppedLine[1]];
-                DailyBloonsPopped = double.Parse(line.Split(':')[1]);
-            }
-            List<object> cashDailySpentLine = DoesLinesContains("cashDailySpent");
-            if ((bool)cashDailySpentLine[0])
-            {
-                var line = lines[(int)cashDailySpentLine[1]];
-                DailyCashSpent = double.Parse(line.Split(':')[1]);
-            }
-            List<object> weaponsDailyBoughtLine = DoesLinesContains("weaponsDailyBought");
-            if ((bool)weaponsDailyBoughtLine[0])
-            {
-                var line = lines[(int)weaponsDailyBoughtLine[1]];
-                DailyWeaponsBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> lastLoginDayLine = DoesLinesContains("lastLoginDate");
-            if ((bool)lastLoginDayLine[0])
-            {
-                var line = lines[(int)lastLoginDayLine[1]];
-                LastDateLogin = Il2CppSystem.DateTime.Parse(line.Split('!')[1]);
-            }
-            List<object> daily1Line = DoesLinesContains("daily1");
-            if ((bool)daily1Line[0])
-            {
-                var line = lines[(int)daily1Line[1]];
-                var dailyQuest = line.Split(':')[1];
-                var dailyQuestInfos = dailyQuest.Split("/");
-                daily1 = new List<object> { dailyQuestInfos[0], int.Parse(dailyQuestInfos[1]), int.Parse(dailyQuestInfos[2]), bool.Parse(dailyQuestInfos[3])};
-            }
-            List<object> daily2Line = DoesLinesContains("daily2");
-            if ((bool)daily2Line[0])
-            {
-                var line = lines[(int)daily2Line[1]];
-                var dailyQuest = line.Split(':')[1];
-                var dailyQuestInfos = dailyQuest.Split("/");
-                daily2 = new List<object> { dailyQuestInfos[0], int.Parse(dailyQuestInfos[1]), int.Parse(dailyQuestInfos[2]), bool.Parse(dailyQuestInfos[3]) };
-            }
-            List<object> daily3Line = DoesLinesContains("daily3");
-            if ((bool)daily3Line[0])
-            {
-                var line = lines[(int)daily3Line[1]];
-                var dailyQuest = line.Split(':')[1];
-                var dailyQuestInfos = dailyQuest.Split("/");
-                
-                daily3 = new List<object> { dailyQuestInfos[0], int.Parse(dailyQuestInfos[1]), int.Parse(dailyQuestInfos[2]), bool.Parse(dailyQuestInfos[3]) };
-            }
-            List<object> costRedutionBoughtLine = DoesLinesContains("costRedutionBought");
-            if ((bool)costRedutionBoughtLine[0])
-            {
-                var line = lines[(int)costRedutionBoughtLine[1]];
-                CostReductionUpgradeBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> luckIncreaseBoughtLine = DoesLinesContains("luckIncreaseBought");
-            if ((bool)luckIncreaseBoughtLine[0])
-            {
-                var line = lines[(int)luckIncreaseBoughtLine[1]];
-                LuckIncreaseUpgradeBought = int.Parse(line.Split(':')[1]);
-            }
-            List<object> leftUpgradesBoughtLine = DoesLinesContains("leftUpgradesBought");
-            if ((bool)leftUpgradesBoughtLine[0])
-            {
-                var line = lines[(int)leftUpgradesBoughtLine[1]];
-                LeftUpgradesBought = int.Parse(line.Split(':')[1]);
-            }
-            foreach (QuestTemplate quest in ModContent.GetContent<QuestTemplate>())
-            {
-                List<object> questLine = DoesLinesContains(quest.QuestID);
-                if ((bool)questLine[0])
-                {
-                    var line = lines[(int)questLine[1]];
-                    quest.Cleared = bool.Parse(line.Split(':')[1]);
-                }
-            }
-            List<string> newLines = new List<string>();
-            newLines.Add("bloonsPopped:" + 0);
-            newLines.Add("cashSpent:" + 0);
-            newLines.Add("weaponsBought:" + 0);
-            newLines.Add("strongerWeaponBought:" + 0);
-            newLines.Add("abilityBought:" + 0);
-            newLines.Add("roundsCleared:" + 0);
-            newLines.Add("ancientPiece:" + 0);
-            newLines.Add("bloonsDailyPopped:" + 0);
-            newLines.Add("cashDailySpent:" + 0);
-            newLines.Add("weaponsDailyBought:" + 0);
-            newLines.Add("lastLoginDate!" + new Il2CppSystem.DateTime());
-            newLines.Add("daily1:BloonsPopped/0/0/False");
-            newLines.Add("daily2:BloonsPopped/0/0/False");
-            newLines.Add("daily3:BloonsPopped/0/0/False");
-            newLines.Add("costRedutionBought:0");
-            newLines.Add("luckIncreaseBought:0");
-            newLines.Add("leftUpgradesBought:0");
-            foreach (QuestTemplate quest in ModContent.GetContent<QuestTemplate>())
-            {
-                newLines.Add(quest.QuestID + ":" + false);
-            }
-           
-            File.WriteAllLines(Path + "Data.txt", newLines.ToArray());
-        }
-       
-        var daysDif = CalculateDaysDifference(LastDateLogin, Il2CppSystem.DateTime.Now);
-        if (daysDif > 0)
-        {
-            RerollDailyQuests();
-        }
-        foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
-        {
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Common)
-            {
-                Common.CommonWpn.Add(weapon.WeaponName); 
-                if (weapon.CustomIcon)
-                {
-                    Common.CommonCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Common.CommonCustomImg.Add(new Sprite());
-                }
-                Common.CommonImg.Add(weapon.Icon);
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Rare)
-            {
-                Rare.RareWpn.Add(weapon.WeaponName);
-                Rare.RareImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Rare.RareCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Rare.RareCustomImg.Add(new Sprite());
-                }
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Epic)
-            {
-
-                Epic.EpicWpn.Add(weapon.WeaponName);
-                Epic.EpicImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Epic.EpicCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Epic.EpicCustomImg.Add(new Sprite());
-                }
-
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Legendary)
-            {
-                Legendary.LegendaryWpn.Add(weapon.WeaponName);
-                Legendary.LegendaryImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Legendary.LegendaryCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Legendary.LegendaryCustomImg.Add(new Sprite());
-                }
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Exotic)
-            {
-                Exotic.ExoticWpn.Add(weapon.WeaponName);
-                Exotic.ExoticImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Exotic.ExoticCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Exotic.ExoticCustomImg.Add(new Sprite());
-                }
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Godly)
-            {
-                Godly.GodlyWpn.Add(weapon.WeaponName);
-                Godly.GodlyImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Godly.GodlyCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Godly.GodlyCustomImg.Add(new Sprite());
-                }
-            }
-            if (weapon.WeaponRarity == WeaponTemplate.Rarity.Omega)
-            {
-                Omega.OmegaWpn.Add(weapon.WeaponName);
-                Omega.OmegaImg.Add(weapon.Icon);
-                if (weapon.CustomIcon)
-                {
-                    Omega.OmegaCustomImg.Add(weapon.CustomIcon);
-                }
-                else
-                {
-                    Omega.OmegaCustomImg.Add(new Sprite());
-                }
-            }
-        }
-        foreach (var ability in ModContent.GetContent<AbilityTemplate>().OrderByDescending(c => c.mod == mod))
+        foreach (AbilityTemplate ability in ModContent.GetContent<AbilityTemplate>())
         {
             AbilityClass.AbilityName.Add(ability.AbilityName);
             AbilityClass.AbilityImg.Add(ability.Icon);
-            if (ability.CustomIcon)
-            {
-                AbilityClass.AbilityCustomImg.Add(ability.CustomIcon);
-            }
-            else
-            {
-                AbilityClass.AbilityCustomImg.Add(new Sprite());
-            }
-        }
-    }
-    public void RerollDailyQuests()
-    {
-        daily1 = CreateDailyQuest("BloonsPopped");
-        daily2 = CreateDailyQuest("CashSpent");
-        daily3 = CreateDailyQuest("WeaponsBought");
-        DailyBloonsPopped = 0;
-        DailyCashSpent = 0;
-        DailyWeaponsBought = 0;
-    }
-    public List<object> CreateDailyQuest(string goalName)
-    {
-        int goal= 0;
-        int pieces= 0;
-        Il2CppSystem.Random rnd = new Il2CppSystem.Random();
-        if (goalName == "BloonsPopped")
-        {
-            goal = rnd.Next(1000000, 75000000);
-            pieces = 4;
-            if (goal >= 7500000)
-            {
-                pieces = 8;
-            }
-            if (goal >= 35000000)
-            {
-                pieces = 12;
-            }
-        }
-        if (goalName == "CashSpent")
-        {
-            goal = rnd.Next(500000, 10000000);
-            pieces = 4;
-            if (goal >= 1250000)
-            {
-                pieces = 8;
-            }
-            if (goal >= 5000000)
-            {
-                pieces = 12;
-            }
-        }
-        if (goalName == "WeaponsBought")
-        {
-            goal = rnd.Next(100, 1500);
-            pieces = 4;
-            if (goal >= 300)
-            {
-                pieces = 8;
-            }
-            if (goal >= 800)
-            {
-                pieces = 12;
-            }
-        }
-        List<object> quest = new List<object>() {goalName, goal, pieces, false};
-        return quest;
-    }
-    public int CalculateDaysDifference(Il2CppSystem.DateTime dateTime1, Il2CppSystem.DateTime dateTime2)
-    {
-        var dateTime1TotalDays = CalculateTotalDaysInYears(dateTime1);
-
-        var dateTime2TotalDays = CalculateTotalDaysInYears(dateTime2);
-
-        var daysDif = dateTime2TotalDays - dateTime1TotalDays;
-        return daysDif;
-    }
-    public int CalculateTotalDaysInYears(Il2CppSystem.DateTime dateTime)
-    {
-        var days = 365;
-        for (int i = 0; i < dateTime.Year - 1; i++)
-        {
-            if(Il2CppSystem.DateTime.IsLeapYear(i + 1))
-            {
-                days += 366;
-             
-            }
-            else
-            {
-                days += 365;
-            }
-        }
-       
-        days += CalculateTotalDaysInMonths(dateTime);
-        return days;
-    }
-    public int CalculateTotalDaysInMonths(Il2CppSystem.DateTime dateTime)
-    {
-        var days = 0;
-        for (int i = 0; i < dateTime.Month - 1; i++)
-        {
-            days += Il2CppSystem.DateTime.DaysInMonth(dateTime.Year, i + 1);
-        }
-        days += dateTime.Day;
-        return days;
-    }
-    public override void OnUpdate()
-    {
-        if (Il2CppSystem.DateTime.Now.Hour == 0 && Il2CppSystem.DateTime.Now.Minute == 0 && DailyReset == false)
-        {
-            DailyReset = true;
-            RerollDailyQuests();
-        }
-        else
-        {
-            DailyReset = false;
+            AbilityClass.AbilityCustomImg.Add(ability.CustomIcon);
         }
     }
     public void Reset()
     {
-        newWeaponCost = (float)Settings.settingsValue["NewWeaponStartingCost"] /  (1 + (CostReductionUpgradeBought * 0.05f));
+        newWeaponCost = (float)Settings.settingsValue["NewWeaponStartingCost"];
         baseNewWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalNewWeaponCostMultiplier"];
-        rareChance = 100 - (int)Settings.settingsValue["BaseRareChance"];
-        epicChance = 100- (int)Settings.settingsValue["BaseEpicChance"];
-        rareStrongChance = 90;
-        epicStrongChance = 100;
-        legendaryStrongChance = 100;
-        legendaryChance = 100 - (int)Settings.settingsValue["BaseLegendaryChance"];
-        exoticChance =  100 - (int)Settings.settingsValue["BaseExoticChance"];
-        exoticStrongChance = 100;
-        omegaChance = 100;
-        omegaStrongerChance = 100;
-        baseNewWeaponCost = (float)Settings.settingsValue["IncrementalNewWeaponStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
-        strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
-        baseStrongerWeaponCost = (float)Settings.settingsValue["IncrementalStrongerWeaponStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
+        rareChance = 100 - (float)Settings.settingsValue["BaseRareChance"];
+        epicChance = 100 - (float)Settings.settingsValue["BaseEpicChance"];
+        rareStrongChance = 100 - (float)Settings.settingsValue["StrongBaseRareChance"];
+        epicStrongChance = 100 - (float)Settings.settingsValue["StrongBaseEpicChance"];
+        legendaryStrongChance = 100 - (float)Settings.settingsValue["StrongBaseLegendaryChance"];
+        legendaryChance = 100 - (float)Settings.settingsValue["BaseLegendaryChance"];
+        exoticChance =  100 - (float)Settings.settingsValue["BaseExoticChance"];
+        exoticStrongChance = 100 - (float)Settings.settingsValue["StrongBaseExoticChance"];
+        baseNewWeaponCost = (float)Settings.settingsValue["IncrementalNewWeaponStartingCost"];
+        strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost"];
+        baseStrongerWeaponCost = (float)Settings.settingsValue["IncrementalStrongerWeaponStartingCost"];
         baseStrongerWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalStrongerWeaponCostMultiplier"];
-        newAbilityCost = (float)Settings.settingsValue["NewAbilityStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
-        baseNewAbilityCost = (float)Settings.settingsValue["IncrementalNewAbilityStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
+        newAbilityCost = (float)Settings.settingsValue["NewAbilityStartingCost"];
+        baseNewAbilityCost = (float)Settings.settingsValue["IncrementalNewAbilityStartingCost"];
         baseNewAbilityCostMultiplier = (float)Settings.settingsValue["IncrementalNewAbilityCostMultiplier"];
         upgradeOpen = false;
         selectingWeaponOpen = false;
@@ -773,22 +345,23 @@ public class AncientMonkey : BloonsTD6Mod
         abilitySlot = (int)Settings.settingsValue["NewAbilityStartingSlot"];
         extraWeaponSlotLevel = 0;
         extraWeaponSlotLevelMax = (int)Settings.settingsValue["ExtraWeaponSlotUpgradeCount"];
-        extraWeaponSlotCost = (float)Settings.settingsValue["ExtraWeaponSlotStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
+        extraWeaponSlotCost = (float)Settings.settingsValue["ExtraWeaponSlotStartingCost"];
         strongExtraWeaponSlotLevel = 0;
-        strongExtraWeaponSlotCost = (float)Settings.settingsValue["ExtraStrongerSlotStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
+        strongExtraWeaponSlotCost = (float)Settings.settingsValue["ExtraStrongerSlotStartingCost"];
         strongExtraWeaponSlotLevelMax = (int)Settings.settingsValue["ExtraStrongerSlotUpgradeCount"];
         ExtraAbilitySlotLevelMax = (int)Settings.settingsValue["ExtraAbilitySlotUpgradeCount"];
         ExtraAbilitySlotLevel = 0; 
-        ExtraAbilitySlotCost = (float)Settings.settingsValue["ExtraAbilitySlotStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
-        ExtraLuckCost = (float)Settings.settingsValue["ExtraLuckStartingCost"] / (1 + (CostReductionUpgradeBought * 0.05f));
+        ExtraAbilitySlotCost = (float)Settings.settingsValue["ExtraAbilitySlotStartingCost"];
+        ExtraLuckCost = (float)Settings.settingsValue["ExtraLuckStartingCost"];
         ExtraLuckLevel = 0;
         ExtraLuckMax = (int)Settings.settingsValue["ExtraLuckUpgradeCount"];
         minNewWeaponRarity = WeaponTemplate.Rarity.Common;
         maxNewWeaponRarity = WeaponTemplate.Rarity.Exotic;
         minStrongWeaponRarity = WeaponTemplate.Rarity.Common;
         maxStrongWeaponRarity = WeaponTemplate.Rarity.Exotic;
-        UpgradeCost = (float)Settings.settingsValue["Upgrade1Cost"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-        Upgrade2Cost = 1000000 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+        UpgradeCost = (float)Settings.settingsValue["Upgrade1Cost"];
+        Upgrade2Cost = (float)Settings.settingsValue["Upgrade2Cost"];
+        currentAbilities.Clear();
         XP = 0;
         XPMax = 0;
         foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
@@ -860,6 +433,7 @@ public class AncientMonkey : BloonsTD6Mod
 
         }
     }
+
     [RegisterTypeInIl2Cpp(false)]
     public class MenuUi : MonoBehaviour
     {
@@ -887,6 +461,7 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 game.AddCash(-mod.newWeaponCost);
                 mod.WeaponsBought++;
+                mod.DailyWeaponsBought++;
                 mod.CashSpent += mod.newWeaponCost;
                 mod.DailyCashSpent += mod.newWeaponCost;
                 RectTransform rect = game.uiRect;
@@ -897,7 +472,7 @@ public class AncientMonkey : BloonsTD6Mod
                 MenuUi.instance.CloseMenu();
             }
         }
-        public void WeaponSelected(string Weapon, Tower tower,bool levelup)
+        public void WeaponSelected(string Weapon, Tower tower,bool levelup, int starCount, List<MutatorTemplate> mutators)
         {
             mod.panelOpen = false;
             InGame game = InGame.instance;
@@ -906,74 +481,81 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 Destroy(gameObject);
             }
-       
+
             foreach (var weapon in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
             {
-                if(weapon.WeaponName == Weapon)
+                if (weapon.WeaponName == Weapon)
                 {
+                    mod.newAttackModels.Clear();
                     weapon.stackIndex += 1;
-                    weapon.EditTower(tower);
+                    var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+                    weapon.EditTower(towerModel);
+                    AddArtefactEffects(mod.newAttackModels, starCount, mutators); 
+                    tower.UpdateRootModel(towerModel);
                 }
             }
-            mod.XP += 1;
+            if ((bool)Settings.settingsValue["XpEnabled"]) {
+                mod.XP += 1;
+            }
+           
             if (levelup)
             {
                 mod.XP = 0;
             }
             if (mod.XP >= mod.XPMax && mod.level >= 2)
             {
-                mod.XPMax += 2;
+                mod.XPMax += (int)Settings.settingsValue["MaxXpIncrease"];
                 NewWeaponPanel(rect, tower, true);
 
                 return;
             }
             if(mod.level == 0)
             {
-                mod.rareChance -= (float)Settings.settingsValue["BaseRareChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
-                if (mod.rareChance <= 100 - (int)Settings.settingsValue["BaseRareChanceUntilEpicChance"])
+                mod.rareChance -= (float)Settings.settingsValue["BaseRareChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.rareChance <= 100 - (float)Settings.settingsValue["BaseRareChanceUntilEpicChance"])
                 {
-                    mod.epicChance -= (float)Settings.settingsValue["BaseEpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.epicChance -= (float)Settings.settingsValue["BaseEpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.epicChance <= 100 - (int)Settings.settingsValue["BaseEpicChanceUntilLegendaryChance"])
+                if (mod.epicChance <= 100 - (float)Settings.settingsValue["BaseEpicChanceUntilLegendaryChance"])
                 {
-                    mod.legendaryChance -= (float)Settings.settingsValue["BaseLegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.legendaryChance -= (float)Settings.settingsValue["BaseLegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.04f));
                 }
-                if (mod.legendaryChance <= 100 - (int)Settings.settingsValue["BaseLegendaryChanceUntilExoticChance"])
+                if (mod.legendaryChance <= 100 - (float)Settings.settingsValue["BaseLegendaryChanceUntilExoticChance"])
                 {
-                    mod.exoticChance -= (float)Settings.settingsValue["BaseExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.exoticChance -= (float)Settings.settingsValue["BaseExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
            
             if (mod.level == 1)
             {
-                mod.epicChance -= (float)Settings.settingsValue["Upgrade1EpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
-                if (mod.epicChance <= 100 - (int)Settings.settingsValue["Upgrade1EpicChanceUntilLegendaryChance"])
+                mod.epicChance -= (float)Settings.settingsValue["Upgrade1EpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.epicChance <= 100 - (float)Settings.settingsValue["Upgrade1EpicChanceUntilLegendaryChance"])
                 {
-                    mod.legendaryChance -= (float)Settings.settingsValue["Upgrade1LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.legendaryChance -= (float)Settings.settingsValue["Upgrade1LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.legendaryChance <= 100 - (int)Settings.settingsValue["Upgrade1LegendaryChanceUntilExoticChance"])
+                if (mod.legendaryChance <= 100 - (float)Settings.settingsValue["Upgrade1LegendaryChanceUntilExoticChance"])
                 {
-                    mod.exoticChance -= (float)Settings.settingsValue["Upgrade1ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.exoticChance -= (float)Settings.settingsValue["Upgrade1ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.exoticChance <= 100 - (int)Settings.settingsValue["Upgrade1ExoticChanceUntilGodlyChance"])
+                if (mod.exoticChance <= 100 - (float)Settings.settingsValue["Upgrade1ExoticChanceUntilGodlyChance"])
                 {
-                    mod.godlyChance -= (float)Settings.settingsValue["Upgrade1GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.1f));
+                    mod.godlyChance -= (float)Settings.settingsValue["Upgrade1GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
             if (mod.level == 2)
             {
-                mod.legendaryChance -= 0.85f + mod.ExtraLuckLevel * 0.06f;
-                if (mod.legendaryChance <= 91)
+                mod.legendaryChance -= (float)Settings.settingsValue["Upgrade2LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.legendaryChance <= 100 - (float)Settings.settingsValue["Upgrade2LegendaryChanceUntilExoticChance"])
                 {
-                    mod.exoticChance -= 0.50f + mod.ExtraLuckLevel * 0.04f;
+                    mod.exoticChance -= (float)Settings.settingsValue["Upgrade2ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.exoticChance <= 94)
+                if (mod.exoticChance <= 100 - (float)Settings.settingsValue["Upgrade2ExoticChanceUntilGodlyChance"])
                 {
-                    mod.godlyChance -= 0.3f + mod.ExtraLuckLevel * 0.025f;
+                    mod.godlyChance -= (float)Settings.settingsValue["Upgrade2GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.godlyChance <= 95)
+                if (mod.godlyChance <= 100 - (float)Settings.settingsValue["Upgrade2GodlyChanceUntilOmegaChance"])
                 {
-                    mod.omegaChance -= 0.15f + mod.ExtraLuckLevel * 0.01f;
+                    mod.omegaChance -= (float)Settings.settingsValue["Upgrade2OmegaChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
           
@@ -982,29 +564,81 @@ public class AncientMonkey : BloonsTD6Mod
                 CreateUpgradeMenu(rect, tower);
             }
             
-            mod.selectingWeaponOpen = false;
-            if (mod.mib)
+        }
+        public void AddArtefactEffects(List<Model> models, int starCount, List<MutatorTemplate> mutators)
+        {
+            foreach (Model model in models) 
             {
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
-                towerModel.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
-                foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
+                foreach (var artefact in ModContent.GetContent<ArtefactTemplate>().OrderByDescending(c => c.mod == mod))
                 {
-                    if (weaponModel.projectile.HasBehavior<DamageModel>())
+                    if(artefact.enabled)
                     {
-                        weaponModel.projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
-                    }
-                    if (weaponModel.projectile.HasBehavior<CreateProjectileOnContactModel>())
-                    {
-                        weaponModel.projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
-                    }
-                    if (weaponModel.projectile.HasBehavior<CreateProjectileOnExhaustFractionModel>())
-                    {
-                        weaponModel.projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
+                        artefact.EditModel(model);
                     }
                 }
-                tower.UpdateRootModel(towerModel);
+                AddBuffToModelBasedOnArtefact(starCount, model);
+                foreach (MutatorTemplate mutatorTemplate in mutators)
+                {
+                    mutatorTemplate.EditModel(model);
+                }
             }
         }
+        public void AddBuffToModelBasedOnArtefact(int starCount, Model model)
+        {
+            float damageBuff = 1f;
+            float pierceBuff = 1f;
+            float rateBuff = 1f;
+            Il2CppSystem.Random rnd = new Il2CppSystem.Random();
+            if (starCount == 0)
+            {
+                damageBuff = rnd.Next(500, 750) / 1000f;
+                pierceBuff = rnd.Next(500, 750) / 1000f;
+                rateBuff = rnd.Next(1200, 1450) / 1000f;
+            }
+            if (starCount == 1)
+            {
+                damageBuff = rnd.Next(750, 900) / 1000f;
+                pierceBuff = rnd.Next(750, 900) / 1000f;
+                rateBuff = rnd.Next(1100, 1200) / 1000f;
+            }
+            if (starCount == 2)
+            {
+                damageBuff = rnd.Next(900, 1100) / 1000f;
+                pierceBuff = rnd.Next(900, 1100) / 1000f;
+                rateBuff = rnd.Next(950, 1100) / 1000f;
+            }
+            if (starCount == 3)
+            {
+                damageBuff = rnd.Next(1100, 1250) / 1000f;
+                pierceBuff = rnd.Next(1100, 1250) / 1000f;
+                rateBuff = rnd.Next(900, 950) / 1000f;
+            }
+            if (starCount == 4)
+            {
+                damageBuff = rnd.Next(1250, 1500) / 1000f;
+                pierceBuff = rnd.Next(1250, 1500) / 1000f;
+                rateBuff = rnd.Next(850, 900) / 1000f;
+            }
+            if (starCount == 5)
+            {
+                damageBuff = rnd.Next(1500, 1800) / 1000f;
+                pierceBuff = rnd.Next(1500, 1800) / 1000f;
+                rateBuff = rnd.Next(780, 850) / 1000f;
+            }
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToArray())
+            {
+                projectile.pierce *= pierceBuff;
+            }
+            foreach (DamageModel damageModel in model.GetDescendants<DamageModel>().ToArray())
+            {
+                damageModel.damage *= damageBuff;
+            }
+            foreach (WeaponModel weapon in model.GetDescendants<WeaponModel>().ToArray())
+            {
+                weapon.rate *= rateBuff;
+            }
+        }
+
         public static ModHelperPanel CreateWeapon(WeaponTemplate weapon, Tower tower )
         {
             var sprite = VanillaSprites.GreyInsertPanel;
@@ -1037,7 +671,7 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText wpnName = panel.AddText(new Info("wpnName", -600, 0, 1000, 150), weapon.WeaponName, 80, TextAlignmentOptions.MidlineLeft);
             ModHelperText rarity = panel.AddText(new Info("rarity", 275, 0, 600, 150), weapon.WeaponRarity.ToString(), 80, TextAlignmentOptions.MidlineLeft);
             ModHelperImage image = panel.AddImage(new Info("image", -100, 0, 140, 140), weapon.Icon);
-            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.WeaponSelected(weapon.WeaponName, tower, false);}) ) ;
+            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.WeaponSelected(weapon.WeaponName, tower, false, 2, null);}) ) ;
             if(weapon.IsCamo)
             {
                 ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 460, 0, 120, 120), VanillaSprites.CamoBloonIcon);
@@ -1291,6 +925,35 @@ public class AncientMonkey : BloonsTD6Mod
                     }
                 }
 
+                var starLuck = rnd.Next(0, 101);
+                var starCount = 5;
+
+                if (0 < starLuck)
+                {
+                    starCount = 0;
+                }
+                if (5 < starLuck)
+                {
+                    starCount = 1;
+                }
+                if (15 < starLuck)
+                {
+                    starCount = 2;
+                }
+                if (68 < starLuck)
+                {
+                    starCount = 3;
+                }
+                if (90 < starLuck)
+                {
+                    starCount = 4;
+                }
+                if (98 < starLuck)
+                {
+                    starCount = 5;
+                }
+
+
                 var sprite = VanillaSprites.GreyInsertPanel;
                 var numWpn = rnd.Next(0, CEnabled.Count);
                 var weapon = CEnabled[numWpn].WeaponName;
@@ -1347,9 +1010,34 @@ public class AncientMonkey : BloonsTD6Mod
                 ModHelperPanel wpnPanel = panel.AddPanel(new Info("wpnPanel", weaponPanelX, weaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
                 ModHelperText rarityText = panel.AddText(new Info("rarityText", wpnContentX, 600, 800, 180), WpnRarity, 100);
                 ModHelperText weaponText = panel.AddText(new Info("weaponText", wpnContentX, 500, 800, 180), weapon, 75);
-         
-                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", wpnContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(weapon, tower,Levelup)));
+
+                List<MutatorTemplate> mutators = GetRandomMutators();
+
+                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", wpnContentX, -550, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(weapon, tower,Levelup, starCount,mutators)));
                 ModHelperText selectWpnTxt = selectWpnBtn.AddText(new Info("selectWpnTxt", 0, 0, 700, 160), "Select", 70);
+                var starX = -240;
+                for (int x = 0; x < starCount; x++)
+                {
+                    ModHelperImage image = panel.AddImage(new Info("image", starX + wpnContentX, -685, 90, 90), VanillaSprites.MkOnGreen);
+                    image.RectTransform.rotation = Quaternion.Euler(0,0,45);
+                    starX += 120;
+                }
+                for (int x = 0; x < 5 - starCount; x++)
+                {
+                    ModHelperImage image = panel.AddImage(new Info("image", starX + wpnContentX, -685, 90, 90), VanillaSprites.MkOffRed);
+                    image.RectTransform.rotation = Quaternion.Euler(0, 0, 45);
+                    starX += 120;
+                }
+                ModHelperScrollPanel mutatorsPanel = wpnPanel.AddScrollPanel(new Info("mutatorsPanel", -43, 325, 80, 650, new UnityEngine.Vector2()), RectTransform.Axis.Vertical, sprite);
+         
+              
+                foreach (var mutator in mutators)
+                {
+                    ModHelperButton button= null;
+                    button = ModHelperButton.Create(new Info("Image", -40, 325, 75, 75), mutator.Icon, new System.Action(() => { PopupScreen.instance.ShowOkPopup(mutator.MutatorName + " Mutator: " + mutator.MutatorDescription, null); }));
+                 
+                    mutatorsPanel.AddScrollContent(button);
+                }
                 foreach (var weaponContent in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
                 {
                     if (weaponContent.WeaponName == weapon)
@@ -1384,8 +1072,42 @@ public class AncientMonkey : BloonsTD6Mod
                 }
                 weaponPanelX += weaponPanelWidth;
                 wpnContentX += weaponPanelWidth;
-               
             }
+           
+        }
+        public static List<MutatorTemplate> GetRandomMutators()
+        {
+            List<KeyValuePair<int, float>> mutatorsCountLuck = new List<KeyValuePair<int, float>>() { new KeyValuePair<int, float>(0, 350f), new KeyValuePair<int, float>(1, 200f), new KeyValuePair<int, float>(2, 80f), new KeyValuePair<int, float>(3, 20f), new KeyValuePair<int, float>(4, 6), new KeyValuePair<int, float>(5, 2)
+            , new KeyValuePair<int, float>(6, 0.9f), new KeyValuePair<int, float>(7, 0.4f), new KeyValuePair<int, float>(8, 0.18f), new KeyValuePair<int, float>(9, 0.09f), new KeyValuePair<int, float>(10, 0.03f)};
+
+            float totalLuck = 0;
+            foreach (var item in mutatorsCountLuck)
+            {
+                totalLuck += item.Value;
+            }
+         
+            float randomLuck = RandomExtensions.Range(new Il2CppSystem.Random(), 0.0000f, totalLuck);
+            int mutatorCount = 0;
+           
+            foreach (var item in mutatorsCountLuck)
+            {
+                randomLuck -= item.Value;
+                if (randomLuck < 0)
+                {
+                    mutatorCount = item.Key;
+                    break;
+                }
+            }
+
+            List<MutatorTemplate> allMutators = ModContent.GetContent<MutatorTemplate>().ToList();
+            List<MutatorTemplate> mutators = new List<MutatorTemplate>();
+            for (int i = 0; i < mutatorCount; i++)
+            {
+                var randomNum = new Random().Next(0, allMutators.Count);
+                mutators.Add(allMutators[randomNum]);
+            }
+
+            return mutators;
         }
         public static void SandBoxStrongWeaponPanel(RectTransform rect, Tower tower)
         {
@@ -1442,7 +1164,7 @@ public class AncientMonkey : BloonsTD6Mod
             panel.AddButton(new Info("button3", -400, -370, 100, 100), VanillaSprites.AddMoreBtn, new System.Action(() => { mod.moneyBoostSandbox += 0.1f; panel.DeleteObject(); ; SandBoxStrongWeaponPanel(rect, tower); }));
             panel.AddButton(new Info("button4", -400, -450, 100, 100), VanillaSprites.AddRemoveBtn, new System.Action(() => { mod.moneyBoostSandbox -= 0.1f; panel.DeleteObject(); ; SandBoxStrongWeaponPanel(rect, tower); }));
 
-            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 0, -600, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.StrongWpnSelected(mod.damageBoostSandbox, mod.pierceBoostSandbox, mod.attackSpeedBoostSandbox, mod.rangeBoostSandbox, mod.moneyBoostSandbox, tower); panel.DeleteObject(); }));
+            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 0, -600, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.StrongWpnSelected(new List<KeyValuePair<float, BuffKey>>(), tower); panel.DeleteObject(); }));
             ModHelperText selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "Edit", 70);
         }
         public static void StrongWeaponPanel(RectTransform rect, Tower tower)
@@ -1479,11 +1201,6 @@ public class AncientMonkey : BloonsTD6Mod
                 var RarityNumber = 1;
                 var MinNum = 1;
                 var MaxNum = 1;
-                var damageBoost = rnd.Next(0, 2);
-                var pierceBoost = rnd.Next(0, 2);
-                float rangeBoost = rnd.Next(0, 7);
-                float attackSpeedBoost = rnd.Next(95, 101);
-                float moneyBoost = rnd.Next(0, 7);
                 var sprite = VanillaSprites.GreyInsertPanel;
 
 
@@ -1599,77 +1316,187 @@ public class AncientMonkey : BloonsTD6Mod
                 {
                     StrongWpnRarity = "Omega";
                 }
+                StrongerWeaponTemplate template = new Common();
+                if (StrongWpnRarity == "Common")
+                {
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Common)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
+                    sprite = VanillaSprites.GreyInsertPanel;
+                }
                 if (StrongWpnRarity == "Rare")
                 {
-                    damageBoost = rnd.Next(0, 3);
-                    pierceBoost = rnd.Next(0, 3);
-                    rangeBoost = rnd.Next(0, 10);
-                    attackSpeedBoost = rnd.Next(91, 101);
-                    moneyBoost = rnd.Next(0, 10);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Rare)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
                     sprite = VanillaSprites.BlueInsertPanel;
                 }
                 if (StrongWpnRarity == "Epic")
                 {
-                    damageBoost = rnd.Next(1, 5);
-                    pierceBoost = rnd.Next(1, 5);
-                    rangeBoost = rnd.Next(0, 13);
-                    attackSpeedBoost = rnd.Next(88, 101);
-                    moneyBoost = rnd.Next(0, 13);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Epic)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
                     sprite = VanillaSprites.MainBgPanelParagon;
                 }
                 if (StrongWpnRarity == "Legendary")
                 {
-                    damageBoost = rnd.Next(2, 7);
-                    pierceBoost = rnd.Next(2, 7);
-                    rangeBoost = rnd.Next(0, 15);
-                    attackSpeedBoost = rnd.Next(85, 101);
-                    moneyBoost = rnd.Next(0, 15);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Legendary)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
                     sprite = VanillaSprites.MainBGPanelYellow;
                 }
                 if (StrongWpnRarity == "Exotic")
                 {
-                    damageBoost = rnd.Next(3, 9);
-                    pierceBoost = rnd.Next(3, 9);
-                    rangeBoost = rnd.Next(0, 18);
-                    attackSpeedBoost = rnd.Next(83, 101);
-                    moneyBoost = rnd.Next(0, 18);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Exotic)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
                     sprite = VanillaSprites.MainBgPanelWhiteSmall;
                 }
                 if (StrongWpnRarity == "Godly")
                 {
-                    damageBoost = rnd.Next(5, 15);
-                    pierceBoost = rnd.Next(5, 15);
-                    rangeBoost = rnd.Next(0, 23);
-                    attackSpeedBoost = rnd.Next(75, 101);
-                    moneyBoost = rnd.Next(0, 23);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Godly)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
                     sprite = VanillaSprites.MainBGPanelSilver;
                 }
                 if (StrongWpnRarity == "Omega")
                 {
-                    damageBoost = rnd.Next(8, 22);
-                    pierceBoost = rnd.Next(8, 22);
-                    rangeBoost = rnd.Next(0, 28);
-                    attackSpeedBoost = rnd.Next(71, 101);
-                    moneyBoost = rnd.Next(0, 28);
+                    foreach (StrongerWeaponTemplate strongerWeapon in ModContent.GetContent<StrongerWeaponTemplate>())
+                    {
+                        if (strongerWeapon.Rarity == WeaponTemplate.Rarity.Omega)
+                        {
+                            template = strongerWeapon;
+                        }
+                    }
+                    sprite = VanillaSprites.MainBgPanelParagon;
                     sprite = VanillaSprites.MainBgPanelHematite;
                 }
-                attackSpeedBoost = attackSpeedBoost / 100;
-                rangeBoost = 1 + rangeBoost / 100;
-                moneyBoost = 1 + moneyBoost / 100;
+                List<BuffKey> buffKeys = new List<BuffKey>();
+                for (int x = 0; x < rnd.Next(template.BuffMinCount, template.BuffMaxCount + 1); x++)    
+                {
+                    buffKeys.Add(template.GetRandomBuffKey());
+                }
+                List<KeyValuePair<float, BuffKey>> keyValues = new List<KeyValuePair<float, BuffKey>>();
+                foreach (BuffKey key in buffKeys)
+                {
+                    keyValues.Add(new KeyValuePair<float, BuffKey> (rnd.Next(Mathf.RoundToInt(key.minValue * 1000), Mathf.RoundToInt(key.maxValue * 1000)) / 1000f, key));
+                }
                 ModHelperPanel strongWpnPanel = panel.AddPanel(new Info("strongWpnPanel", strongWeaponPanelX, strongWeaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
                 
                 ModHelperText rarityText = panel.AddText(new Info("rarityText", strongWpnContentX, 600, 800, 180), StrongWpnRarity, 100);
                 ModHelperText cardText = panel.AddText(new Info("cardText", strongWpnContentX, 500, 800, 180), "Stronger Weapon Card", 50);
-                ModHelperText dmgBoostText = panel.AddText(new Info("dmgBoostText", strongWpnContentX, 200, 800, 180), "Damage Boost :" + damageBoost, 50);
-                ModHelperText prcBoostText = panel.AddText(new Info("prcBoostText", strongWpnContentX, 100, 800, 180), "Pierce Boost :" + pierceBoost, 50);
-                ModHelperText rngBoostText = panel.AddText(new Info("rngBoostText", strongWpnContentX, 0, 800, 180), "Range Boost : X" + rangeBoost, 50);
-                ModHelperText atkspdBoostText = panel.AddText(new Info("atkspdBoostText", strongWpnContentX, -100, 800, 180), "Attack Speed Boost : X" + attackSpeedBoost, 50);
-                ModHelperText mnyBoostText = panel.AddText(new Info("mnyBoostText", strongWpnContentX, -200, 800, 180), "Money Boost : X" + moneyBoost, 50);
-                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", strongWpnContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(damageBoost, pierceBoost, attackSpeedBoost, rangeBoost, moneyBoost, tower)));
+                ModHelperScrollPanel scrollPanel = strongWpnPanel.AddScrollPanel(new Info("strongWpnPanel", 0, 0, 610, 850), RectTransform.Axis.Vertical, sprite, 1, 0);
+                foreach (KeyValuePair<float, BuffKey> key in keyValues) 
+                {
+                    scrollPanel.AddScrollContent(instance.AddBuffStat(key, sprite));
+                }
+
+                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", strongWpnContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.StrongWpnSelected(keyValues, tower)));
                 ModHelperText selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "Select", 70);
                 strongWeaponPanelX += strongWeaponPanelWidth;
                 strongWpnContentX += strongWeaponPanelWidth;
             }
+        }
+        public ModHelperPanel AddBuffStat(KeyValuePair<float, BuffKey> key, string sprite)
+        {
+            ModHelperPanel panel = ModHelperPanel.Create(new Info("panel", 0, 0, 600, 120), sprite);
+            panel.AddImage(new Info("Image", 235, 0, 110, 110), key.Value.statBuff.icon);
+            string buffName = GetBuffName(key.Value.statBuff.buffType);
+            if (key.Value.statBuff.buffType == StatsBuff.BuffTypes.MIB)
+            {
+                panel.AddText(new Info("Name", -65, 0, 450, 110), "+MIB", 40);
+            }
+            else
+            {
+                if (key.Value.operation == Operations.Add)
+                {
+                    panel.AddText(new Info("Name", -65, 0, 450, 110), "+ " + key.Key + "% " + buffName, 40);
+                }
+                if (key.Value.operation == Operations.Subtract)
+                {
+                    panel.AddText(new Info("Name", -65, 0, 450, 110), "- " + key.Key + "% " + buffName, 40);
+                }
+                if (key.Value.operation == Operations.Multiply)
+                {
+                    panel.AddText(new Info("Name", -65, 0, 450, 110), "+ " + Mathf.Round((key.Key - 1) * 1000) / 10 + "% " + buffName, 40);
+                }
+                if (key.Value.operation == Operations.Divide)
+                {
+                    panel.AddText(new Info("Name", -65, 0, 450, 110), "- " + Mathf.Round((key.Key - 1) * 1000) /10 + "% " + buffName, 40);
+                }
+            }
+                
+           
+            return panel;
+        }
+        public string GetBuffName(StatsBuff.BuffTypes buffTypes)
+        {
+            string buffName = "";
+
+            switch (buffTypes)
+            {
+                case StatsBuff.BuffTypes.Damage:
+                    buffName = "Damage";
+                    break;
+                case StatsBuff.BuffTypes.AttackSpeed:
+                    buffName = "Attack Interval";
+                    break;
+                case StatsBuff.BuffTypes.Range:
+                    buffName = "Range";
+                    break;
+                case StatsBuff.BuffTypes.Pierce:
+                    buffName = "Pierce";
+                    break;
+                case StatsBuff.BuffTypes.Money:
+                    buffName = "Money";
+                    break;
+                case StatsBuff.BuffTypes.AbilityCooldown:
+                    buffName = "Ability Cooldown";
+                    break;
+                case StatsBuff.BuffTypes.ProjectileLifespan:
+                    buffName = "Projectile Lifespan";
+                    break;
+                case StatsBuff.BuffTypes.ProjectileSpeed:
+                    buffName = "Projectile Speed";
+                    break;
+                case StatsBuff.BuffTypes.DebuffDuration:
+                    buffName = "Debuff Duration";
+                    break;
+                case StatsBuff.BuffTypes.DebuffDamage:
+                    buffName = "Debuff Damage";
+                    break;
+                case StatsBuff.BuffTypes.MIB:
+                    buffName = "MIB";
+                    break;
+                default:
+                    break;
+            }
+
+            return buffName;
         }
         public void StrongWeapon(Tower tower)
         {
@@ -1700,7 +1527,7 @@ public class AncientMonkey : BloonsTD6Mod
 
             }
         }
-        public void StrongWpnSelected(int Dmg, int Pierce, float AtkSpd, float Range, float Money, Tower tower)
+        public void StrongWpnSelected(List<KeyValuePair<float, BuffKey>> keys, Tower tower)
         {
             mod.panelOpen = false;
             InGame game = InGame.instance;
@@ -1711,129 +1538,49 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 CreateUpgradeMenu(rect, tower);
             }
-            towerModel.range *= Range;
-            if (towerModel.HasBehavior<TowerCreateTowerModel>())
+            foreach (var key in keys)
             {
-                foreach (var towercreate in towerModel.GetBehaviors<TowerCreateTowerModel>().ToArray())
-                {
-                    if (towercreate.towerModel.HasBehavior<AirUnitModel>())
-                    {
-                        foreach (var attackModel in towercreate.towerModel.GetBehavior<AirUnitModel>().GetBehaviors<AttackAirUnitModel>().ToArray())
-                        {
-                            if (towerModel.GetBehavior<TowerCreateTowerModel>().towerModel.HasBehavior<AirUnitModel>())
-                            {
-                                if (attackModel.weapons[0].projectile.HasBehavior<DamageModel>())
-                                {
-                                    attackModel.weapons[0].rate *= AtkSpd;
-                                    if (attackModel.weapons[0].rate < 0.1f)
-                                    {
-                                        attackModel.weapons[0].rate = 0.1f;
-                                    }
-                                    attackModel.weapons[0].projectile.pierce += Pierce;
-                                    attackModel.weapons[0].projectile.GetDamageModel().damage += Dmg;
-                                }
-                                if (attackModel.weapons[0].projectile.HasBehavior<TravelStraitModel>())
-                                {
-                                    attackModel.weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan += Range / 90;
-                                }
-                                if (attackModel.weapons[0].projectile.HasBehavior<CashModel>())
-                                {
-                                    attackModel.weapons[0].projectile.GetBehavior<CashModel>().minimum *= Money;
-                                    attackModel.weapons[0].projectile.GetBehavior<CashModel>().maximum *= Money;
-                                }
-
-                            }
-                          
-                        }
-                        foreach (var attackModel in towercreate.towerModel.GetBehavior<AirUnitModel>().GetBehaviors<AttackModel>().ToArray())
-                        {
-                            if (attackModel.weapons[0].projectile.HasBehavior<DamageModel>())
-                            {
-                                attackModel.weapons[0].rate *= AtkSpd;
-                                if (attackModel.weapons[0].rate < 0.1f)
-                                {
-                                    attackModel.weapons[0].rate = 0.1f;
-                                }
-                                attackModel.weapons[0].projectile.pierce += Pierce;
-                                attackModel.weapons[0].projectile.GetDamageModel().damage += Dmg;
-                            }
-                            if (attackModel.weapons[0].projectile.HasBehavior<TravelStraitModel>())
-                            {
-                                attackModel.weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan += Range / 90;
-                            }
-                            if (attackModel.weapons[0].projectile.HasBehavior<CashModel>())
-                            {
-                                attackModel.weapons[0].projectile.GetBehavior<CashModel>().minimum *= Money;
-                                attackModel.weapons[0].projectile.GetBehavior<CashModel>().maximum *= Money;
-                            }
-                        }
-                    }
+                key.Value.statBuff.ApplyBuff(towerModel, key.Key, key.Value.operation);
+            }
+           
+            if (mod.level == 0) {
+                mod.rareStrongChance -= (float)Settings.settingsValue["StrongBaseRareChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.rareStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseRareChanceUntilEpicChance"]) {
+                    mod.epicStrongChance -= (float)Settings.settingsValue["StrongBaseEpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
+                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseEpicChanceUntilLegendaryChance"]) {
+                    mod.legendaryStrongChance -= (float)Settings.settingsValue["StrongBaseLegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.04f));
+                }
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseLegendaryChanceUntilExoticChance"]) {
+                    mod.exoticStrongChance -= (float)Settings.settingsValue["StrongBaseExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
-            foreach (var attackModel in towerModel.GetDescendants<AttackModel>().ToArray())
-            {
-                if (!attackModel.weapons[0].projectile.HasBehavior<SlowModel>())
-                {
-                    attackModel.weapons[0].rate *= AtkSpd;
-                    if (attackModel.weapons[0].rate < 0.07f)
-                    {
-                        attackModel.weapons[0].rate = 0.07f;
-                    }
-                    if (attackModel.weapons[0].projectile.HasBehavior<DamageModel>())
-                    {
-                        attackModel.weapons[0].projectile.pierce += Pierce;
-                        attackModel.weapons[0].projectile.GetDamageModel().damage += Dmg;
-                    }
-                    if (attackModel.weapons[0].projectile.HasBehavior<TravelStraitModel>())
-                    {
-                        attackModel.weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan += Range / 60;
-                    }
-                    if (attackModel.weapons[0].projectile.HasBehavior<CashModel>())
-                    {
-                        attackModel.weapons[0].projectile.GetBehavior<CashModel>().minimum *= Money;
-                        attackModel.weapons[0].projectile.GetBehavior<CashModel>().maximum *= Money;
-                    }
-                    if (attackModel.weapons[0].projectile.HasBehavior<CreateProjectileOnContactModel>())
-                    {
-                        attackModel.weapons[0].projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.pierce += Pierce;
-                        attackModel.weapons[0].projectile.GetBehavior<CreateProjectileOnContactModel>().projectile.GetDamageModel().damage += Dmg;
 
-                    }
-                    if (attackModel.weapons[0].projectile.HasBehavior<CreateProjectileOnExhaustFractionModel>())
-                    {
-                        attackModel.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.pierce += Pierce;
-                        if (attackModel.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.HasBehavior<DamageModel>())
-                        {
-                            attackModel.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().damage += Dmg;
-                        }
-                    }
-                } 
+            if (mod.level == 1) {
+                mod.epicStrongChance -= (float)Settings.settingsValue["StrongUpgrade1EpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1EpicChanceUntilLegendaryChance"]) {
+                    mod.legendaryStrongChance -= (float)Settings.settingsValue["StrongUpgrade1LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1LegendaryChanceUntilExoticChance"]) {
+                    mod.exoticStrongChance -= (float)Settings.settingsValue["StrongUpgrade1ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
+                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1ExoticChanceUntilGodlyChance"]) {
+                    mod.godlyStrongerChance -= (float)Settings.settingsValue["StrongUpgrade1GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
             }
-            foreach (var attackModel in towerModel.GetDescendants<AttackModel>().ToArray())
-            {
-                attackModel.range *= Range;
-            }
-            mod.rareStrongChance -= 6.7f + mod.ExtraLuckLevel * 0.55f;
-            mod.epicStrongChance -= 2f + mod.ExtraLuckLevel * 0.15f;
-            if (mod.epicStrongChance <= 88)
-            {
-                mod.legendaryStrongChance -= 1.15f + mod.ExtraLuckLevel * 0.09f;
-            }
-            if (mod.legendaryStrongChance <= 91)
-            {
-                mod.exoticStrongChance -= 0.75f + mod.ExtraLuckLevel * 0.05f;
-            }
-            if (mod.exoticStrongChance <= 93)
-            {
-                mod.godlyStrongerChance -= 0.55f + mod.ExtraLuckLevel * 0.03f;
-            }
-            if (mod.godlyChance <= 94)
-            {
-                mod.omegaStrongerChance -= 0.30f + mod.ExtraLuckLevel * 0.015f;
+            if (mod.level == 2) {
+                mod.legendaryChance -= (float)Settings.settingsValue["StrongUpgrade2LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2LegendaryChanceUntilExoticChance"]) {
+                    mod.exoticStrongChance -= (float)Settings.settingsValue["StrongUpgrade2ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
+                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2ExoticChanceUntilGodlyChance"]) {
+                    mod.godlyStrongerChance -= (float)Settings.settingsValue["StrongUpgrade2GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
+                if (mod.godlyStrongerChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2GodlyChanceUntilOmegaChance"]) {
+                    mod.omegaStrongerChance -= (float)Settings.settingsValue["StrongUpgrade2OmegaChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
+                }
             }
             tower.UpdateRootModel(towerModel);
-           
-
         }
         public void NewAbility(Tower tower)
         {
@@ -1886,6 +1633,62 @@ public class AncientMonkey : BloonsTD6Mod
             { 
                 scrollPanel.AddScrollContent(CreateAbility(ability, tower));
             }
+        }
+        public static void AbilityUpgradePanel(RectTransform rect, Tower tower)
+        {
+
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.BrownInsertPanel);
+            panel.transform.DestroyAllChildren();
+
+            ModHelperText title = panel.AddText(new Info("abilityName", 0, 850, 2500, 150), "Abilities Upgrades", 110, TextAlignmentOptions.Center);
+            ModHelperScrollPanel scrollPanel = panel.AddScrollPanel(new Info("scrollPanel", 0, -75, 2500, 1700), RectTransform.Axis.Vertical, VanillaSprites.BrownInsertPanel, 15, 50);
+            ModHelperButton exit = panel.AddButton(new Info("exit", 1200, 900, 135, 135), VanillaSprites.RedBtn, new System.Action(() => {
+                tower.SetSelectionBlocked(false); panel.DeleteObject(); if (mod.upgradeOpen == true)
+                {
+                    CreateUpgradeMenu(rect, tower);
+                }
+            }));
+            ModHelperText x = exit.AddText(new Info("x", 0, 0, 700, 160), "X", 80);
+            foreach (var ability in mod.currentAbilities)
+            {
+                scrollPanel.AddScrollContent(CreateAbilityUpgrade(ability, tower, rect));
+            }
+        }
+        public static ModHelperPanel CreateAbilityUpgrade(KeyValuePair<AbilityTemplate, List<Model>> abilityPair, Tower tower, RectTransform rect)
+        {
+
+            var sprite = VanillaSprites.GreyInsertPanel;
+            var panel = ModHelperPanel.Create(new Info("WeaponContent" + abilityPair.Key.AbilityName, 0, 0, 2250, 150), sprite);
+            MenuUi upgradeUi = panel.AddComponent<MenuUi>();
+            ModHelperText abilityName = panel.AddText(new Info("abilityName", -600, 0, 1000, 150), abilityPair.Key.AbilityName, 80, TextAlignmentOptions.MidlineLeft);
+            ModHelperImage image = panel.AddImage(new Info("image", -100, 0, 140, 140), abilityPair.Key.Icon);
+            ModHelperText abilityLevel = panel.AddText(new Info("abilityLevel", 200, 0, 300, 150), "Lvl: " + abilityPair.Key.upgradesCount, 75, TextAlignmentOptions.MidlineLeft);
+            ModHelperText selectWpn = null;
+          ModHelperButton selectWpnBtn = null;
+            if (abilityPair.Key.upgradesCount < abilityPair.Key.MaxLevel)
+            {
+                ModHelperText abilityUpgradeCost = panel.AddText(new Info("abilityCost", 525, 0, 300, 150), "$" + TextManager.ConvertNumberToText(Mathf.RoundToInt(abilityPair.Key.upgradeCost)), 75, TextAlignmentOptions.Center);
+                selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { abilityPair.Key.Upgrade(abilityPair.Value, tower);
+                    abilityLevel.Text.text = "Lvl: " + abilityPair.Key.upgradesCount;
+                    abilityUpgradeCost.Text.text = "$" + TextManager.ConvertNumberToText(Mathf.RoundToInt(abilityPair.Key.upgradeCost));
+                    if (abilityPair.Key.upgradesCount >= abilityPair.Key.MaxLevel)
+                    {
+                        abilityLevel.Text.text = "MAX";
+                        selectWpnBtn.Image.SetSprite(VanillaSprites.RedBtnLong);
+                        selectWpn.Text.text = "Max";
+                        abilityUpgradeCost.Text.text = "";
+                    }
+                }));
+                selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "Upgrade", 60);
+            }
+            else
+            {
+                abilityLevel.SetText("MAX");
+                selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.RedBtnLong, new System.Action(() => { }));
+                selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "MAX", 60);
+            }
+           
+            return panel;
         }
         public static void NewAbilityPanel(RectTransform rect, Tower tower)
         {
@@ -1966,11 +1769,11 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 CreateUpgradeMenu(rect, tower);
             }
-            
+            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             if (Ability == "MIB")
             {
                 mod.mib = true;
-                var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
+               
                 towerModel.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
                 foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
                 {
@@ -1987,17 +1790,18 @@ public class AncientMonkey : BloonsTD6Mod
                         weaponModel.projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                     }
                 }
-                tower.UpdateRootModel(towerModel);
             }
             foreach (var ability in ModContent.GetContent<AbilityTemplate>().OrderByDescending(c => c.mod == mod))
             {
                 if (ability.AbilityName == Ability)
                 {
-                    ability.EditTower(tower);
+                   
+                    ability.EditTower(towerModel);
                     ability.stackIndex += 1;
+                  
                 }
             }
-          
+            tower.UpdateRootModel(towerModel);
         }
         public void Upgrade1Panel(Tower tower)
         {
@@ -2017,7 +1821,7 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText text8 = panel.AddText(new Info("text8", 0, -200, 2500, 180), "-New Ability Cost Decreased", 75);
             ModHelperText text9 = panel.AddText(new Info("text9", 0, -300, 2500, 180), "-Keep Everything", 75);
             ModHelperButton upgrade1 = panel.AddButton(new Info("upgrade1", 350, -800, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.Upgrade1(tower)));
-            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($" + TextManager.ConvertIntToText((int)Mathf.Round(mod.UpgradeCost)) + ")", 70);
+            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.UpgradeCost)) + ")", 70);
             ModHelperButton cancel = panel.AddButton(new Info("cancel", -350, -800, 500, 160), VanillaSprites.RedBtnLong, new System.Action(() => upgradeUi.Cancel(tower)));
             ModHelperText cancelText = cancel.AddText(new Info("cancelText", 0, 0, 700, 160), "Cancel", 70);
         }
@@ -2037,7 +1841,7 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText text6 = panel.AddText(new Info("text5", 0, 0, 2500, 180), "-New XP System", 75);
             ModHelperText text7 = panel.AddText(new Info("text7", 0, -100, 2500, 180), "-Keep Everything", 75);
             ModHelperButton upgrade1 = panel.AddButton(new Info("upgrade1", 350, -800, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.Upgrade2(tower)));
-            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($" + TextManager.ConvertIntToText((int)Mathf.Round(mod.Upgrade2Cost)) + ")", 70);
+            ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade ($" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.Upgrade2Cost)) + ")", 70);
             ModHelperButton cancel = panel.AddButton(new Info("cancel", -350, -800, 500, 160), VanillaSprites.RedBtnLong, new System.Action(() => upgradeUi.Cancel(tower)));
             ModHelperText cancelText = cancel.AddText(new Info("cancelText", 0, 0, 700, 160), "Cancel", 70);
         }
@@ -2114,117 +1918,33 @@ public class AncientMonkey : BloonsTD6Mod
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
             ModHelperText upgradeText = panel.AddText(new Info("upgradeText", 0, 800, 2500, 180), "Extra Upgrades Panel", 100);
 
-            var pipY = 400;
-            var pipX = -650;
-            for (int i = 0; i < mod.extraWeaponSlotLevel; i++)
-            {
-                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
-                pipX += 87;
-            }
-            for (int i = 0; i < mod.extraWeaponSlotLevelMax - mod.extraWeaponSlotLevel; i++)
-            {
-                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
-                pipX += 87;
-            }
-            if(mod.extraWeaponSlotLevel == mod.extraWeaponSlotLevelMax)
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 400, 525, 145), VanillaSprites.GreenBtnLong, null);
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 50);
-            } 
-            else
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 400, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.extraWeaponSlotCost) { mod.CashSpent += mod.extraWeaponSlotCost; mod.DailyCashSpent += mod.extraWeaponSlotCost; game.AddCash(mod.extraWeaponSlotCost * -1); mod.extraWeaponSlotCost *= (float)Settings.settingsValue["ExtraWeaponSlotIncreaseMultiplier"]; mod.extraWeaponSlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.newWeaponSlot++; } }));
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra New Weapon Slot : $" + TextManager.ConvertIntToText((int)Mathf.Round(mod.extraWeaponSlotCost)), 45);
-            }
-            ModHelper.Log<AncientMonkey>((float)Settings.settingsValue["ExtraWeaponSlotIncreaseMultiplier"]);
-            pipY = 250;
-            pipX = -650;
-            for (int i = 0; i < mod.strongExtraWeaponSlotLevel; i++)
-            {
-                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
-                pipX += 87;
-            }
-            for (int i = 0; i < mod.strongExtraWeaponSlotLevelMax - mod.strongExtraWeaponSlotLevel; i++)
-            {
-                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
-                pipX += 87;
-            }
-            if (mod.strongExtraWeaponSlotLevel == mod.strongExtraWeaponSlotLevelMax)
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 250, 525, 145), VanillaSprites.GreenBtnLong, null);
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 60);
-            }
-            else
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 250, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.strongExtraWeaponSlotCost) { mod.CashSpent += mod.strongExtraWeaponSlotCost; mod.DailyCashSpent += mod.strongExtraWeaponSlotCost; game.AddCash(mod.strongExtraWeaponSlotCost * -1); mod.strongExtraWeaponSlotCost *= (float)Settings.settingsValue["ExtraStrongerSlotIncreaseMultiplier"]; mod.strongExtraWeaponSlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.strongWeaponSlot++; } }));
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra Stronger Weapon Slot : $" + TextManager.ConvertIntToText((int)Mathf.Round(mod.strongExtraWeaponSlotCost)), 45);
-            }
 
-            pipY = 100;
-            pipX = -650;
-            for (int i = 0; i < mod.ExtraAbilitySlotLevel; i++)
-            {
-                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
-                pipX += 87;
-            }
-            for (int i = 0; i < mod.ExtraAbilitySlotLevelMax - mod.ExtraAbilitySlotLevel; i++)
-            {
-                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
-                pipX += 87;
-            }
-            if (mod.ExtraAbilitySlotLevel == mod.ExtraAbilitySlotLevelMax)
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 100, 525, 145), VanillaSprites.GreenBtnLong, null);
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Max", 60);
-            }
-            else
-            {
-                ModHelperButton upgradeExtraSlotLevel = panel.AddButton(new Info("upgradeExtraSlotLevel", -980, 100, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.ExtraAbilitySlotCost) { mod.CashSpent += mod.ExtraAbilitySlotCost; mod.DailyCashSpent += mod.ExtraAbilitySlotCost; game.AddCash(mod.ExtraAbilitySlotCost * -1); mod.ExtraAbilitySlotCost *= (float)Settings.settingsValue["ExtraAbilitySlotIncreaseMultiplier"]; mod.ExtraAbilitySlotLevel += 1; panel.DeleteObject(); ExtraPanel(tower); mod.abilitySlot++; } }));
-                ModHelperText upgradeExtraSlotLevelText = upgradeExtraSlotLevel.AddText(new Info("upgradeExtraSlotLevelText", 0, 0, 550, 150), "Extra New Ability Slot : $" + TextManager.ConvertIntToText((int)Mathf.Round(mod.ExtraAbilitySlotCost)), 50);
-            }
+            TextSlider extraLuckSlider =  UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.ExtraLuckLevel, mod.ExtraLuckMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 555), new Vector2(1525, 145)),
+                new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.ExtraLuckLevel * 5, "+", "%", false));
+            TextButtonOption extraLuckButton = UIHelper.CreateTextButtonOption(mod.ExtraLuckLevel != mod.ExtraLuckMax, panel, new TransformConfig(new Vector2(-795, 555), new Vector3(600, 145)), new SpriteConfig(VanillaSprites.GreenBtnLong), new TextConfig("Extra Luck : $" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.ExtraLuckCost)), 50), new ActionConfig()
+                , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
+            extraLuckButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraLuckAction,parameters = new object[] { mod, game, panel, tower, extraLuckSlider.barSmoothing, extraLuckButton, extraLuckSlider.textSmoothing }});
 
-            pipY = -50;
-            pipX = -650;
-            for (int i = 0; i < mod.ExtraLuckLevel; i++)
-            {
-                ModHelperImage pipUpgraded = panel.AddImage(new Info("pipUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOnGreen);
-                pipX += 87;
-            }
-            for (int i = 0; i < mod.ExtraLuckMax - mod.ExtraLuckLevel; i++)
-            {
-                ModHelperImage pipNotUpgraded = panel.AddImage(new Info("pipNotUpgraded", pipX, pipY, 80, 160), VanillaSprites.MkOffRed);
-                pipX += 87;
-            }
-            if (mod.ExtraLuckLevel == mod.ExtraLuckMax)
-            {
-                ModHelperButton upgradeExtraLevel = panel.AddButton(new Info("upgradeExtraLevel", -980, -50, 525, 145), VanillaSprites.GreenBtnLong, null);
-                ModHelperText upgradeExtraLevelText = upgradeExtraLevel.AddText(new Info("upgradeExtraLevelText", 0, 0, 550, 150), "Max", 60);
-            }
-            else
-            {
-                ModHelperButton upgradeExtraLevel = panel.AddButton(new Info("upgradeExtraLevel", -980, -50, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { if (game.GetCash() >= mod.ExtraLuckCost) { mod.CashSpent += mod.ExtraLuckCost; mod.DailyCashSpent += mod.ExtraLuckCost; game.AddCash(mod.ExtraLuckCost * -1); mod.ExtraLuckLevel += 1; mod.ExtraLuckCost *= (float)Settings.settingsValue["ExtraLuckCostIncreaseMultiplier"]; ; panel.DeleteObject(); ExtraPanel(tower); } }));
-                ModHelperText upgradeExtraLevelText = upgradeExtraLevel.AddText(new Info("upgradeExtraLevelText", 0, 0, 550, 150), "Extra Luck : $" + TextManager.ConvertIntToText((int)Mathf.Round(mod.ExtraLuckCost)), 50);
-            }
+            TextSlider extraWeaponSlotSlider = UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.extraWeaponSlotLevel, mod.extraWeaponSlotLevelMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 355), new Vector2(1525, 145)),
+               new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.extraWeaponSlotLevel, "+", "", false));
+            TextButtonOption extraWeaponSlotButton = UIHelper.CreateTextButtonOption(mod.extraWeaponSlotLevel != mod.extraWeaponSlotLevelMax, panel, new TransformConfig(new Vector2(-795, 355), new Vector3(600, 145)), new SpriteConfig(VanillaSprites.GreenBtnLong), new TextConfig("Extra Weapon Slot : $" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.extraWeaponSlotCost)), 45), new ActionConfig()
+                , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
+            extraWeaponSlotButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraWeaponSlotAction, parameters = new object[] { mod, game, panel, tower, extraWeaponSlotSlider.barSmoothing, extraWeaponSlotButton, extraWeaponSlotSlider.textSmoothing } });
 
-         
-            ModHelperButton monkeySkinChange = panel.AddButton(new Info("monkeySkinChange", -980, -200, 525, 145), VanillaSprites.GreenBtnLong, new System.Action(() => { ChangeSkin(tower); panel.DeleteObject(); ExtraPanel(tower); } ));
-            ModHelperText monkeySkinChangeText = monkeySkinChange.AddText(new Info("monkeySkinChangeText", 0, 0, 550, 150), "Change Skin", 60);
-            if (upgradePath == 1)
-            {
-                ModHelperText monkeySkinChangeMonkeyText = panel.AddText(new Info("monkeySkinChangeMonkeyText", 50, -200, 1000, 150), Monkey + " " + upgradeTier + "00", 60);
-            }
-            if (upgradePath == 2)
-            {
-                ModHelperText monkeySkinChangeMonkeyText = panel.AddText(new Info("monkeySkinChangeMonkeyText", 50, -200, 1000, 150), Monkey + " 0" + upgradeTier + "0", 60);
-            }
-            if (upgradePath == 3)
-            {
-                ModHelperText monkeySkinChangeMonkeyText = panel.AddText(new Info("monkeySkinChangeMonkeyText", 50, -200, 1000, 150), Monkey + " 00" + upgradeTier, 60);
-            }
-          
+            TextSlider extraAbilitySlotSlider = UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.ExtraAbilitySlotLevel, mod.ExtraAbilitySlotLevelMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 155), new Vector2(1525, 145)),
+               new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.ExtraAbilitySlotLevel, "+", "", false));
+            TextButtonOption extraAbilitySlotButton = UIHelper.CreateTextButtonOption(mod.ExtraAbilitySlotLevel != mod.ExtraAbilitySlotLevelMax, panel, new TransformConfig(new Vector2(-795, 155), new Vector3(600, 145)), new SpriteConfig(VanillaSprites.GreenBtnLong), new TextConfig("Extra Ability Slot : $" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.ExtraAbilitySlotCost)), 45), new ActionConfig()
+                , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
+            extraAbilitySlotButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraAbilitySlotAction, parameters = new object[] { mod, game, panel, tower, extraAbilitySlotSlider.barSmoothing, extraAbilitySlotButton, extraAbilitySlotSlider.textSmoothing } });
 
-            ModHelperButton cancel = panel.AddButton(new Info("cancel", 0, -800, 500, 160), VanillaSprites.RedBtnLong, new System.Action(() => upgradeUi.Cancel(tower)));
-            ModHelperText cancelText = cancel.AddText(new Info("cancelText", 0, 0, 700, 160), "Cancel", 70);
+            TextSlider extraStrongerWeaponSlotSlider = UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.strongExtraWeaponSlotLevel, mod.strongExtraWeaponSlotLevelMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, -45), new Vector2(1525, 145)),
+              new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.strongExtraWeaponSlotLevel, "+", "", false));
+            TextButtonOption extraStrongerWeaponSlotButton = UIHelper.CreateTextButtonOption(mod.strongExtraWeaponSlotLevel != mod.strongExtraWeaponSlotLevelMax, panel, new TransformConfig(new Vector2(-795, -45), new Vector3(600, 145)), new SpriteConfig(VanillaSprites.GreenBtnLong), new TextConfig("Extra Stronger Weapon Slot : $" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.strongExtraWeaponSlotCost)), 45), new ActionConfig()
+                , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
+            extraStrongerWeaponSlotButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraStrongerWeaponSlotAction, parameters = new object[] { mod, game, panel, tower, extraStrongerWeaponSlotSlider.barSmoothing, extraStrongerWeaponSlotButton, extraStrongerWeaponSlotSlider.textSmoothing } });
+
+            TextButton cancelButton = UIHelper.CreateTextButton(panel, new TransformConfig(new Vector2(0, -800), new Vector2(500, 160)), new SpriteConfig(VanillaSprites.RedBtnLong), new ActionConfig(), new TextConfig("Cancer", 70));
+            cancelButton.SetAction(new ActionConfig { action = (System.Action<Tower>)upgradeUi.Cancel, parameters = new object[] { tower } });
 
 
         }
@@ -2239,25 +1959,25 @@ public class AncientMonkey : BloonsTD6Mod
                 
                 RectTransform rect = game.uiRect;
                 mod.UpgradesBought++;
-                mod.newWeaponCost = (float)Settings.settingsValue["NewWeaponStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-                mod.baseNewWeaponCost = (float)Settings.settingsValue["IncrementalNewWeaponStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.newWeaponCost = (float)Settings.settingsValue["NewWeaponStartingCost1"];
+                mod.baseNewWeaponCost = (float)Settings.settingsValue["IncrementalNewWeaponStartingCost1"];
                 mod.baseNewWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalNewWeaponCostMultiplier1"];
                 mod.rareChance = 0;
-                mod.epicChance = 75;
-                mod.legendaryChance = 98;
-                mod.exoticChance = 100;
-                mod.godlyChance = 100;
+                mod.epicChance = 100 - (float)Settings.settingsValue["Upgrade1EpicChance"];
+                mod.legendaryChance = 100 - (float)Settings.settingsValue["Upgrade1LegendaryChance"]; ;
+                mod.exoticChance = 100 - (float)Settings.settingsValue["Upgrade1ExoticChance"];
+                mod.godlyChance = 100 - (float)Settings.settingsValue["Upgrade1GodlyChance"];
                 mod.rareStrongChance = 0;
-                mod.epicStrongChance = 70;
-                mod.legendaryStrongChance = 95;
-                mod.exoticStrongChance = 100;
-                mod.godlyStrongerChance = 100;
-                mod.strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-                mod.baseStrongerWeaponCost = (float)Settings.settingsValue["IncrementalStrongerWeaponStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.epicStrongChance = 100 - (float)Settings.settingsValue["StrongUpgrade1EpicChance"];
+                mod.legendaryStrongChance = 100 - (float)Settings.settingsValue["StrongUpgrade1LegendaryChance"];
+                mod.exoticStrongChance = 100 - (float)Settings.settingsValue["StrongUpgrade1ExoticChance"];
+                mod.godlyStrongerChance = 100 - (float)Settings.settingsValue["StrongUpgrade1GodlyChance"];
+                mod.strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost1"];
+                mod.baseStrongerWeaponCost = (float)Settings.settingsValue["IncrementalStrongerWeaponStartingCost1"];
                 mod.baseStrongerWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalStrongerWeaponCostMultiplier1"];
-                mod.newAbilityCost = (float)Settings.settingsValue["NewAbilityStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.newAbilityCost = (float)Settings.settingsValue["NewAbilityStartingCost1"];
 
-                mod.baseNewAbilityCost = (float)Settings.settingsValue["IncrementalNewAbilityStartingCost1"] / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.baseNewAbilityCost = (float)Settings.settingsValue["IncrementalNewAbilityStartingCost1"];
                 mod.baseNewWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalNewAbilityCostMultiplier1"];
                 mod.level += 1;
                 mod.newWeaponSlot += (int)Settings.settingsValue["NewWeaponSlotBonus1"];
@@ -2287,30 +2007,36 @@ public class AncientMonkey : BloonsTD6Mod
 
                 RectTransform rect = game.uiRect;
                 mod.UpgradesBought++;
-                mod.newWeaponCost = 2350 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-                mod.baseNewWeaponCost = 1750 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.newWeaponCost = 2350;
+                mod.baseNewWeaponCost = 1750;
+                mod.baseNewWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalNewWeaponCostMultiplier2"];
                 mod.rareChance = 0;
                 mod.epicChance = 0;
-                mod.legendaryChance = 80;
-                mod.exoticChance = 99;
-                mod.godlyChance = 100;
+                mod.legendaryChance = 100 - (float)Settings.settingsValue["Upgrade2LegendaryChance"];
+                mod.exoticChance = 100 - (float)Settings.settingsValue["Upgrade2ExoticChance"];
+                mod.godlyChance = 100 - (float)Settings.settingsValue["Upgrade2GodlyChance"];
+                mod.omegaChance = 100 - (float)Settings.settingsValue["Upgrade2OmegaChance"];
                 mod.rareStrongChance = 0;
                 mod.epicStrongChance = 0;
-                mod.legendaryStrongChance = 75;
-                mod.exoticStrongChance = 98;
-                mod.godlyStrongerChance = 100;
-                mod.strongerWeaponCost = 3500 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-                mod.baseStrongerWeaponCost = 2250 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
-                mod.newAbilityCost = 5500 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.legendaryStrongChance = 100 - (float)Settings.settingsValue["StrongUpgrade2LegendaryChance"];
+                mod.exoticStrongChance = 100 - (float)Settings.settingsValue["StrongUpgrade2ExoticChance"];
+                mod.godlyStrongerChance = 100 - (float)Settings.settingsValue["StrongUpgrade2GodlyChance"];
+                mod.omegaStrongerChance = 100 - (float)Settings.settingsValue["StrongUpgrade2OmegaChance"];
+                mod.strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost2"];
+                mod.baseStrongerWeaponCost = (float)Settings.settingsValue["IncrementalStrongerWeaponStartingCost2"];
+                mod.baseStrongerWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalStrongerWeaponCostMultiplier2"];
+                mod.baseNewWeaponCostMultiplier = (float)Settings.settingsValue["IncrementalNewAbilityCostMultiplier2"];
 
-                mod.baseNewAbilityCost = 500 / (1 + (mod.CostReductionUpgradeBought * 0.05f));
+                mod.newAbilityCost = (float)Settings.settingsValue["NewAbilityStartingCost2"];
+
+                mod.baseNewAbilityCost = (float)Settings.settingsValue["IncrementalNewAbilityStartingCost2"];
                 mod.level += 1;
                 mod.minNewWeaponRarity = WeaponTemplate.Rarity.Epic;
                 mod.maxNewWeaponRarity = WeaponTemplate.Rarity.Omega;
                 mod.minStrongWeaponRarity = WeaponTemplate.Rarity.Epic;
                 mod.maxStrongWeaponRarity = WeaponTemplate.Rarity.Omega;
                 mod.XP = 0;
-                mod.XPMax = 2;
+                mod.XPMax = (int)Settings.settingsValue["StartingMaxXp"];
 
                 mod.panelOpen = false;
                 if (mod.upgradeOpen == true)
@@ -2358,7 +2084,7 @@ public class AncientMonkey : BloonsTD6Mod
             newWpnTxt.Text.color = new Color(0,1,0);
             newWpnTxt.Text.outlineColor = new Color(0.2f, 0.64f, 0.1f);
             ModHelperPanel newWpnCostTextBox = panel.AddPanel(new Info("newWpnCostTextBox", 1188, 345, 625, 110, new UnityEngine.Vector2()), sprite);
-            ModHelperText newWpnCostTxt = newWpnCostTextBox.AddText(new Info("newWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertIntToText((int)Mathf.Round(mod.newWeaponCost)), 65);
+            ModHelperText newWpnCostTxt = newWpnCostTextBox.AddText(new Info("newWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.newWeaponCost)), 65);
             newWpnCostTxt.Text.color = new Color(1, 0.85f, 0);
             newWpnCostTxt.Text.outlineColor = new Color(0.86f, 0.5f, 0f);
             newWpnCostTxt.Text.outlineWidth *= 1.5f;
@@ -2382,7 +2108,7 @@ public class AncientMonkey : BloonsTD6Mod
             strongWpnTxt.Text.color = new Color(1,0, .5f);
             strongWpnTxt.Text.outlineColor = new Color(0.55f, 0, 0.26f);
             ModHelperPanel strongWpnCostTextBox = panel.AddPanel(new Info("strongWpnCostTextBox", 355, 345, 625, 110, new UnityEngine.Vector2()), sprite);
-            ModHelperText strongWpnCostTxt = strongWpnCostTextBox.AddText(new Info("strongWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertIntToText((int)Mathf.Round(mod.strongerWeaponCost)), 65);
+            ModHelperText strongWpnCostTxt = strongWpnCostTextBox.AddText(new Info("strongWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.strongerWeaponCost)), 65);
             strongWpnCostTxt.Text.color = new Color(1, 0.85f, 0);
             strongWpnCostTxt.Text.outlineColor = new Color(0.86f, 0.5f, 0f);
             strongWpnCostTxt.Text.outlineWidth *= 1.5f;
@@ -2404,7 +2130,7 @@ public class AncientMonkey : BloonsTD6Mod
             abilityWpnTxt.Text.color = new Color(0, 0.45f,.9f);
             abilityWpnTxt.Text.outlineColor = new Color(0, 0.35f, 0.7f);
             ModHelperPanel abilityCostTextBox = panel.AddPanel(new Info("abilityCostTextBox", 2021, 345, 625, 110, new UnityEngine.Vector2()), sprite);
-            ModHelperText abilityCostTxt = abilityCostTextBox.AddText(new Info("abilityCostTxt", 0, 0, 1000, 180), TextManager.ConvertIntToText((int)Mathf.Round(mod.newAbilityCost)), 65);
+            ModHelperText abilityCostTxt = abilityCostTextBox.AddText(new Info("abilityCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.newAbilityCost)), 65);
             abilityCostTxt.Text.color = new Color(1, 0.85f, 0);
             abilityCostTxt.Text.outlineColor = new Color(0.86f, 0.5f, 0f);
             abilityCostTxt.Text.outlineWidth *= 1.5f;
@@ -2415,7 +2141,8 @@ public class AncientMonkey : BloonsTD6Mod
                 abilityCostTxt.Text.text = "FREE";
             }
             ModHelperPanel abilityBtnBox = panel.AddPanel(new Info("abilityBtnBox", 2083, 210, 750, 120, new UnityEngine.Vector2()), sprite);
-            ModHelperButton abilityBtn = abilityBtnBox.AddButton(new Info("abilityBtn", 0, 0, 500, 110), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewAbility(tower)));
+            ModHelperButton abilityBtn = abilityBtnBox.AddButton(new Info("abilityBtn", -75, 0, 370, 110), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.NewAbility(tower)));
+            ModHelperButton abilityUpgradeBtn = abilityBtnBox.AddButton(new Info("abilityBtn", 170, 0, 110, 110), VanillaSprites.UpgradeBtn, new System.Action(() => { AbilityUpgradePanel(rect, tower); tower.SetSelectionBlocked(false); panel.DeleteObject(); }));
             ModHelperText abilityBuy = abilityBtn.AddText(new Info("abilityBuy", 0, 0, 700, 160), "Buy", 70);
 
             ModHelperPanel abilityDescTextBox = panel.AddPanel(new Info("abilityDescTextBox", 2083, 80, 750, 110, new UnityEngine.Vector2()), sprite);
@@ -2426,19 +2153,19 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText extraText = panel.AddText(new Info("extraText", 1217, 240, 1000, 180), "Extra Panel", 70);
             ModHelperButton extraBtn = panel.AddButton(new Info("extraBtn", 1217, 120, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.ExtraPanel(tower); MenuUi.instance.CloseMenu(); }));
             ModHelperText extraOpen = extraBtn.AddText(new Info("extraOpen", 0, 0, 700, 160), "Open", 70);
-          
+
 
             if (mod.level == 0 && (bool)Settings.settingsValue["Upgrade1Enabled"])
             {
                 ModHelperButton upgrade1 = panel.AddButton(new Info("upgrade1", 0, 415, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.Upgrade1Panel(tower)));
                 ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade1Buy", 0, 0, 700, 160), "Upgrade", 70);
             }
-            if (mod.level == 1)
+            if (mod.level == 1 && (bool)Settings.settingsValue["Upgrade2Enabled"])
             {
                 ModHelperButton upgrade1 = panel.AddButton(new Info("upgrade2", 0, 415, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.Upgrade2Panel(tower)));
                 ModHelperText upgrade1Buy = upgrade1.AddText(new Info("upgrade2Buy", 0, 0, 700, 160), "Upgrade", 70);
             }
-            if (mod.level >= 2)
+            if (mod.level >= 2 && (bool)Settings.settingsValue["XpEnabled"])
             {
                 var percent = mod.XP * 100 / mod.XPMax;
                 var size = 2970 * percent / 100;
@@ -2449,21 +2176,5 @@ public class AncientMonkey : BloonsTD6Mod
             
         }
     }
-    [HarmonyPatch(typeof(Bloon), nameof(Bloon.Damage))]
-    internal static class Bloon_Damage
-    {
-        [HarmonyPrefix]
-        private static void Prefix(Bloon __instance, float totalAmount, Projectile projectile, bool distributeToChildren, bool overrideDistributeBlocker, bool createEffect, Tower tower, BloonProperties immuneBloonProperties = BloonProperties.None, bool canDestroyProjectile = true, bool ignoreNonTargetable = false, bool blockSpawnChildren = false, bool ignoreInvunerable = false)
-        {
-            if (__instance != null)
-            {
-                InGame game = InGame.instance;
-                if (!game.GetGameModel().gameMode.Contains("Sandbox")&&tower.towerModel.name.Contains("AncientMonkey"))
-                {
-                    mod.BloonsPopped += (int)Mathf.Round(totalAmount);
-                    mod.DailyBloonsPopped += (int)Mathf.Round(totalAmount);
-                }
-            }
-        }
-    }
+   
 }

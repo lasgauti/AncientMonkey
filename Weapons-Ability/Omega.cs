@@ -1,72 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
+using System;
+using System;
+using System;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
+using System.Collections.Generic;
+using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
+using System.Linq;
+using System.Linq;
+using System.Linq;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using BTD_Mod_Helper.Api.Enums;
-using BTD_Mod_Helper.Extensions;
-using Il2CppAssets.Scripts.Data.Gameplay.Mods;
-using Il2CppAssets.Scripts.Models.Towers;
-using Il2CppAssets.Scripts.Simulation.Towers;
-using Il2CppAssets.Scripts.Unity;
-using UnityEngine;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using System.Text;
+using System.Text;
+using System.Text;
 using System.Threading;
-using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
-using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Il2Cpp;
-using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using System.Threading.Tasks;
+using System.Threading.Tasks;
+using System.Threading.Tasks;
+using System.Threading.Tasks;
+using System.Threading.Tasks;
 using BTD_Mod_Helper.Api.Display;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
+using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Extensions;
+using Il2Cpp;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Data.Gameplay.Mods;
+using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
+using Il2CppAssets.Scripts.Models.Effects;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.TowerSets;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
+using Il2CppAssets.Scripts.Unity;
 using Il2CppAssets.Scripts.Unity.Display;
 using Monkeys;
-using Il2CppAssets.Scripts.Models.Effects;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
+using UnityEngine;
 
 namespace AncientMonkey.Weapons
 {
@@ -78,9 +79,8 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Bloonarius";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             var agemodel = Game.instance.model.GetTowerFromId("SpikeFactory").GetAttackModel().weapons[0].projectile.GetBehavior<AgeModel>().Duplicate();
             var summon = Game.instance.model.GetTowerFromId("WizardMonkey-004").GetAttackModel(2).Duplicate();
             summon.weapons[0].projectile.name = "AttackModel_Summon_";
@@ -119,7 +119,9 @@ namespace AncientMonkey.Weapons
             towerModel.AddBehavior(summon);
             towerModel.AddBehavior(summon2);
             towerModel.AddBehavior(summon3);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(summon);
+            AncientMonkey.mod.newAttackModels.Add(summon2);
+            AncientMonkey.mod.newAttackModels.Add(summon3);
 
         }
     }
@@ -131,9 +133,8 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Lych";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             var agemodel = Game.instance.model.GetTowerFromId("SpikeFactory").GetAttackModel().weapons[0].projectile.GetBehavior<AgeModel>().Duplicate();
             var lych = Game.instance.model.GetTowerFromId("EngineerMonkey-200").GetAttackModel(1).Duplicate();
             lych.range = towerModel.range;
@@ -144,7 +145,7 @@ namespace AncientMonkey.Weapons
             lych.GetDescendant<RotateToTargetModel>().rotateTower = false;
             lych.weapons[0].projectile.AddBehavior(new CreateTowerModel("LychTower", GetTowerModel<LychMinion>().Duplicate(), 0f, true, false, false, true, true));
             towerModel.AddBehavior(lych);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(lych);
         }
     }
     public class Vortex : WeaponTemplate
@@ -155,9 +156,8 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Vortex";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             var agemodel = Game.instance.model.GetTowerFromId("SpikeFactory").GetAttackModel().weapons[0].projectile.GetBehavior<AgeModel>().Duplicate();
             var vort = Game.instance.model.GetTowerFromId("DartMonkey-002").GetAttackModel().Duplicate();
             vort.weapons[0].rate = 12.5f;
@@ -185,7 +185,7 @@ namespace AncientMonkey.Weapons
             vort.weapons[0].projectile.AddBehavior(superbrittle);
             vort.fireWithoutTarget = true;
             towerModel.AddBehavior(vort);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(vort);
         }
     }
     public class Dreadbloon : WeaponTemplate
@@ -196,9 +196,8 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Dreadbloon";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             var phoenix = Game.instance.model.GetTowerFromId("WizardMonkey-050").GetBehavior<TowerCreateTowerModel>().Duplicate();
             var ace = Game.instance.model.GetTowerFromId("MonkeyAce-Paragon").GetBehavior<AirUnitModel>().Duplicate();
             var wpn = Game.instance.model.GetTowerFromId("MonkeyAce-020").GetBehavior<AttackAirUnitModel>().Duplicate();
@@ -218,7 +217,7 @@ namespace AncientMonkey.Weapons
             ace.AddBehavior(wpn);
            
             towerModel.AddBehavior(phoenix);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(wpn);
         }
     }
     public class Phayze : WeaponTemplate
@@ -229,9 +228,8 @@ namespace AncientMonkey.Weapons
         public override string WeaponName => "Phayze";
         public override bool IsCamo => true;
         public override bool IsLead => true;
-        public override void EditTower(Tower tower)
+        public override void EditTower(TowerModel towerModel)
         {
-            var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             var orbit = Game.instance.model.GetTower(TowerType.BoomerangMonkey, 5).GetBehavior<OrbitModel>().Duplicate();
             orbit.count = 2;
             orbit.projectile.display = Game.instance.model.GetBloon("Phayze5").display;
@@ -247,7 +245,44 @@ namespace AncientMonkey.Weapons
             orbitDamage.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
             towerModel.AddBehavior(orbitDamage);
             towerModel.AddBehavior(orbit);
-            tower.UpdateRootModel(towerModel);
+            AncientMonkey.mod.newAttackModels.Add(orbitDamage);
+        }
+    }
+
+    public class Blastapopoulos : WeaponTemplate
+    {
+        public override int SandboxIndex => 7;
+        public override Rarity WeaponRarity => Rarity.Omega;
+        public override string Icon => VanillaSprites.BlastapopoulosPortrait;
+        public override string WeaponName => "Blastapopoulos";
+        public override bool IsCamo => true;
+        public override bool IsLead => true;
+        public override void EditTower(TowerModel towerModel)
+        {
+            var fireWeap = Game.instance.model.GetTowerFromId("DartMonkey-002").GetAttackModel().Duplicate();
+            fireWeap.weapons[0].rate = 0.01f;
+            fireWeap.weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan /= 10f;
+            fireWeap.weapons[0].projectile.radius = 1000000000;
+            fireWeap.weapons[0].projectile.scale = 0.01f;
+            fireWeap.weapons[0].projectile.GetDamageModel().damage = 0;
+            fireWeap.weapons[0].projectile.GetDamageModel().maxDamage = 0;
+            fireWeap.weapons[0].projectile.GetDamageModel().distributeToChildren = true;
+            fireWeap.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
+            fireWeap.weapons[0].projectile.pierce = 999999999;
+            fireWeap.weapons[0].fireWithoutTarget = true;
+            fireWeap.fireWithoutTarget = true;
+            fireWeap.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
+
+            var fire = Game.instance.model.GetTowerFromId("Alchemist").GetDescendant<AddBehaviorToBloonModel>().Duplicate();
+            fire.GetBehavior<DamageOverTimeModel>().interval = 0.05f;
+            fire.lifespan = 100;
+            fire.lifespanFrames = 6000;
+            fire.GetBehavior<DamageOverTimeModel>().damage = 2500;
+            fire.overlayType = "Fire";
+            fireWeap.weapons[0].projectile.AddBehavior(fire);
+
+            towerModel.AddBehavior(fireWeap);
+            AncientMonkey.mod.newAttackModels.Add(fireWeap);
         }
     }
     public class Omega

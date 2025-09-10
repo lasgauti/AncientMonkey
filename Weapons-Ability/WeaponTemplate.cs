@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BTD_Mod_Helper.Api;
+using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 using Il2CppAssets.Scripts.Simulation.Towers;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace AncientMonkey
         public abstract Rarity WeaponRarity { get; }
         public abstract string WeaponName { get; }
         public abstract string Icon { get; }
-        public abstract void EditTower(Tower tower);
+        public abstract void EditTower(TowerModel towerModel);
         public enum Rarity
         {
             Common,

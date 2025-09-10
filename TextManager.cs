@@ -8,7 +8,7 @@ namespace AncientMonkey
 {
     internal class TextManager
     {
-        public static string ConvertIntToText(long number)
+        public static string ConvertNumberToText(long number)
         {
             string text = "0";
             if (number <= 999)
