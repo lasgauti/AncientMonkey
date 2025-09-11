@@ -2,8 +2,8 @@ namespace AncientMonkey;
 
 public static class ModHelperData
 {
-    public const string WorksOnVersion = "50";
-    public const string Version = "6.0.0";
+    public const string WorksOnVersion = "50.2";
+    public const string Version = "6.0.1";
     public const string Name = "AncientMonkey";
 
     public const string Description = "Add the Ancient Monkey to Bloons TD6";

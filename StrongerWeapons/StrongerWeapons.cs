@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AncientMonkey.Artefacts;
+using AncientMonkey.Artifacts;
 using BTD_Mod_Helper.Api;
 using BTD_Mod_Helper.Api.Enums;
 using Il2CppAssets.Scripts.Models;

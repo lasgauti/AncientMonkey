@@ -18,7 +18,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks;
 using AncientMonkey;
-using AncientMonkey.Artefacts;
+using AncientMonkey.Artifacts;
 using AncientMonkey.Challenge;
 using AncientMonkey.Helper;
 using AncientMonkey.Mutators;
@@ -151,6 +151,7 @@ using Il2CppNinjaKiwi.Common;
 using Il2CppNinjaKiwi.Common.ResourceUtils;
 using Il2CppSystem;
 using Il2CppSystem;
+using Il2CppSystem.Collections;
 using Il2CppSystem.Linq;
 using Il2CppSystem.Runtime.InteropServices;
 using Il2CppTMPro;
@@ -565,11 +566,12 @@ public class AncientMonkey : BloonsTD6Mod
             }
             
         }
+
         public void AddArtefactEffects(List<Model> models, int starCount, List<MutatorTemplate> mutators)
         {
             foreach (Model model in models) 
             {
-                foreach (var artefact in ModContent.GetContent<ArtefactTemplate>().OrderByDescending(c => c.mod == mod))
+                foreach (var artefact in ModContent.GetContent<ArtifactTemplate>().OrderByDescending(c => c.mod == mod))
                 {
                     if(artefact.enabled)
                     {
