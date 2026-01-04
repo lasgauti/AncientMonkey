@@ -380,7 +380,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.White;
                 wpn.weapons[0].rate /= 1.44f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 7;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.pierce = 1;
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("CreateProjectileOnContactModel_", shard, new ArcEmissionModel("ArcEmissionModel_", 5, 0, 50, null, true, false), true, false, false));
@@ -396,7 +396,7 @@ namespace AncientMonkey.Weapons
                 breath.weapons[0].projectile.hasDamageModifiers = true;
                 breath.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 3, 5, false, false) { name = "MoabModifier_" });
 
-                breath.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BreathFreeze", 999999, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                breath.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BreathFreeze", 999999, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 breath.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 breath.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 breath.weapons[0].GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
@@ -416,7 +416,7 @@ namespace AncientMonkey.Weapons
                 icicleDamage.weapons[0].projectile.pierce *= 3;
                 icicleDamage.range = towerModel.range;
                 icicleDamage.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 2, 0, false, false) { name = "MoabModifier_" });
-                icicleDamage.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                icicleDamage.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 icicleDamage.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
 
                 towerModel.AddBehavior(wpn);
@@ -616,7 +616,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Ceramic", 1, 16, false, false) { name = "CeramicModifier_" });
 
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 2.5f, "Stun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, true, false));
+                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 2.5f, "Stun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, true, false, false));
 
                 var shard = Game.instance.model.GetTower(TowerType.TackShooter).GetAttackModel().weapons[0].projectile.Duplicate();
                 shard.GetDamageModel().immuneBloonProperties = BloonProperties.None;

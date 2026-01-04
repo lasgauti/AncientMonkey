@@ -931,7 +931,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().Duplicate();
                 wpn.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
-                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().damage += 1;
                 wpn.weapons[0].rate /= 7.5f;
@@ -964,7 +964,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].rate /= 3;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 10;
                 wpn.weapons[0].projectile.pierce += 4;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BeaconStun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0.5f, true, true, false));
+                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BeaconStun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0.5f, true, true, false, false));
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);

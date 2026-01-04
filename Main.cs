@@ -1945,7 +1945,7 @@ public class AncientMonkey : BloonsTD6Mod
                 , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
             extraStrongerWeaponSlotButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraStrongerWeaponSlotAction, parameters = new object[] { mod, game, panel, tower, extraStrongerWeaponSlotSlider.barSmoothing, extraStrongerWeaponSlotButton, extraStrongerWeaponSlotSlider.textSmoothing } });
 
-            TextButton cancelButton = UIHelper.CreateTextButton(panel, new TransformConfig(new Vector2(0, -800), new Vector2(500, 160)), new SpriteConfig(VanillaSprites.RedBtnLong), new ActionConfig(), new TextConfig("Cancer", 70));
+            TextButton cancelButton = UIHelper.CreateTextButton(panel, new TransformConfig(new Vector2(0, -800), new Vector2(500, 160)), new SpriteConfig(VanillaSprites.RedBtnLong), new ActionConfig(), new TextConfig("Cancel", 70));
             cancelButton.SetAction(new ActionConfig { action = (System.Action<Tower>)upgradeUi.Cancel, parameters = new object[] { tower } });
 
 

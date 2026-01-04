@@ -701,7 +701,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.White;
                 wpn.weapons[0].rate /= 1.44f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 3;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.pierce = 1;
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("CreateProjectileOnContactModel_", shard, new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, true, false), true, false, false));
@@ -1056,7 +1056,7 @@ namespace AncientMonkey.Weapons
                 shard.pierce = 3;
                 shard.GetDamageModel().damage = 4;
                 shard.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.None;
-                shard.AddBehavior(new TrackTargetModel("", 999, seeking.trackNewTargets, true, seeking.maxSeekAngle, seeking.ignoreSeekAngle, seeking.turnRate * 6, seeking.overrideRotation, seeking.useLifetimeAsDistance));
+                shard.AddBehavior(new TrackTargetModel("", 999, seeking.trackNewTargets, true, seeking.maxSeekAngle, seeking.ignoreSeekAngle, seeking.turnRate * 6, seeking.overrideRotation, seeking.useLifetimeAsDistance, seeking.expireOnContactTarget));
                 shard.GetBehavior<TravelStraitModel>().Speed *= 2;
                 shard.GetBehavior<TravelStraitModel>().Lifespan *= 3;
                 shard.ApplyDisplay<SpectralShard>();
@@ -1082,7 +1082,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().Duplicate();
                 wpn.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
-                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().damage += 1;
                 wpn.weapons[0].rate /= 3;

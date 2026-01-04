@@ -10,6 +10,7 @@ using Il2CppAssets.Scripts.Models;
 using Il2CppAssets.Scripts.Models.Bloons.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Weapons;
@@ -216,7 +217,7 @@ namespace AncientMonkey.Mutators
             {
                 if (projectile.GetBehavior<TrackTargetModel>() == null)
                 {
-                    var track = new TrackTargetModel("target", 6000, true, false, 360, true, 75, false, false);
+                    var track = new TrackTargetModel("target", 6000, true, false, 360, true, 75, false, false, false);
                     projectile.AddBehavior(track);
                 }
             }
@@ -329,16 +330,45 @@ namespace AncientMonkey.Mutators
         }
     }
     public class StaticShock : MutatorTemplate {
-        public override string MutatorName => "Multi Hit";
+        public override string MutatorName => "Static Shock";
         public override string MutatorDescription => "Projectiles damages nearby bloons with a lightning attack";
         public override string Icon => VanillaSprites.HeartofThunderUpgradeIcon;
         public override void EditModel(Model model) {
             foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
                 var lightning = Game.instance.model.GetTower(TowerType.Druid, 2).GetAttackModel().weapons[1].Duplicate();
                 lightning.projectile.GetDamageModel().damage = 1;
-                projectile.AddBehavior(new CreateProjectileOnIntervalModel("lightning", lightning.projectile, lightning.emission, 15, true, 50, TargetType.First, true, false, false));
+                projectile.AddBehavior(new CreateProjectileOnIntervalModel("lightning", lightning.projectile, lightning.emission, 15, true, 50, TargetType.First, true, false, false, null));
             }
 
+        }
+    }
+    public class Aura : MutatorTemplate {
+        public override string MutatorName => "Aura";
+        public override string MutatorDescription => "Projectiles deal damage to nearby Bloons.";
+        public override string Icon => VanillaSprites.SunAvatarUpgradeIcon;
+        public override void EditModel(Model model) {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
+                var aura = Game.instance.model.GetTower(TowerType.BombShooter).GetAttackModel().weapons[0].projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
+                aura.projectile.radius = 20;
+                aura.projectile.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.None;
+                projectile.AddBehavior(new CreateProjectileOnIntervalModel("aura", aura.projectile, aura.emission, 4, false, 0, TargetType.First, true, false, false, null));
+            }
+
+        }
+    }
+    public class SunBlessing : MutatorTemplate {
+        public override string MutatorName => "Sun's Blessing";
+        public override string MutatorDescription => "Every 5 shot, shoot a huge Sun ball that deals more damage.";
+        public override string Icon => VanillaSprites.TrueSonGodUpgradeIcon;
+        public override void EditModel(Model model) {
+            foreach (WeaponModel weapon in model.GetDescendants<WeaponModel>().ToList()) {
+                var sunProjectile = weapon.Duplicate();
+                sunProjectile.projectile.display = new("dcd6cd8511c9a03458a32f42f860882c");
+                if(sunProjectile.projectile.HasBehavior<DamageModel>()) {
+                    sunProjectile.projectile.GetDamageModel().damage *= 3;
+                }
+                weapon.AddBehavior(new AlternateProjectileModel("alternateSunBlessing", sunProjectile.projectile, sunProjectile.emission, 5));
+            }
         }
     }
 }

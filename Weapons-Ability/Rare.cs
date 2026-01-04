@@ -507,7 +507,7 @@ namespace AncientMonkey.Weapons
             wpn.weapons[0].projectile.scale /= 1.25f;
             wpn.weapons[0].rate /= 1.2f;
             wpn.weapons[0].projectile.GetDamageModel().damage += 1;
-            wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false));
+            wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
             wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
             wpn.range = towerModel.range;
             AncientMonkey.mod.newAttackModels.Add(wpn);

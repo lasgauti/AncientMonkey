@@ -51,7 +51,7 @@ namespace AncientMonkey.Artifacts
                 {
                     if (projectile.GetBehavior<TrackTargetModel>() == null)
                     {
-                        var track = new TrackTargetModel("target", 6000, true, false, 360, true, 120, false, false);
+                        var track = new TrackTargetModel("target", 6000, true, false, 360, true, 120, false, false, false);
                         projectile.AddBehavior(track);
                     }
                 }
@@ -88,10 +88,6 @@ namespace AncientMonkey.Artifacts
                 foreach (DamageModel damageModel in model.GetDescendants<DamageModel>().ToList())
                 {
                     damageModel.damage *= 1.35f;
-                }
-                if (model is AttackModel attack)
-                {
-                    attack.range /= 3;
                 }
             }
         }
@@ -134,7 +130,7 @@ namespace AncientMonkey.Artifacts
                     }
                     if (projectile.GetBehavior<MapBorderReboundModel>() == null)
                     {
-                        projectile.AddBehavior(new MapBorderReboundModel("bounce", true));
+                        projectile.AddBehavior(new MapBorderReboundModel("bounce", true, true));
                     }
                 }
                 foreach (TravelStraitModel travelStraitModel in model.GetDescendants<TravelStraitModel>().ToList())
@@ -144,5 +140,41 @@ namespace AncientMonkey.Artifacts
                 }
             }
         }
+        public class Chaos : ArtifactTemplate {
+            public override string ArtifactName => "Chaos";
+            public override string ArtifactDescription => "Randomize all stats of all weapons.";
+            public override string Icon => VanillaSprites.ClusterBombsUpgradeIcon;
+            public override void EditModel(Model model) {
+                foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
+                    projectile.pierce *= Random.Range(0.25f, 4f);
+                }
+                foreach (WeaponModel weapon in model.GetDescendants<WeaponModel>().ToList()) {
+                    weapon.rate *= Random.Range(0.25f, 4f);
+                }
+                foreach (AttackModel attackModel in model.GetDescendants<AttackModel>().ToList()) {
+                    attackModel.range *= Random.Range(0.25f, 4f);
+                }
+                foreach (DamageModel damageModel in model.GetDescendants<DamageModel>().ToList()) {
+                    damageModel.damage *= Random.Range(0.25f, 4f);
+                }
+                foreach (AddBehaviorToBloonModel debuff in model.GetDescendants<AddBehaviorToBloonModel>().ToList()) {
+                    debuff.lifespan *= Random.Range(0.25f, 4f); ;
+                    debuff.lifespanFrames *= (int)debuff.lifespan * 60;
+                    foreach (DamageOverTimeModel dot in debuff.GetDescendants<DamageOverTimeModel>().ToList()) {
+                        dot.damage *= Random.Range(0.25f, 4f); ;
+                    }
+                }
+                foreach (TravelStraitModel travelStraitModel in model.GetDescendants<TravelStraitModel>().ToList()) {
+                    travelStraitModel.lifespan *= Random.Range(0.25f, 4f);
+                    travelStraitModel.lifespanFrames =  (int)travelStraitModel.lifespan * 60;
+                }
+                foreach (SlowModel slow in model.GetDescendants<SlowModel>().ToList()) {
+                    slow.multiplier *= Random.Range(0.25f, 4f);
+                    slow.lifespan *= Random.Range(0.25f, 4f); ;
+                    slow.lifespanFrames *= (int)slow.lifespan * 60;
+                }
+            }
+        }
+     
     }
 }
