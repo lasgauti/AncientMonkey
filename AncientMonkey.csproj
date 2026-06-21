@@ -15,6 +15,11 @@
       <None Remove="Assets\Projectiles\WaterProjectile2.png" />
       <None Remove="Assets\Rare\DeadlyWater.png" />
     </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Challenge/**/*.cs" />
+		<EmbeddedResource Remove="Challenge/**" />
+		<None Remove="Challenge/**" />
+	</ItemGroup>
     <ItemGroup>
         <Content Include=".github\workflows\build.yml" />
     </ItemGroup>

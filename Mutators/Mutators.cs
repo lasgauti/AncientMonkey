@@ -128,7 +128,7 @@ namespace AncientMonkey.Mutators
                 travel.lifespan *= 1.06f;
                 travel.speed *= 1.06f;
             }
-            if(model is AttackModel attackModel)
+            if (model is AttackModel attackModel)
             {
                 attackModel.range *= 1.06f;
             }
@@ -262,7 +262,7 @@ namespace AncientMonkey.Mutators
             {
                 slow.multiplier /= 1.35f;
             }
-          
+
         }
     }
     public class WeakeningSubstance : MutatorTemplate
@@ -276,19 +276,22 @@ namespace AncientMonkey.Mutators
             {
                 if (projectile.GetBehavior<TrackTargetModel>() == null)
                 {
-                    var track = new AddBonusDamagePerHitToBloonModel("bonusDamage", "weakening substance", 10, 1, 360, true, false, false, null);
+                    var track = new AddBonusDamagePerHitToBloonModel("bonusDamage", "weakening substance", 1, 10, 0f, 360, true, false, false, null, false, null);
                     projectile.AddBehavior(track);
                 }
             }
 
         }
     }
-    public class ExplosiveRounds : MutatorTemplate {
+    public class ExplosiveRounds : MutatorTemplate
+    {
         public override string MutatorName => "Explosive Rounds";
         public override string MutatorDescription => "Projecitles explode on contact";
         public override string Icon => VanillaSprites.HeavyBombsUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
+        public override void EditModel(Model model)
+        {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList())
+            {
                 var bomb = Game.instance.model.GetTower(TowerType.BombShooter);
                 var bombProj = bomb.GetAttackModel().weapons[0].projectile;
                 var explosion = bombProj.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
@@ -301,40 +304,53 @@ namespace AncientMonkey.Mutators
 
         }
     }
-    public class FreezingTouch : MutatorTemplate {
+    public class FreezingTouch : MutatorTemplate
+    {
         public override string MutatorName => "Freezing Touch";
         public override string MutatorDescription => "Projecitles freezes Bloons";
         public override string Icon => VanillaSprites.RefreezeUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
-                if (!projectile.HasBehavior<FreezeModel>()) {
+        public override void EditModel(Model model)
+        {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList())
+            {
+                if (!projectile.HasBehavior<FreezeModel>())
+                {
                     projectile.AddBehavior(Game.instance.model.GetTower(TowerType.IceMonkey, 0, 0, 0).GetAttackModel().weapons[0].projectile.GetBehavior<FreezeModel>().Duplicate());
-                } else {
+                }
+                else
+                {
                     projectile.GetBehavior<FreezeModel>().lifespan += 1;
                 }
             }
 
         }
     }
-    public class MultiHit : MutatorTemplate {
+    public class MultiHit : MutatorTemplate
+    {
         public override string MutatorName => "Multi Hit";
         public override string MutatorDescription => "Projectile can re-hit Bloons";
         public override string Icon => VanillaSprites.RefreezeUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
-                if (!projectile.HasBehavior<ClearHitBloonsModel>()) {
+        public override void EditModel(Model model)
+        {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList())
+            {
+                if (!projectile.HasBehavior<ClearHitBloonsModel>())
+                {
                     projectile.AddBehavior(new ClearHitBloonsModel("clearhit", 1));
                 }
             }
 
         }
     }
-    public class StaticShock : MutatorTemplate {
+    public class StaticShock : MutatorTemplate
+    {
         public override string MutatorName => "Static Shock";
         public override string MutatorDescription => "Projectiles damages nearby bloons with a lightning attack";
         public override string Icon => VanillaSprites.HeartofThunderUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
+        public override void EditModel(Model model)
+        {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList())
+            {
                 var lightning = Game.instance.model.GetTower(TowerType.Druid, 2).GetAttackModel().weapons[1].Duplicate();
                 lightning.projectile.GetDamageModel().damage = 1;
                 projectile.AddBehavior(new CreateProjectileOnIntervalModel("lightning", lightning.projectile, lightning.emission, 15, true, 50, TargetType.First, true, false, false, null));
@@ -342,12 +358,15 @@ namespace AncientMonkey.Mutators
 
         }
     }
-    public class Aura : MutatorTemplate {
+    public class Aura : MutatorTemplate
+    {
         public override string MutatorName => "Aura";
         public override string MutatorDescription => "Projectiles deal damage to nearby Bloons.";
         public override string Icon => VanillaSprites.SunAvatarUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList()) {
+        public override void EditModel(Model model)
+        {
+            foreach (ProjectileModel projectile in model.GetDescendants<ProjectileModel>().ToList())
+            {
                 var aura = Game.instance.model.GetTower(TowerType.BombShooter).GetAttackModel().weapons[0].projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
                 aura.projectile.radius = 20;
                 aura.projectile.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.None;
@@ -356,15 +375,19 @@ namespace AncientMonkey.Mutators
 
         }
     }
-    public class SunBlessing : MutatorTemplate {
+    public class SunBlessing : MutatorTemplate
+    {
         public override string MutatorName => "Sun's Blessing";
         public override string MutatorDescription => "Every 5 shot, shoot a huge Sun ball that deals more damage.";
         public override string Icon => VanillaSprites.TrueSonGodUpgradeIcon;
-        public override void EditModel(Model model) {
-            foreach (WeaponModel weapon in model.GetDescendants<WeaponModel>().ToList()) {
+        public override void EditModel(Model model)
+        {
+            foreach (WeaponModel weapon in model.GetDescendants<WeaponModel>().ToList())
+            {
                 var sunProjectile = weapon.Duplicate();
                 sunProjectile.projectile.display = new("dcd6cd8511c9a03458a32f42f860882c");
-                if(sunProjectile.projectile.HasBehavior<DamageModel>()) {
+                if (sunProjectile.projectile.HasBehavior<DamageModel>())
+                {
                     sunProjectile.projectile.GetDamageModel().damage *= 3;
                 }
                 weapon.AddBehavior(new AlternateProjectileModel("alternateSunBlessing", sunProjectile.projectile, sunProjectile.emission, 5));

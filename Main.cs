@@ -186,8 +186,36 @@ namespace AncientMonkey;
 public class AncientMonkey : BloonsTD6Mod
 {
 
-    
+
     public static AncientMonkey mod;
+
+    // Counter used to generate unique suffixes for colliding model names.
+    private static int _amNameUid = 0;
+
+    /// <summary>
+    /// Ensures no two models in the tower's model tree share a name.
+    /// Stacking duplicated stock attack models leaves multiple descendants
+    /// with identical names (e.g. "AttackModel_Attack_ Rotation"), which makes
+    /// Tower.GetSaveData() throw "An item with the same key has already been added"
+    /// when the tower is serialized. This renames only the 2nd+ occurrence of any
+    /// name, so the base tower's originals (and any name-based lookups) are untouched.
+    /// </summary>
+    public static void EnsureUniqueModelNames(Model root)
+    {
+        if (root == null) return;
+        var used = new HashSet<string>();
+        // GetDescendants<T>() returns an Il2Cpp enumerable; use ForEach (as the
+        // rest of the codebase does) since C# foreach can't bind its enumerator.
+        root.GetDescendants<Model>().ForEach(m =>
+        {
+            if (!used.Add(m.name))
+            {
+                m.name = m.name + "_AM" + System.Threading.Interlocked.Increment(ref _amNameUid);
+                used.Add(m.name);
+            }
+        });
+    }
+
     public float newWeaponCost = 250;
     public float baseNewWeaponCost = 250;
     public float baseNewWeaponCostMultiplier = 1.06f;
@@ -279,9 +307,9 @@ public class AncientMonkey : BloonsTD6Mod
                 y = i;
             }
             i++;
-            
+
         }
-        return new List<object>() {contains, y};
+        return new List<object>() { contains, y };
     }
     public override void OnRoundEnd()
     {
@@ -302,7 +330,8 @@ public class AncientMonkey : BloonsTD6Mod
             mod.RoundsCleared++;
         }
     }
-    public static T StartMonobehavior<T>() where T : MonoBehaviour {
+    public static T StartMonobehavior<T>() where T : MonoBehaviour
+    {
         var obj = InGame.instance.GetInGameUI().AddComponent<T>();
 
         return obj as T;
@@ -327,7 +356,7 @@ public class AncientMonkey : BloonsTD6Mod
         epicStrongChance = 100 - (float)Settings.settingsValue["StrongBaseEpicChance"];
         legendaryStrongChance = 100 - (float)Settings.settingsValue["StrongBaseLegendaryChance"];
         legendaryChance = 100 - (float)Settings.settingsValue["BaseLegendaryChance"];
-        exoticChance =  100 - (float)Settings.settingsValue["BaseExoticChance"];
+        exoticChance = 100 - (float)Settings.settingsValue["BaseExoticChance"];
         exoticStrongChance = 100 - (float)Settings.settingsValue["StrongBaseExoticChance"];
         baseNewWeaponCost = (float)Settings.settingsValue["IncrementalNewWeaponStartingCost"];
         strongerWeaponCost = (float)Settings.settingsValue["StrongerWeaponStartingCost"];
@@ -351,7 +380,7 @@ public class AncientMonkey : BloonsTD6Mod
         strongExtraWeaponSlotCost = (float)Settings.settingsValue["ExtraStrongerSlotStartingCost"];
         strongExtraWeaponSlotLevelMax = (int)Settings.settingsValue["ExtraStrongerSlotUpgradeCount"];
         ExtraAbilitySlotLevelMax = (int)Settings.settingsValue["ExtraAbilitySlotUpgradeCount"];
-        ExtraAbilitySlotLevel = 0; 
+        ExtraAbilitySlotLevel = 0;
         ExtraAbilitySlotCost = (float)Settings.settingsValue["ExtraAbilitySlotStartingCost"];
         ExtraLuckCost = (float)Settings.settingsValue["ExtraLuckStartingCost"];
         ExtraLuckLevel = 0;
@@ -399,7 +428,7 @@ public class AncientMonkey : BloonsTD6Mod
             Reset();
         }
     }
-    
+
     public override void OnNewGameModel(GameModel result)
     {
         foreach (var tower in result.towerSet.ToList())
@@ -443,7 +472,7 @@ public class AncientMonkey : BloonsTD6Mod
         public ModHelperInputField input;
         public void CloseMenu()
         {
-            if(gameObject)
+            if (gameObject)
             {
                 Destroy(gameObject);
             }
@@ -469,16 +498,16 @@ public class AncientMonkey : BloonsTD6Mod
                 mod.newWeaponCost += mod.baseNewWeaponCost;
                 tower.worth += mod.newWeaponCost - mod.baseNewWeaponCost;
                 mod.baseNewWeaponCost *= mod.baseNewWeaponCostMultiplier;
-                MenuUi.NewWeaponPanel(rect, tower,false);
+                MenuUi.NewWeaponPanel(rect, tower, false);
                 MenuUi.instance.CloseMenu();
             }
         }
-        public void WeaponSelected(string Weapon, Tower tower,bool levelup, int starCount, List<MutatorTemplate> mutators)
+        public void WeaponSelected(string Weapon, Tower tower, bool levelup, int starCount, List<MutatorTemplate> mutators)
         {
             mod.panelOpen = false;
             InGame game = InGame.instance;
             RectTransform rect = game.uiRect;
-            if(!(bool)Settings.settingsValue["SandboxMode"])
+            if (!(bool)Settings.settingsValue["SandboxMode"])
             {
                 Destroy(gameObject);
             }
@@ -491,14 +520,16 @@ public class AncientMonkey : BloonsTD6Mod
                     weapon.stackIndex += 1;
                     var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
                     weapon.EditTower(towerModel);
-                    AddArtefactEffects(mod.newAttackModels, starCount, mutators); 
+                    AddArtefactEffects(mod.newAttackModels, starCount, mutators);
+                    AncientMonkey.EnsureUniqueModelNames(towerModel);
                     tower.UpdateRootModel(towerModel);
                 }
             }
-            if ((bool)Settings.settingsValue["XpEnabled"]) {
+            if ((bool)Settings.settingsValue["XpEnabled"])
+            {
                 mod.XP += 1;
             }
-           
+
             if (levelup)
             {
                 mod.XP = 0;
@@ -510,7 +541,7 @@ public class AncientMonkey : BloonsTD6Mod
 
                 return;
             }
-            if(mod.level == 0)
+            if (mod.level == 0)
             {
                 mod.rareChance -= (float)Settings.settingsValue["BaseRareChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 if (mod.rareChance <= 100 - (float)Settings.settingsValue["BaseRareChanceUntilEpicChance"])
@@ -526,7 +557,7 @@ public class AncientMonkey : BloonsTD6Mod
                     mod.exoticChance -= (float)Settings.settingsValue["BaseExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
-           
+
             if (mod.level == 1)
             {
                 mod.epicChance -= (float)Settings.settingsValue["Upgrade1EpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
@@ -559,21 +590,21 @@ public class AncientMonkey : BloonsTD6Mod
                     mod.omegaChance -= (float)Settings.settingsValue["Upgrade2OmegaChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
-          
+
             if (mod.upgradeOpen == true && !(bool)Settings.settingsValue["SandboxMode"])
             {
                 CreateUpgradeMenu(rect, tower);
             }
-            
+
         }
 
         public void AddArtefactEffects(List<Model> models, int starCount, List<MutatorTemplate> mutators)
         {
-            foreach (Model model in models) 
+            foreach (Model model in models)
             {
                 foreach (var artefact in ModContent.GetContent<ArtifactTemplate>().OrderByDescending(c => c.mod == mod))
                 {
-                    if(artefact.enabled)
+                    if (artefact.enabled)
                     {
                         artefact.EditModel(model);
                     }
@@ -641,7 +672,7 @@ public class AncientMonkey : BloonsTD6Mod
             }
         }
 
-        public static ModHelperPanel CreateWeapon(WeaponTemplate weapon, Tower tower )
+        public static ModHelperPanel CreateWeapon(WeaponTemplate weapon, Tower tower)
         {
             var sprite = VanillaSprites.GreyInsertPanel;
             if (weapon.WeaponRarity == WeaponTemplate.Rarity.Rare)
@@ -673,8 +704,8 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText wpnName = panel.AddText(new Info("wpnName", -600, 0, 1000, 150), weapon.WeaponName, 80, TextAlignmentOptions.MidlineLeft);
             ModHelperText rarity = panel.AddText(new Info("rarity", 275, 0, 600, 150), weapon.WeaponRarity.ToString(), 80, TextAlignmentOptions.MidlineLeft);
             ModHelperImage image = panel.AddImage(new Info("image", -100, 0, 140, 140), weapon.Icon);
-            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.WeaponSelected(weapon.WeaponName, tower, false, 2, null);}) ) ;
-            if(weapon.IsCamo)
+            ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.WeaponSelected(weapon.WeaponName, tower, false, 2, null); }));
+            if (weapon.IsCamo)
             {
                 ModHelperImage camoImg = panel.AddImage(new Info("camoImg", 460, 0, 120, 120), VanillaSprites.CamoBloonIcon);
             }
@@ -687,12 +718,12 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void SandBoxWeaponPanel(RectTransform rect, Tower tower)
         {
-          
+
             ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelBlue);
-            panel.transform.DestroyAllChildren();            
+            panel.transform.DestroyAllChildren();
             ModHelperScrollPanel scrollPanel = panel.AddScrollPanel(new Info("scrollPanel", 0, 0, 2500, 1850), RectTransform.Axis.Vertical, VanillaSprites.MainBGPanelBlue, 15, 50);
             ModHelperButton exit = panel.AddButton(new Info("exit", 1200, 900, 135, 135), VanillaSprites.RedBtn, new System.Action(() => {
-                tower.SetSelectionBlocked(false); panel.DeleteObject(); if (mod.upgradeOpen == true){CreateUpgradeMenu(rect, tower);  }
+                tower.SetSelectionBlocked(false); panel.DeleteObject(); if (mod.upgradeOpen == true) { CreateUpgradeMenu(rect, tower); }
             }));
             ModHelperText x = exit.AddText(new Info("x", 0, 0, 700, 160), "X", 80);
 
@@ -707,16 +738,16 @@ public class AncientMonkey : BloonsTD6Mod
                 }
             }
         }
-       
+
         public static void NewWeaponPanel(RectTransform rect, Tower tower, bool Levelup)
         {
             mod.panelOpen = true;
-            if(instance)
+            if (instance)
             {
                 instance.CloseMenu();
             }
-          
-            if((bool)Settings.settingsValue["SandboxMode"])
+
+            if ((bool)Settings.settingsValue["SandboxMode"])
             {
                 SandBoxWeaponPanel(rect, tower);
                 return;
@@ -724,7 +755,7 @@ public class AncientMonkey : BloonsTD6Mod
             float weaponPanelWidth = 833.33f;
             float weaponPanelX = 412.5f;
             float weaponPanelY = 900;
-            float wpnContentX = 25 - (mod.newWeaponSlot -1) * 425;
+            float wpnContentX = 25 - (mod.newWeaponSlot - 1) * 425;
             float panelWidth = mod.newWeaponSlot * weaponPanelWidth;
             var imag = VanillaSprites.BrownInsertPanel;
             if (mod.level == 1)
@@ -735,7 +766,7 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 imag = VanillaSprites.MainBgPanelParagon;
             }
-            ModHelperPanel panel =  rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, panelWidth, 1850, new UnityEngine.Vector2()), imag);
+            ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, panelWidth, 1850, new UnityEngine.Vector2()), imag);
 
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
             ModHelperText selectWpn = panel.AddText(new Info("selectWpn", 0, 800, 2500, 180), "Select New Weapon", 100);
@@ -847,7 +878,7 @@ public class AncientMonkey : BloonsTD6Mod
                 }
                 if (RarityNumber == 2)
                 {
-                     WpnRarity = "Rare";
+                    WpnRarity = "Rare";
                 }
                 if (RarityNumber == 3)
                 {
@@ -1008,20 +1039,20 @@ public class AncientMonkey : BloonsTD6Mod
                     weapon = OEnabled[numWpn].WeaponName;
                     img = OEnabled[numWpn].Icon;
                     csprite = OEnabled[numWpn].CustomIcon;
-                }   
+                }
                 ModHelperPanel wpnPanel = panel.AddPanel(new Info("wpnPanel", weaponPanelX, weaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
                 ModHelperText rarityText = panel.AddText(new Info("rarityText", wpnContentX, 600, 800, 180), WpnRarity, 100);
                 ModHelperText weaponText = panel.AddText(new Info("weaponText", wpnContentX, 500, 800, 180), weapon, 75);
 
                 List<MutatorTemplate> mutators = GetRandomMutators();
 
-                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", wpnContentX, -550, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(weapon, tower,Levelup, starCount,mutators)));
+                ModHelperButton selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", wpnContentX, -550, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.WeaponSelected(weapon, tower, Levelup, starCount, mutators)));
                 ModHelperText selectWpnTxt = selectWpnBtn.AddText(new Info("selectWpnTxt", 0, 0, 700, 160), "Select", 70);
                 var starX = -240;
                 for (int x = 0; x < starCount; x++)
                 {
                     ModHelperImage image = panel.AddImage(new Info("image", starX + wpnContentX, -685, 90, 90), VanillaSprites.MkOnGreen);
-                    image.RectTransform.rotation = Quaternion.Euler(0,0,45);
+                    image.RectTransform.rotation = Quaternion.Euler(0, 0, 45);
                     starX += 120;
                 }
                 for (int x = 0; x < 5 - starCount; x++)
@@ -1031,13 +1062,13 @@ public class AncientMonkey : BloonsTD6Mod
                     starX += 120;
                 }
                 ModHelperScrollPanel mutatorsPanel = wpnPanel.AddScrollPanel(new Info("mutatorsPanel", -43, 325, 80, 650, new UnityEngine.Vector2()), RectTransform.Axis.Vertical, sprite);
-         
-              
+
+
                 foreach (var mutator in mutators)
                 {
-                    ModHelperButton button= null;
+                    ModHelperButton button = null;
                     button = ModHelperButton.Create(new Info("Image", -40, 325, 75, 75), mutator.Icon, new System.Action(() => { PopupScreen.instance.ShowOkPopup(mutator.MutatorName + " Mutator: " + mutator.MutatorDescription, null); }));
-                 
+
                     mutatorsPanel.AddScrollContent(button);
                 }
                 foreach (var weaponContent in ModContent.GetContent<WeaponTemplate>().OrderByDescending(c => c.mod == mod))
@@ -1075,7 +1106,7 @@ public class AncientMonkey : BloonsTD6Mod
                 weaponPanelX += weaponPanelWidth;
                 wpnContentX += weaponPanelWidth;
             }
-           
+
         }
         public static List<MutatorTemplate> GetRandomMutators()
         {
@@ -1087,10 +1118,10 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 totalLuck += item.Value;
             }
-         
+
             float randomLuck = RandomExtensions.Range(new Il2CppSystem.Random(), 0.0000f, totalLuck);
             int mutatorCount = 0;
-           
+
             foreach (var item in mutatorsCountLuck)
             {
                 randomLuck -= item.Value;
@@ -1113,7 +1144,7 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void SandBoxStrongWeaponPanel(RectTransform rect, Tower tower)
         {
-          
+
             ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 1250, 1500, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelBlue);
             MenuUi upgradeUi = panel.AddComponent<MenuUi>();
             panel.transform.DestroyAllChildren();
@@ -1398,21 +1429,21 @@ public class AncientMonkey : BloonsTD6Mod
                     sprite = VanillaSprites.MainBgPanelHematite;
                 }
                 List<BuffKey> buffKeys = new List<BuffKey>();
-                for (int x = 0; x < rnd.Next(template.BuffMinCount, template.BuffMaxCount + 1); x++)    
+                for (int x = 0; x < rnd.Next(template.BuffMinCount, template.BuffMaxCount + 1); x++)
                 {
                     buffKeys.Add(template.GetRandomBuffKey());
                 }
                 List<KeyValuePair<float, BuffKey>> keyValues = new List<KeyValuePair<float, BuffKey>>();
                 foreach (BuffKey key in buffKeys)
                 {
-                    keyValues.Add(new KeyValuePair<float, BuffKey> (rnd.Next(Mathf.RoundToInt(key.minValue * 1000), Mathf.RoundToInt(key.maxValue * 1000)) / 1000f, key));
+                    keyValues.Add(new KeyValuePair<float, BuffKey>(rnd.Next(Mathf.RoundToInt(key.minValue * 1000), Mathf.RoundToInt(key.maxValue * 1000)) / 1000f, key));
                 }
                 ModHelperPanel strongWpnPanel = panel.AddPanel(new Info("strongWpnPanel", strongWeaponPanelX, strongWeaponPanelY, 650, 1450, new UnityEngine.Vector2()), sprite);
-                
+
                 ModHelperText rarityText = panel.AddText(new Info("rarityText", strongWpnContentX, 600, 800, 180), StrongWpnRarity, 100);
                 ModHelperText cardText = panel.AddText(new Info("cardText", strongWpnContentX, 500, 800, 180), "Stronger Weapon Card", 50);
                 ModHelperScrollPanel scrollPanel = strongWpnPanel.AddScrollPanel(new Info("strongWpnPanel", 0, 0, 610, 850), RectTransform.Axis.Vertical, sprite, 1, 0);
-                foreach (KeyValuePair<float, BuffKey> key in keyValues) 
+                foreach (KeyValuePair<float, BuffKey> key in keyValues)
                 {
                     scrollPanel.AddScrollContent(instance.AddBuffStat(key, sprite));
                 }
@@ -1448,11 +1479,11 @@ public class AncientMonkey : BloonsTD6Mod
                 }
                 if (key.Value.operation == Operations.Divide)
                 {
-                    panel.AddText(new Info("Name", -65, 0, 450, 110), "- " + Mathf.Round((key.Key - 1) * 1000) /10 + "% " + buffName, 40);
+                    panel.AddText(new Info("Name", -65, 0, 450, 110), "- " + Mathf.Round((key.Key - 1) * 1000) / 10 + "% " + buffName, 40);
                 }
             }
-                
-           
+
+
             return panel;
         }
         public string GetBuffName(StatsBuff.BuffTypes buffTypes)
@@ -1523,8 +1554,8 @@ public class AncientMonkey : BloonsTD6Mod
                 mod.strongerWeaponCost += mod.baseStrongerWeaponCost;
                 tower.worth += mod.strongerWeaponCost - mod.baseStrongerWeaponCost;
                 mod.baseStrongerWeaponCost *= mod.baseStrongerWeaponCostMultiplier;
-                
-         
+
+
                 MenuUi.instance.CloseMenu();
 
             }
@@ -1544,50 +1575,63 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 key.Value.statBuff.ApplyBuff(towerModel, key.Key, key.Value.operation);
             }
-           
-            if (mod.level == 0) {
+
+            if (mod.level == 0)
+            {
                 mod.rareStrongChance -= (float)Settings.settingsValue["StrongBaseRareChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
-                if (mod.rareStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseRareChanceUntilEpicChance"]) {
+                if (mod.rareStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseRareChanceUntilEpicChance"])
+                {
                     mod.epicStrongChance -= (float)Settings.settingsValue["StrongBaseEpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseEpicChanceUntilLegendaryChance"]) {
+                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseEpicChanceUntilLegendaryChance"])
+                {
                     mod.legendaryStrongChance -= (float)Settings.settingsValue["StrongBaseLegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.04f));
                 }
-                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseLegendaryChanceUntilExoticChance"]) {
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongBaseLegendaryChanceUntilExoticChance"])
+                {
                     mod.exoticStrongChance -= (float)Settings.settingsValue["StrongBaseExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
 
-            if (mod.level == 1) {
+            if (mod.level == 1)
+            {
                 mod.epicStrongChance -= (float)Settings.settingsValue["StrongUpgrade1EpicChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
-                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1EpicChanceUntilLegendaryChance"]) {
+                if (mod.epicStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1EpicChanceUntilLegendaryChance"])
+                {
                     mod.legendaryStrongChance -= (float)Settings.settingsValue["StrongUpgrade1LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1LegendaryChanceUntilExoticChance"]) {
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1LegendaryChanceUntilExoticChance"])
+                {
                     mod.exoticStrongChance -= (float)Settings.settingsValue["StrongUpgrade1ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1ExoticChanceUntilGodlyChance"]) {
+                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade1ExoticChanceUntilGodlyChance"])
+                {
                     mod.godlyStrongerChance -= (float)Settings.settingsValue["StrongUpgrade1GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
-            if (mod.level == 2) {
+            if (mod.level == 2)
+            {
                 mod.legendaryChance -= (float)Settings.settingsValue["StrongUpgrade2LegendaryChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
-                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2LegendaryChanceUntilExoticChance"]) {
+                if (mod.legendaryStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2LegendaryChanceUntilExoticChance"])
+                {
                     mod.exoticStrongChance -= (float)Settings.settingsValue["StrongUpgrade2ExoticChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2ExoticChanceUntilGodlyChance"]) {
+                if (mod.exoticStrongChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2ExoticChanceUntilGodlyChance"])
+                {
                     mod.godlyStrongerChance -= (float)Settings.settingsValue["StrongUpgrade2GodlyChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
-                if (mod.godlyStrongerChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2GodlyChanceUntilOmegaChance"]) {
+                if (mod.godlyStrongerChance <= 100 - (float)Settings.settingsValue["StrongUpgrade2GodlyChanceUntilOmegaChance"])
+                {
                     mod.omegaStrongerChance -= (float)Settings.settingsValue["StrongUpgrade2OmegaChanceDecrease"] * (1 + (mod.ExtraLuckLevel * 0.05f));
                 }
             }
+            AncientMonkey.EnsureUniqueModelNames(towerModel);
             tower.UpdateRootModel(towerModel);
         }
         public void NewAbility(Tower tower)
         {
             InGame game = InGame.instance;
-            if((bool)Settings.settingsValue["SandboxMode"])
+            if ((bool)Settings.settingsValue["SandboxMode"])
             {
                 RectTransform rect = game.uiRect;
                 MenuUi.NewAbilityPanel(rect, tower);
@@ -1622,17 +1666,17 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void SandBoxAbilityPanel(RectTransform rect, Tower tower)
         {
-          
+
             ModHelperPanel panel = rect.gameObject.AddModHelperPanel(new Info("Panel_", 2200, 1500, 2500, 1850, new UnityEngine.Vector2()), VanillaSprites.MainBGPanelBlue);
             panel.transform.DestroyAllChildren();
 
             ModHelperScrollPanel scrollPanel = panel.AddScrollPanel(new Info("scrollPanel", 0, 0, 2500, 1850), RectTransform.Axis.Vertical, VanillaSprites.MainBGPanelBlue, 15, 50);
             ModHelperButton exit = panel.AddButton(new Info("exit", 1200, 900, 135, 135), VanillaSprites.RedBtn, new System.Action(() => {
-                tower.SetSelectionBlocked(false); panel.DeleteObject(); 
+                tower.SetSelectionBlocked(false); panel.DeleteObject();
             }));
             ModHelperText x = exit.AddText(new Info("x", 0, 0, 700, 160), "X", 80);
             foreach (var ability in ModContent.GetContent<AbilityTemplate>())
-            { 
+            {
                 scrollPanel.AddScrollContent(CreateAbility(ability, tower));
             }
         }
@@ -1666,11 +1710,12 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperImage image = panel.AddImage(new Info("image", -100, 0, 140, 140), abilityPair.Key.Icon);
             ModHelperText abilityLevel = panel.AddText(new Info("abilityLevel", 200, 0, 300, 150), "Lvl: " + abilityPair.Key.upgradesCount, 75, TextAlignmentOptions.MidlineLeft);
             ModHelperText selectWpn = null;
-          ModHelperButton selectWpnBtn = null;
+            ModHelperButton selectWpnBtn = null;
             if (abilityPair.Key.upgradesCount < abilityPair.Key.MaxLevel)
             {
                 ModHelperText abilityUpgradeCost = panel.AddText(new Info("abilityCost", 525, 0, 300, 150), "$" + TextManager.ConvertNumberToText(Mathf.RoundToInt(abilityPair.Key.upgradeCost)), 75, TextAlignmentOptions.Center);
-                selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => { abilityPair.Key.Upgrade(abilityPair.Value, tower);
+                selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.GreenBtnLong, new System.Action(() => {
+                    abilityPair.Key.Upgrade(abilityPair.Value, tower);
                     abilityLevel.Text.text = "Lvl: " + abilityPair.Key.upgradesCount;
                     abilityUpgradeCost.Text.text = "$" + TextManager.ConvertNumberToText(Mathf.RoundToInt(abilityPair.Key.upgradeCost));
                     if (abilityPair.Key.upgradesCount >= abilityPair.Key.MaxLevel)
@@ -1689,7 +1734,7 @@ public class AncientMonkey : BloonsTD6Mod
                 selectWpnBtn = panel.AddButton(new Info("selectWpnBtn", 900, 0, 400, 120), VanillaSprites.RedBtnLong, new System.Action(() => { }));
                 selectWpn = selectWpnBtn.AddText(new Info("selectWpn", 0, 0, 700, 160), "MAX", 60);
             }
-           
+
             return panel;
         }
         public static void NewAbilityPanel(RectTransform rect, Tower tower)
@@ -1731,8 +1776,8 @@ public class AncientMonkey : BloonsTD6Mod
                 ModHelperText abilityText2 = panel.AddText(new Info("abilityText2", abilityContentX, 500, 800, 180), abSelected, 75);
                 ModHelperButton selectAbilityBtn = panel.AddButton(new Info("selectAbilityBtn", abilityContentX, -600, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => upgradeUi.AbilitySelected(abSelected, tower, "Common")));
                 ModHelperText selectAbility1 = selectAbilityBtn.AddText(new Info("selectAbility1", 0, 0, 700, 160), "Select", 70);
-          
-            
+
+
                 foreach (var ability in ModContent.GetContent<AbilityTemplate>().OrderByDescending(c => c.mod == mod))
                 {
                     if (ability.AbilityName == abSelected)
@@ -1741,7 +1786,7 @@ public class AncientMonkey : BloonsTD6Mod
                         {
                             ModHelperText descText = panel.AddText(new Info("descText", abilityContentX, 400, 800, 180), ability.Description, 55);
                         }
-                     
+
                         ModHelperText StackIndex = panel.AddText(new Info("StackIndex", abilityContentX - 275, 650, 100, 100), $"{ability.stackIndex}", 80);
                         if (ability.CustomIcon)
                         {
@@ -1756,13 +1801,13 @@ public class AncientMonkey : BloonsTD6Mod
                 abilityPanelX += abilityPanelWidth;
                 abilityContentX += abilityPanelWidth;
             }
-        
+
         }
         public void AbilitySelected(string Ability, Tower tower, string rarity)
         {
             mod.panelOpen = false;
             InGame game = InGame.instance;
-            if(!(bool)Settings.settingsValue["SandboxMode"])
+            if (!(bool)Settings.settingsValue["SandboxMode"])
             {
                 Destroy(gameObject);
             }
@@ -1775,7 +1820,7 @@ public class AncientMonkey : BloonsTD6Mod
             if (Ability == "MIB")
             {
                 mod.mib = true;
-               
+
                 towerModel.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
                 foreach (var weaponModel in towerModel.GetDescendants<WeaponModel>().ToArray())
                 {
@@ -1797,12 +1842,13 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 if (ability.AbilityName == Ability)
                 {
-                   
+
                     ability.EditTower(towerModel);
                     ability.stackIndex += 1;
-                  
+
                 }
             }
+            AncientMonkey.EnsureUniqueModelNames(towerModel);
             tower.UpdateRootModel(towerModel);
         }
         public void Upgrade1Panel(Tower tower)
@@ -1884,7 +1930,7 @@ public class AncientMonkey : BloonsTD6Mod
             instance.Monkey = monkey;
             instance.upgradePath = upgradePath;
             instance.upgradeTier = upgradeTier;
-            
+
             var towerModel = tower.rootModel.Duplicate().Cast<TowerModel>();
             if (upgradePath == 1)
             {
@@ -1898,16 +1944,17 @@ public class AncientMonkey : BloonsTD6Mod
             {
                 towerModel.display = Game.instance.model.GetTowerFromId(monkey + "-00" + upgradeTier).display;
             }
+            AncientMonkey.EnsureUniqueModelNames(towerModel);
             tower.UpdateRootModel(towerModel);
         }
         public void ExtraPanel(Tower tower)
         {
             mod.panelOpen = true;
-          
+
             InGame game = InGame.instance;
             RectTransform rect = game.uiRect;
             var sprite = VanillaSprites.BrownInsertPanel;
-            
+
             if (mod.level == 1)
             {
                 sprite = VanillaSprites.BlueInsertPanel;
@@ -1921,11 +1968,11 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperText upgradeText = panel.AddText(new Info("upgradeText", 0, 800, 2500, 180), "Extra Upgrades Panel", 100);
 
 
-            TextSlider extraLuckSlider =  UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.ExtraLuckLevel, mod.ExtraLuckMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 555), new Vector2(1525, 145)),
+            TextSlider extraLuckSlider = UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.ExtraLuckLevel, mod.ExtraLuckMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 555), new Vector2(1525, 145)),
                 new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.ExtraLuckLevel * 5, "+", "%", false));
             TextButtonOption extraLuckButton = UIHelper.CreateTextButtonOption(mod.ExtraLuckLevel != mod.ExtraLuckMax, panel, new TransformConfig(new Vector2(-795, 555), new Vector3(600, 145)), new SpriteConfig(VanillaSprites.GreenBtnLong), new TextConfig("Extra Luck : $" + TextManager.ConvertNumberToText((int)Mathf.Round(mod.ExtraLuckCost)), 50), new ActionConfig()
                 , new TextButtonOptionConfig(new SpriteConfig(VanillaSprites.GreenBtnLong), new ActionConfig(), new TextConfig("Max", 60)));
-            extraLuckButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraLuckAction,parameters = new object[] { mod, game, panel, tower, extraLuckSlider.barSmoothing, extraLuckButton, extraLuckSlider.textSmoothing }});
+            extraLuckButton.SetAction(new ActionConfig { action = (System.Action<AncientMonkey, InGame, ModHelperPanel, Tower, BarSmoothing, TextButtonOption, TextSmoothing>)Actions.ExtraLuckAction, parameters = new object[] { mod, game, panel, tower, extraLuckSlider.barSmoothing, extraLuckButton, extraLuckSlider.textSmoothing } });
 
             TextSlider extraWeaponSlotSlider = UIHelper.CreateTextSlider(panel, new Helper.SliderConfig(mod.extraWeaponSlotLevel, mod.extraWeaponSlotLevelMax, true), new SliderOffsetConfig(new Vector2(25, 25)), new TransformConfig(new Vector2(280, 355), new Vector2(1525, 145)),
                new SpriteConfig(VanillaSprites.BrownInsertPanel), new SpriteConfig(VanillaSprites.MainBGPanelBlue), new TextConfig(60, mod.extraWeaponSlotLevel, "+", "", false));
@@ -1958,7 +2005,7 @@ public class AncientMonkey : BloonsTD6Mod
                 mod.CashSpent += mod.UpgradeCost;
                 mod.DailyCashSpent += mod.UpgradeCost;
                 game.AddCash(-mod.UpgradeCost);
-                
+
                 RectTransform rect = game.uiRect;
                 mod.UpgradesBought++;
                 mod.newWeaponCost = (float)Settings.settingsValue["NewWeaponStartingCost1"];
@@ -1994,7 +2041,7 @@ public class AncientMonkey : BloonsTD6Mod
                 {
                     CreateUpgradeMenu(rect, tower);
                 }
-                  
+
                 Destroy(gameObject);
             }
         }
@@ -2062,12 +2109,12 @@ public class AncientMonkey : BloonsTD6Mod
         }
         public static void CreateUpgradeMenu(RectTransform rect, Tower tower)
         {
-            if(mod.panelOpen == true)
+            if (mod.panelOpen == true)
             {
                 return;
             }
 
-          
+
             var sprite = VanillaSprites.BrownInsertPanel;
             if (mod.level == 1)
             {
@@ -2083,7 +2130,7 @@ public class AncientMonkey : BloonsTD6Mod
 
             ModHelperPanel newWpnTextBox = panel.AddPanel(new Info("newWpnTextBox", 1250, 475, 750, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText newWpnTxt = newWpnTextBox.AddText(new Info("newWpnTxt", 0, 0, 1000, 180), "New Weapon", 75);
-            newWpnTxt.Text.color = new Color(0,1,0);
+            newWpnTxt.Text.color = new Color(0, 1, 0);
             newWpnTxt.Text.outlineColor = new Color(0.2f, 0.64f, 0.1f);
             ModHelperPanel newWpnCostTextBox = panel.AddPanel(new Info("newWpnCostTextBox", 1188, 345, 625, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText newWpnCostTxt = newWpnCostTextBox.AddText(new Info("newWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.newWeaponCost)), 65);
@@ -2107,7 +2154,7 @@ public class AncientMonkey : BloonsTD6Mod
 
             ModHelperPanel strongWpnTextBox = panel.AddPanel(new Info("strongWpnTextBox", 417, 475, 750, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText strongWpnTxt = strongWpnTextBox.AddText(new Info("strongWpnTxt", 0, 0, 1000, 180), "Stronger Weapon", 75);
-            strongWpnTxt.Text.color = new Color(1,0, .5f);
+            strongWpnTxt.Text.color = new Color(1, 0, .5f);
             strongWpnTxt.Text.outlineColor = new Color(0.55f, 0, 0.26f);
             ModHelperPanel strongWpnCostTextBox = panel.AddPanel(new Info("strongWpnCostTextBox", 355, 345, 625, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText strongWpnCostTxt = strongWpnCostTextBox.AddText(new Info("strongWpnCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.strongerWeaponCost)), 65);
@@ -2129,7 +2176,7 @@ public class AncientMonkey : BloonsTD6Mod
 
             ModHelperPanel abilityTextBox = panel.AddPanel(new Info("abilityTextBox", 2083, 475, 750, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText abilityWpnTxt = abilityTextBox.AddText(new Info("abilityWpnTxt", 0, 0, 1000, 180), "New Ability", 75);
-            abilityWpnTxt.Text.color = new Color(0, 0.45f,.9f);
+            abilityWpnTxt.Text.color = new Color(0, 0.45f, .9f);
             abilityWpnTxt.Text.outlineColor = new Color(0, 0.35f, 0.7f);
             ModHelperPanel abilityCostTextBox = panel.AddPanel(new Info("abilityCostTextBox", 2021, 345, 625, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText abilityCostTxt = abilityCostTextBox.AddText(new Info("abilityCostTxt", 0, 0, 1000, 180), TextManager.ConvertNumberToText((int)Mathf.Round(mod.newAbilityCost)), 65);
@@ -2150,7 +2197,7 @@ public class AncientMonkey : BloonsTD6Mod
             ModHelperPanel abilityDescTextBox = panel.AddPanel(new Info("abilityDescTextBox", 2083, 80, 750, 110, new UnityEngine.Vector2()), sprite);
             ModHelperText abilityDesc = abilityDescTextBox.AddText(new Info("abilityDesc", 0, 0, 750, 110), "Give an extra ability", 50);
 
-           
+
 
             ModHelperText extraText = panel.AddText(new Info("extraText", 1217, 240, 1000, 180), "Extra Panel", 70);
             ModHelperButton extraBtn = panel.AddButton(new Info("extraBtn", 1217, 120, 500, 160), VanillaSprites.GreenBtnLong, new System.Action(() => { upgradeUi.ExtraPanel(tower); MenuUi.instance.CloseMenu(); }));
@@ -2172,11 +2219,11 @@ public class AncientMonkey : BloonsTD6Mod
                 var percent = mod.XP * 100 / mod.XPMax;
                 var size = 2970 * percent / 100;
                 ModHelperPanel xppanel = panel.AddPanel(new Info("Panel", 0, 440, 3000, 180), VanillaSprites.BrownInsertPanel);
-                ModHelperPanel xpbar = panel.AddPanel(new Info("Panel", (size - size / 2) - 2970 / 2 , 440, size, 150), VanillaSprites.MainBgPanelParagon);
+                ModHelperPanel xpbar = panel.AddPanel(new Info("Panel", (size - size / 2) - 2970 / 2, 440, size, 150), VanillaSprites.MainBgPanelParagon);
                 ModHelperText upgrade1Buy = panel.AddText(new Info("text", 0, 440, 3000, 180), mod.XPMax - mod.XP + " Until Free Weapon", 70);
             }
-            
+
         }
     }
-   
+
 }

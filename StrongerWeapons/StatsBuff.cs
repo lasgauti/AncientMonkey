@@ -17,7 +17,6 @@ using Il2CppAssets.Scripts.Models.Towers.Projectiles;
 using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 using Il2CppAssets.Scripts.Models.Towers.Weapons;
 using Il2CppSystem.IO;
-using static Il2CppFacepunch.Steamworks.Inventory;
 
 namespace AncientMonkey.StrongerWeapons
 {

@@ -87,7 +87,7 @@ namespace AncientMonkey.Weapons
         public override void EditTower(TowerModel towerModel)
         {
             var wpn = Game.instance.model.GetTowerFromId("BombShooter-003").GetAttackModel().Duplicate();
-            wpn.range =  towerModel.range;
+            wpn.range = towerModel.range;
             towerModel.AddBehavior(wpn);
             AncientMonkey.mod.newAttackModels.Add(wpn);
         }
@@ -458,7 +458,7 @@ namespace AncientMonkey.Weapons
         {
             var wpn = Game.instance.model.GetTowerFromId("Sauda").GetAttackModel().Duplicate();
             wpn.range = towerModel.range;
-          
+
             towerModel.AddBehavior(wpn);
             AncientMonkey.mod.newAttackModels.Add(wpn);
         }
@@ -507,7 +507,7 @@ namespace AncientMonkey.Weapons
             wpn.weapons[0].projectile.scale /= 1.25f;
             wpn.weapons[0].rate /= 1.2f;
             wpn.weapons[0].projectile.GetDamageModel().damage += 1;
-            wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+            wpn.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f));
             wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
             wpn.range = towerModel.range;
             AncientMonkey.mod.newAttackModels.Add(wpn);
@@ -648,7 +648,7 @@ namespace AncientMonkey.Weapons
             AncientMonkey.mod.newAttackModels.Add(wpn);
         }
     }
-    
+
     public class Rare
     {
         public static List<string> RareWpn = new List<string>();

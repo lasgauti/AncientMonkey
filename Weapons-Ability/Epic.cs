@@ -53,7 +53,7 @@ using UnityEngine;
 using UnityEngine;
 
 namespace AncientMonkey.Weapons
-{ 
+{
 
     public class Epic
     {
@@ -99,7 +99,7 @@ namespace AncientMonkey.Weapons
                 var wpn = Game.instance.model.GetTowerFromId("BombShooter-024").GetAttackModel().Duplicate();
                 wpn.range = towerModel.range;
                 AncientMonkey.mod.newAttackModels.Add(wpn);
-                towerModel.AddBehavior(wpn);    
+                towerModel.AddBehavior(wpn);
             }
         }
         public class BouncingBullet : WeaponTemplate
@@ -159,7 +159,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("BananaFarm-320").GetAttackModel().Duplicate();
                 wpn.range = towerModel.range;
-              
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -248,7 +248,7 @@ namespace AncientMonkey.Weapons
             public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("IceMonkey-204").GetAttackModel().Duplicate();
-               
+
                 wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
@@ -264,7 +264,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("TackShooter-204").GetAttackModel().Duplicate();
                 wpn.range = towerModel.range;
-               
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -279,7 +279,7 @@ namespace AncientMonkey.Weapons
             public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("Druid-130").GetAttackModel(1).Duplicate();
-            
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -354,7 +354,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("DartMonkey-204").GetAttackModel(0).Duplicate();
                 wpn.range = towerModel.range;
-               
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -383,7 +383,7 @@ namespace AncientMonkey.Weapons
             public override bool IsLead => true;
             public override void EditTower(TowerModel towerModel)
             {
-               
+
                 var wpn = Game.instance.model.GetTowerFromId("MortarMonkey-402").GetAttackModel().Duplicate();
                 wpn.RemoveBehaviors<TargetSelectedPointModel>();
                 wpn.AddBehavior(new TargetStrongModel("targetstrong", false, false));
@@ -469,7 +469,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("MonkeySub-024").GetAttackModel().Duplicate();
                 wpn.range = towerModel.range;
-              towerModel.AddBehavior(wpn);
+                towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
@@ -577,7 +577,7 @@ namespace AncientMonkey.Weapons
                     GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
 
                 var wpn = Game.instance.model.GetTowerFromId("BombShooter").GetAttackModel().Duplicate();
-                
+
 
                 var charge = techTerror.weapons[0].projectile;
                 charge.GetBehavior<AgeModel>().Lifespan = 0.1f;
@@ -664,7 +664,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Explosion", explosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false, false));
                 wpn.weapons[0].projectile.AddBehavior(effect);
                 wpn.weapons[0].projectile.AddBehavior(sound);
-                wpn.range =towerModel.range;
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -701,7 +701,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = Il2Cpp.BloonProperties.White;
                 wpn.weapons[0].rate /= 1.44f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 3;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                wpn.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.pierce = 1;
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("CreateProjectileOnContactModel_", shard, new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, true, false), true, false, false));
@@ -1082,7 +1082,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().Duplicate();
                 wpn.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
-                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().damage += 1;
                 wpn.weapons[0].rate /= 3;
@@ -1092,7 +1092,7 @@ namespace AncientMonkey.Weapons
 
             }
         }
-      
+
         public class HealthierBananas : WeaponTemplate
         {
             public override int SandboxIndex => 3;
@@ -1173,6 +1173,6 @@ namespace AncientMonkey.Weapons
 
             }
         }
-      
+
     }
 }

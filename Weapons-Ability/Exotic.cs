@@ -227,7 +227,7 @@ namespace AncientMonkey.Weapons
             public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("BoomerangMonkey-025").GetAttackModel(1).Duplicate();
-               
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -380,7 +380,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.White;
                 wpn.weapons[0].rate /= 1.44f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 7;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                wpn.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.pierce = 1;
                 wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnContactModel("CreateProjectileOnContactModel_", shard, new ArcEmissionModel("ArcEmissionModel_", 5, 0, 50, null, true, false), true, false, false));
@@ -389,14 +389,14 @@ namespace AncientMonkey.Weapons
 
                 var breath = Game.instance.model.GetTower(TowerType.DartMonkey).GetAttackModel().Duplicate();
                 breath.weapons[0].projectile.display = Game.instance.model.GetTower(TowerType.IceMonkey, 0, 0, 3).GetAttackModel().weapons[0].projectile.display;
-                breath.range =towerModel.range;
+                breath.range = towerModel.range;
                 breath.weapons[0].rate /= 12;
                 breath.weapons[0].projectile.GetDamageModel().damage = 4;
                 breath.weapons[0].projectile.pierce = 3;
                 breath.weapons[0].projectile.hasDamageModifiers = true;
                 breath.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 3, 5, false, false) { name = "MoabModifier_" });
 
-                breath.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BreathFreeze", 999999, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                breath.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 breath.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 breath.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 breath.weapons[0].GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
@@ -416,7 +416,7 @@ namespace AncientMonkey.Weapons
                 icicleDamage.weapons[0].projectile.pierce *= 3;
                 icicleDamage.range = towerModel.range;
                 icicleDamage.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 2, 0, false, false) { name = "MoabModifier_" });
-                icicleDamage.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "ShardFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                icicleDamage.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 icicleDamage.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
 
                 towerModel.AddBehavior(wpn);
@@ -445,7 +445,7 @@ namespace AncientMonkey.Weapons
             {
                 var overlay = Game.instance.model.GetTowerFromId("GlueGunner-300").GetAttackModel().weapons[0].projectile.GetBehavior<SlowModel>().overlayType;
                 var slow = Game.instance.model.GetTowerFromId("GlueGunner-100").GetAttackModel().weapons[0].projectile.GetBehavior<SlowModel>().Duplicate();
-                var slowModel = new SlowModel("SlowModel_", slow.multiplier, slow.lifespan, "AcidSlow", 3, overlay, slow.isUnique, slow.dontRefreshDuration, slow.effectModel, true, false, false,slow.chance);
+                var slowModel = new SlowModel("SlowModel_", slow.multiplier, slow.lifespan, "AcidSlow", 3, overlay, slow.isUnique, slow.dontRefreshDuration, slow.effectModel, true, false, false, slow.chance);
 
                 var wpn = Game.instance.model.GetTowerFromId("DartMonkey-002").GetAttackModel().Duplicate();
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
@@ -549,7 +549,7 @@ namespace AncientMonkey.Weapons
                     GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().Duplicate();
 
                 var wpn = Game.instance.model.GetTowerFromId("DartlingGunner-020").GetAttackModel().Duplicate();
-               
+
                 wpn.weapons[0].projectile.AddBehavior(new WindModel("WindModel_", 18, 36, 100, false, null, 0, null, 1));
                 wpn.weapons[0].projectile.GetDamageModel().damage += 31;
                 wpn.weapons[0].emission = new RandomArcEmissionModel("VollyGunner_", 12, 0, 0, 60, 0, null);
@@ -567,7 +567,7 @@ namespace AncientMonkey.Weapons
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
         }
-   
+
         public class Lockdown : WeaponTemplate
         {
             public override int SandboxIndex => 5;
@@ -590,7 +590,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.ApplyDisplay<ForceFieldsLockdown>();
                 //wpn.weapons[0].rate /= 2;
                 wpn.range = towerModel.range;
-                
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -607,7 +607,7 @@ namespace AncientMonkey.Weapons
             public override void EditTower(TowerModel towerModel)
             {
                 var wpn = Game.instance.model.GetTowerFromId("ObynGreenfoot").GetAttackModel().Duplicate();
-               
+
                 wpn.weapons[0].rate /= 5f;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 7;
                 wpn.weapons[0].projectile.pierce += 5;
@@ -616,7 +616,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Ceramic", 1, 16, false, false) { name = "CeramicModifier_" });
 
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 2.5f, "Stun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, true, false, false));
+                wpn.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(2.5f)) /* was a MOAB-stun in the old ctor; see note */;
 
                 var shard = Game.instance.model.GetTower(TowerType.TackShooter).GetAttackModel().weapons[0].projectile.Duplicate();
                 shard.GetDamageModel().immuneBloonProperties = BloonProperties.None;

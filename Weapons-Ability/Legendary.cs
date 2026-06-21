@@ -262,7 +262,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("EngineerMonkey-520").GetAttackModel(1).Duplicate();
                 wpn.range = towerModel.range;
-             
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -505,8 +505,8 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].rate /= 1.75f;
                 wpn.weapons[0].emission = new ArcEmissionModel("aaa", 3, 0, 25, null, false, false);
                 wpn.weapons[0].projectile.AddBehavior(superBleed);
-                wpn.weapons[0].projectile.AddBehavior(new AddBonusDamagePerHitToBloonModel("aaa", "bleed_Bonus_Damage", 8f, 3, 15, true, false, false, "bleed"));
-                wpn.range =towerModel.range;
+                wpn.weapons[0].projectile.AddBehavior(new AddBonusDamagePerHitToBloonModel("aaa", "bleed_Bonus_Damage", 3, 8f, 0f, 15, true, false, false, "bleed", false, null));
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -609,12 +609,12 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetDamageModel().damage -= 1;
                 wpn.weapons[0].projectile.RemoveBehavior<CreateProjectileOnContactModel>();
                 wpn.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
-                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Explosion", explosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false,false));
+                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Explosion", explosion, new ArcEmissionModel("FragmentEmmision_", 1, 0, 0, null, true, false), false, false));
                 wpn.weapons[0].projectile.AddBehavior(effect);
                 wpn.weapons[0].projectile.AddBehavior(sound);
 
                 var firework = wpn.weapons[0].projectile.Duplicate();
-                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Firework", firework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false,false));
+                wpn.weapons[0].projectile.AddBehavior(new CreateProjectileOnExpireModel("Firework", firework, new ArcEmissionModel("FragmentEmmision_", 8, 0, 360, null, true, false), false, false));
 
                 wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
@@ -777,7 +777,7 @@ namespace AncientMonkey.Weapons
                 plane.GetAttackModel(1).AddWeapon(gatling);
                 wpn.weapons[0].GetBehavior<SubTowerFilterModel>().maxNumberOfSubTowers = 2;
 
-               
+
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -839,7 +839,7 @@ namespace AncientMonkey.Weapons
                 bomb2.GetBehavior<TravelStraitModel>().Lifespan *= 1.5f;
                 bomb3.GetBehavior<TravelStraitModel>().Lifespan *= 2;
 
-             
+
                 var wpn = Game.instance.model.GetTowerFromId("MortarMonkey-020").GetAttackModel().Duplicate();
                 wpn.RemoveBehaviors<TargetSelectedPointModel>();
                 wpn.AddBehavior(new TargetStrongModel("targetstrong", false, false));
@@ -931,7 +931,7 @@ namespace AncientMonkey.Weapons
             {
                 var wpn = Game.instance.model.GetTowerFromId("Alchemist").GetAttackModel().Duplicate();
                 wpn.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
-                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "AcidFreeze", 1, "Ice", true, new GrowBlockModel("GrowBlockModel_"), null, 0, false, false, false, false));
+                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(FreezeHelper.Freeze(1f));
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.collisionPasses = new int[] { 0, -1 };
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetDamageModel().damage += 1;
                 wpn.weapons[0].rate /= 7.5f;
@@ -940,8 +940,8 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AddBehaviorToBloonModel>().GetBehavior<DamageOverTimeModel>().interval -= 1f;
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.hasDamageModifiers = true;
                 wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new DamageModifierForTagModel("aaa", "Moabs", 1, 18, false, false) { name = "MoabModifier_" });
-                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new AddBonusDamagePerHitToBloonModel("aaa", "Acid_Bonus_Damage", 4f, 5, 999, true, false, false, "bleed"));
-                wpn.range =towerModel.range;
+                wpn.weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.AddBehavior(new AddBonusDamagePerHitToBloonModel("aaa", "Acid_Bonus_Damage", 5, 4f, 0f, 999, true, false, false, "bleed", false, null));
+                wpn.range = towerModel.range;
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
             }
@@ -964,7 +964,7 @@ namespace AncientMonkey.Weapons
                 wpn.weapons[0].rate /= 3;
                 wpn.weapons[0].projectile.GetDamageModel().damage += 10;
                 wpn.weapons[0].projectile.pierce += 4;
-                wpn.weapons[0].projectile.AddBehavior(new FreezeModel("FreezeModel_", 0, 1f, "BeaconStun", 999, "Stun", true, new GrowBlockModel("GrowBlockModel_"), null, 0.5f, true, true, false, false));
+                wpn.weapons[0].projectile.AddBehavior(FreezeHelper.Freeze(1f)) /* was a MOAB-stun in the old ctor; see note */;
                 wpn.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
                 towerModel.AddBehavior(wpn);
                 AncientMonkey.mod.newAttackModels.Add(wpn);
